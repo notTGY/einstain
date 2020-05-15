@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <script src="BF.js"></script>
+        <title>BF</title>
+        <style>
+        .baadi{
+            text-align: center;
+        }
+        #A{
+            outline: none;
+            resize: none;
+            background-image: url('./notebook.png');
+
+            padding: 2px 10px;
+
+            line-height: 25px;
+
+            font-size: 14px;
+            color: #111C;
+
+            border-radius: 10px;
+            border-color: grey;
+        }
+        </style>
+    </head>
+    <body class="baadi">
+        <label for="A"><h1>BF interpreter</h1></label><br>
+        <textarea placeholder=" Your code goes here..." id="A" rows="10" cols="80" onchange="run()"></textarea> <br>
+
+        <label for="cons">Input: </label>
+        <input id="cons" onchange="getInput()"></input>
+        <a href='./info.html'> info</a> 
+        <div id="out"></div>
+
+    </body>
+</html>
