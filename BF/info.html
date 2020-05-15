@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <h1>Brainf*ck programming language</h1>
+        <p>Yeah, you are right , there is language named like this. Because it has pretty minimal
+            default commands. This f*cks your brain!
+        </p>
+
+        <p>
+            Spoiler: this language was not created by me - this is just my javascript implementation
+        </p>
+
+        <p>
+            Brainf*ck architecture is quite similar to Turing machine with half-long tape.
+            You basically can move to next byte ">" , move to previous byte "<" and perform other operations with tape and i/o.
+            By default each byte is equal to 0.
+        </p>
+
+        <p>
+            There are total of 8 operations (I went over 2 already):
+            <ul>
+                <li>"+" increments byte you are pointing at by 1</li>
+                <li>"-" decrements byte you are pointing at by 1</li>
+                <li>"." writes byte you are pointing at as UTF-8 char (for example 48 will write "0")</li>
+                <li>"," reads char in the same fashion way</li>
+                <li>"[" is equal to "while(stack[index]!=){"</li>
+                <li>"]"is equal to "}"</li>
+            </ul>
+            Very funny, but this is real language and you can perform every finite-state calculations (maybe you would like to hack Enigma :) )
+        </p>
+        <p>
+            If you try to look up it somewhere you will be able to see this example for testing and getting started. "Hello World!" in BF way:
+        </p>
+        <p>
+            ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.
+        </p>
+        <p>
+            Thank you for reading, and LETS GO!!!
+        </p>
+    </body>
+</html>
