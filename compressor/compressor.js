@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-=======
-
-
->>>>>>> e6335fb9f7baf51d56b29b021e1ec90db674d145
 function compress(){
         //get input
     let INPUT=document.querySelector("#A").value;
@@ -10,10 +5,6 @@ function compress(){
     document.querySelector("#out").innerHTML='';
     document.querySelector("#out").append(OUTPUT);
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> e6335fb9f7baf51d56b29b021e1ec90db674d145
 function processINPUT(IN){
     let OUT=IN;
     let useless=[' ','\n','\t']

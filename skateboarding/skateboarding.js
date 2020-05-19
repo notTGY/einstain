@@ -1,0 +1,345 @@
+let CANVAS_WIDTH=300;
+let CANVAS_HEIGHT=300;
+let ctx,canvas;
+
+
+const SK8_OFFSET_FROM_LEFT=40;
+const SK8_WIDTH=160;
+const SK8_FROM_CENTER_TO_WHEEL=50;
+const SK8_HEIGHT=25;
+
+const CONCRETE_HEIGHT=20;
+
+const DRAIN_WIDTH=90;
+
+let height;
+let pitch;
+let speed;
+let jump;
+let roll;
+let yaw;
+
+let speedPiece;
+let drain;
+let quaterPipe;
+let backQuaterPipe;
+
+let scene='start';
+
+
+function drawCircle(x,y,r){ctx.beginPath();ctx.arc(x,y,r,0,2*Math.PI,1);ctx.fill()}
+
+function setColor(color){ctx.fillStyle=color}
+
+
+
+
+
+function doFiasko(){clearInterval(mainInterval);setTimeout(initialization,3000)}
+
+
+
+function drainManagement(){//draw and move drains
+    setColor`#111`;
+    for(j=0;j<drain.length;j++){
+        drain[j]-=speed;
+
+        if(drain[j]-DRAIN_WIDTH/2<canvas.width && drain[j]>-DRAIN_WIDTH/2){
+
+            ctx.fillRect(drain[j]-DRAIN_WIDTH/2,canvas.height-CONCRETE_HEIGHT,DRAIN_WIDTH,18);
+
+            if( (drain[j]<(SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL+DRAIN_WIDTH/2)) && (drain[j]>(SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL-DRAIN_WIDTH/2)) && jump==0 ){
+                doFiasko();
+            }
+        }
+    }
+}
+
+
+
+
+
+function drawSpeedThingies(){     //draw grey rects that create illusion of speed
+    setColor`#666`;
+    for(j=0;j<speedPiece.length;j++){
+        if(speedPiece[j]<30)speedPiece[j]=canvas.width;
+
+        speedPiece[j]-=speed;
+
+        ctx.fillRect(speedPiece[j],canvas.height-CONCRETE_HEIGHT/2,30,4)
+    }
+}
+
+
+function pipeManagement(){//FIX ME
+
+}
+
+
+
+function drawSkateboard(h,a,r,y){
+    ctx.translate(SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2,canvas.height-h);//drawing skateboard
+    ctx.rotate(a);
+
+    setColor`#FFF`;drawCircle(-SK8_FROM_CENTER_TO_WHEEL,15,10);
+    setColor`#CCC`;drawCircle(-SK8_FROM_CENTER_TO_WHEEL,15,3);
+
+    setColor`#FFF`;drawCircle(SK8_FROM_CENTER_TO_WHEEL,15,10);
+    setColor`#CCC`;drawCircle(SK8_FROM_CENTER_TO_WHEEL,15,3);
+
+    setColor`#000`;ctx.fillRect(-SK8_WIDTH/2,-5,SK8_WIDTH,10);
+    setColor`#642`;ctx.fillRect(-SK8_WIDTH/2,0,SK8_WIDTH,5);
+
+    ctx.rotate(-a);
+    ctx.translate(-(SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2),h-canvas.height);
+}
+
+
+
+
+function start(){//what is on start of the application
+    canvas=document.querySelector('#a');
+    canvas.height=CANVAS_HEIGHT;
+    canvas.width=CANVAS_WIDTH;
+
+    ctx=canvas.getContext`2d`;
+
+    height=SK8_HEIGHT+CONCRETE_HEIGHT;
+    pitch=0;
+    roll=0;
+    yaw=0;
+
+    setColor`#999`;ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
+    setColor`#333`;ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
+
+    drawSkateboard(height,pitch,roll,yaw);
+
+
+}
+
+
+function initialization(){//every game start (when you die)
+    canvas=document.querySelector('#a');
+    canvas.height=CANVAS_HEIGHT;
+    canvas.width=CANVAS_WIDTH;
+
+    ctx=canvas.getContext`2d`;
+
+    height=SK8_HEIGHT+CONCRETE_HEIGHT;
+    pitch=0;
+    speed=5;
+    jump=0;
+    yaw=0;
+    roll=0;
+
+    speedPiece=[10,150,290];
+    drain=[1000,3000];
+    quaterPipe=[10000];
+    backQuaterPipe=[-2000];
+
+    scene='game';
+
+    mainInterval=setInterval( ()=>{//main loop
+
+        setColor`#999`;ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
+        setColor`#333`;ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
+
+        drawSpeedThingies();
+
+        drainManagement();
+
+        pipeManagement();
+
+        drawSkateboard(height,pitch,roll,yaw);
+
+        if(roll!=0 && height<SK8_HEIGHT+CONCRETE_HEIGHT*1.5){
+                doFiasko();
+        }
+
+        if(yaw!=0 && height<SK8_HEIGHT+CONCRETE_HEIGHT*1.5){
+                doFiasko();
+        }
+
+    },17);
+}
+
+ontouchstart=evt=>{
+    evt.preventDefault();
+    processInteraction(evt)
+};
+
+onclick=evt=>{
+    evt.preventDefault();
+    processInteraction(evt)
+};
+
+onkeydown=evt=>{
+    //evt.preventDefault();       FIX ME
+    processInteraction(evt)
+};
+
+function processInteraction(evt){//interaction
+
+
+    if(scene=='game'){//if we are playing and if we touched in 3rd zone (like math zones but 45 degrees turned clockwise)
+        if(determineZone(evt)==3){
+            if(jump==0){//if we are not jumping
+                if(speed>=0){
+                    ollie();
+                }else{
+                    nollie();
+                }
+            }else if(yaw==0){
+                clockwise_shoveit();
+            }
+        }else if(determineZone(evt)==1){
+            if(jump==0){
+                if(speed>=0){
+                    nollie();
+                }else{
+                    ollie();
+                }
+            }else if(yaw==0){
+                anticlockwise_shoveit();
+            }
+        }else if(determineZone(evt)==4){
+            if(jump!=0 && roll==0){
+                if(speed>=0){
+                    kickflip();
+                }else{
+                    heelflip();
+                }
+            }
+        }else if(determineZone(evt)==2){
+            if(jump!=0 && roll==0){
+                if(speed>=0){
+                    heelflip();
+                }else{
+                    kickflip();
+                }
+            }
+        }
+
+}else if(scene=='start'){//if this is start of the game
+    scene='game';initialization();//we want just start game after any event
+    }
+}
+
+
+
+function determineZone(evt){
+if(evt.type=='keydown'){//for keyboard input
+    if(evt.keyCode==37)return 3;
+    if(evt.keyCode==38)return 2;
+    if(evt.keyCode==39)return 1;
+    if(evt.keyCode==40)return 4;
+
+    //problem with getting keyboard input
+    return -1;
+}
+
+
+let rect = canvas.getBoundingClientRect();//getting x and y coordinates
+let root = document.documentElement;//of touch or mouse click
+let y= evt.clientY - rect.top - root.scrollTop - canvas.height/2;
+let x= evt.clientX - rect.left - root.scrollLeft - canvas.width/2;
+
+if(y<x && y>-x)return 1;
+if(y<x && y<-x)return 2;
+if(y>x && y<-x)return 3;
+if(y>x && y>-x)return 4;
+
+//error handling
+return -2;
+}
+
+function ollie(){
+jumpInterval=setInterval( ()=>{//perform jump
+    jump++;
+    if(jump<=80){
+        height+=1.5;pitch-=.01
+    }
+
+    if(jump>80 && jump<=120){
+        height+=1;pitch+=.02
+    }
+
+    if(jump>120){
+        height-=4
+    }
+
+    if(jump==160){
+        clearInterval(jumpInterval);jump=0
+    }
+},5);
+}
+
+function nollie(){
+jumpInterval=setInterval( ()=>{//perform jump
+    jump++;
+    if(jump<=80){
+        height+=1.5;pitch+=.01
+    }
+
+    if(jump>80 && jump<=120){
+        height+=1;pitch-=.02
+    }
+
+    if(jump>120){
+        height-=4
+    }
+
+    if(jump==160){
+        clearInterval(jumpInterval);jump=0
+    }
+},5);
+}
+
+
+function kickflip(){
+console.log('kickflip');
+flipInterval=setInterval( ()=>{//perform flip
+    roll+=Math.PI/10;
+    if(roll>=2*Math.PI){
+            clearInterval(flipInterval);
+            console.log('kickflip done!');
+            roll=0;
+        }
+},17);
+}
+
+function heelflip(){
+console.log('heelflip');
+flipInterval=setInterval( ()=>{//perform flip
+    roll-=Math.PI/10;
+    if(roll<=-2*Math.PI){
+            clearInterval(flipInterval);
+            console.log('heelflip done!');
+            roll=0;
+        }
+},17);
+}
+
+function clockwise_shoveit(){
+console.log('clockwise shoveit');
+shoveInterval=setInterval( ()=>{//perform thing
+    yaw+=Math.PI/10;
+    if(yaw>=2*Math.PI){
+            clearInterval(shoveInterval);
+            console.log('clockwise shoveit done!');
+            yaw=0;
+        }
+},17);
+}
+
+function anticlockwise_shoveit(){
+console.log('anticlockwise shoveit');
+shoveInterval=setInterval( ()=>{//perform thing
+    yaw-=Math.PI/10;
+    if(yaw<=-2*Math.PI){
+            clearInterval(shoveInterval);
+            console.log('anticlockwise shoveit done!');
+            yaw=0;
+        }
+},17);
+}

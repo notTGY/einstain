@@ -1,0 +1,25 @@
+ very important: complete drawing of skateboard (think about yaw and roll)
+
+complete quaterpipe management
+
+ enchance starting screen:
+    1)some pretty buttons
+    2)tutorial
+    3)name of game
+
+show on screen what trick has been done
+in fashionable way (animation of text)
+
+maybe more texture to wall and concrete?
+
+make wheels spin
+
+recognise combinations of tricks
+for example - varial kickflip
+
+add new obstacles:
+    1)manual pad
+
+
+EXTENSION - new decks,wheels,figures (just textures)
+that can be bought in the shop  (new button and scene)
