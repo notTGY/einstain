@@ -2,6 +2,14 @@ let CANVAS_WIDTH=300;
 let CANVAS_HEIGHT=300;
 let ctx,canvas;
 
+let mainInterval;
+
+
+let isFiasko=false;
+
+let delay=0;
+
+let slowMoQualifier=1;//FIX ME
 
 const SK8_OFFSET_FROM_LEFT=40;
 const SK8_WIDTH=160;
@@ -35,7 +43,7 @@ function setColor(color){ctx.fillStyle=color}
 
 
 
-function doFiasko(){clearInterval(mainInterval);setTimeout(initialization,3000)}
+function doFiasko(){clearInterval(mainInterval);isFiasko=true;setTimeout(initialization,1500)}
 
 
 
@@ -78,17 +86,55 @@ function pipeManagement(){//FIX ME
 
 
 function drawSkateboard(h,a,r,y){
+
+
+    let width=SK8_WIDTH*Math.cos(y); //what changes when you turn yaw
+    let to_wheel=SK8_FROM_CENTER_TO_WHEEL*Math.cos(y);
+    let thick=5;
+    let r1=10*(1+Math.sin(y)*0.3);
+    let lilr1=3*(1+Math.sin(y)*0.3);
+    let r2=10*(1-Math.sin(y)*0.3);
+    let lilr2=3*(1-Math.sin(y)*0.3);//yaw ends here
+
+    r1=r1*(.1+Math.abs(Math.cos(r)));//roll to wheels
+    r2=r2*(.1+Math.abs(Math.cos(r)));
+    lilr1=lilr1*(.1+Math.abs(Math.cos(r)));
+    lilr2=lilr2*(.1+Math.abs(Math.cos(r)));
+
+
+    let smallerThick=thick*0.7+thick*Math.abs(Math.sin(r)*0.9);
+    thick=thick*0.5+thick/(1.1-Math.abs(Math.sin(r)));//roll body
+
+
+
+
     ctx.translate(SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2,canvas.height-h);//drawing skateboard
     ctx.rotate(a);
 
-    setColor`#FFF`;drawCircle(-SK8_FROM_CENTER_TO_WHEEL,15,10);
-    setColor`#CCC`;drawCircle(-SK8_FROM_CENTER_TO_WHEEL,15,3);
 
-    setColor`#FFF`;drawCircle(SK8_FROM_CENTER_TO_WHEEL,15,10);
-    setColor`#CCC`;drawCircle(SK8_FROM_CENTER_TO_WHEEL,15,3);
+    if(r<Math.PI){
+        let wheelHeight=smallerThick*Math.cos(r);
 
-    setColor`#000`;ctx.fillRect(-SK8_WIDTH/2,-5,SK8_WIDTH,10);
-    setColor`#642`;ctx.fillRect(-SK8_WIDTH/2,0,SK8_WIDTH,5);
+        setColor`#FFF`;drawCircle(-to_wheel,wheelHeight+r1,r1);//drawing wheels first
+        setColor`#CCC`;drawCircle(-to_wheel,wheelHeight+r1,lilr1);
+
+        setColor`#FFF`;drawCircle(to_wheel,wheelHeight+r2,r2);
+        setColor`#CCC`;drawCircle(to_wheel,wheelHeight+r2,lilr2);
+
+        setColor`#642`;ctx.fillRect(-width/2,0,width,smallerThick);//draw brown thing first
+        setColor`#000`;ctx.fillRect(-width/2,-thick,width,thick);
+    }else{
+        let wheelHeight=thick*Math.cos(r);
+
+        setColor`#000`;ctx.fillRect(-width/2,0,width,smallerThick);//draw black thing first
+        setColor`#642`;ctx.fillRect(-width/2,-thick,width,thick);
+
+        setColor`#FFF`;drawCircle(-to_wheel,-(r1+wheelHeight),r1);//drawing wheels after everything else
+        setColor`#CCC`;drawCircle(-to_wheel,-(r1+wheelHeight),lilr1);
+
+        setColor`#FFF`;drawCircle(to_wheel,-(r2+wheelHeight),r2);
+        setColor`#CCC`;drawCircle(to_wheel,-(r2+wheelHeight),lilr2);
+    }
 
     ctx.rotate(-a);
     ctx.translate(-(SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2),h-canvas.height);
@@ -123,6 +169,10 @@ function initialization(){//every game start (when you die)
     canvas.height=CANVAS_HEIGHT;
     canvas.width=CANVAS_WIDTH;
 
+    isFiasko=false;
+
+    delay=0;
+
     ctx=canvas.getContext`2d`;
 
     height=SK8_HEIGHT+CONCRETE_HEIGHT;
@@ -140,6 +190,9 @@ function initialization(){//every game start (when you die)
     scene='game';
 
     mainInterval=setInterval( ()=>{//main loop
+        if(delay>0)delay--;
+
+        if(delay<0)delay=0;
 
         setColor`#999`;ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
         setColor`#333`;ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
@@ -160,7 +213,7 @@ function initialization(){//every game start (when you die)
                 doFiasko();
         }
 
-    },17);
+    },17*slowMoQualifier);
 }
 
 ontouchstart=evt=>{
@@ -179,6 +232,7 @@ onkeydown=evt=>{
 };
 
 function processInteraction(evt){//interaction
+    if(delay>0)return -1;
 
 
     if(scene=='game'){//if we are playing and if we touched in 3rd zone (like math zones but 45 degrees turned clockwise)
@@ -223,6 +277,7 @@ function processInteraction(evt){//interaction
 }else if(scene=='start'){//if this is start of the game
     scene='game';initialization();//we want just start game after any event
     }
+
 }
 
 
@@ -233,6 +288,11 @@ if(evt.type=='keydown'){//for keyboard input
     if(evt.keyCode==38)return 2;
     if(evt.keyCode==39)return 1;
     if(evt.keyCode==40)return 4;
+
+    if(evt.keyCode==65)return 3;
+    if(evt.keyCode==87)return 2;
+    if(evt.keyCode==68)return 1;
+    if(evt.keyCode==83)return 4;
 
     //problem with getting keyboard input
     return -1;
@@ -254,6 +314,7 @@ return -2;
 }
 
 function ollie(){
+    delay=8;
 jumpInterval=setInterval( ()=>{//perform jump
     jump++;
     if(jump<=80){
@@ -268,13 +329,14 @@ jumpInterval=setInterval( ()=>{//perform jump
         height-=4
     }
 
-    if(jump==160){
+    if(jump==160 || isFiasko){
         clearInterval(jumpInterval);jump=0
     }
-},5);
+},5*slowMoQualifier);
 }
 
 function nollie(){
+    delay=8;
 jumpInterval=setInterval( ()=>{//perform jump
     jump++;
     if(jump<=80){
@@ -289,57 +351,62 @@ jumpInterval=setInterval( ()=>{//perform jump
         height-=4
     }
 
-    if(jump==160){
+    if(jump==160 || isFiasko){
         clearInterval(jumpInterval);jump=0
     }
-},5);
+},5*slowMoQualifier);
 }
 
 
 function kickflip(){
+    delay=8;
 console.log('kickflip');
 flipInterval=setInterval( ()=>{//perform flip
     roll+=Math.PI/10;
-    if(roll>=2*Math.PI){
+    if(roll>=2*Math.PI || isFiasko){
             clearInterval(flipInterval);
             console.log('kickflip done!');
             roll=0;
         }
-},17);
+},8*slowMoQualifier);
 }
 
 function heelflip(){
+    delay=8;
 console.log('heelflip');
+roll=2*Math.PI;
 flipInterval=setInterval( ()=>{//perform flip
     roll-=Math.PI/10;
-    if(roll<=-2*Math.PI){
+    if(roll<=0 || isFiasko){
             clearInterval(flipInterval);
             console.log('heelflip done!');
             roll=0;
         }
-},17);
+},8*slowMoQualifier);
 }
 
 function clockwise_shoveit(){
+    delay=8;
 console.log('clockwise shoveit');
 shoveInterval=setInterval( ()=>{//perform thing
     yaw+=Math.PI/10;
-    if(yaw>=2*Math.PI){
+    if(yaw>=Math.PI || isFiasko){
             clearInterval(shoveInterval);
             console.log('clockwise shoveit done!');
             yaw=0;
         }
-},17);
+},17*slowMoQualifier);
 }
 
 function anticlockwise_shoveit(){
+    delay=8;
 console.log('anticlockwise shoveit');
 shoveInterval=setInterval( ()=>{//perform thing
     yaw-=Math.PI/10;
-    if(yaw<=-2*Math.PI){
+    if(yaw<=-Math.PI || isFiasko){
             clearInterval(shoveInterval);
             console.log('anticlockwise shoveit done!');
             yaw=0;
         }
-},17);
+},17*slowMoQualifier);
 }

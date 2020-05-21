@@ -1,5 +1,3 @@
- very important: complete drawing of skateboard (think about yaw and roll)
-
 complete quaterpipe management
 
  enchance starting screen:

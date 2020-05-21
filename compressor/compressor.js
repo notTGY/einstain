@@ -7,7 +7,7 @@ function compress(){
 }
 function processINPUT(IN){
     let OUT=IN;
-    let useless=[' ','\n','\t']
+    let useless=[' ','\n','\t'];
     for(let i=0;i<useless.length;i++){
         while(OUT.indexOf(useless[i],0)!=-1){
             let tmp1=OUT.substring(0,OUT.indexOf(useless[i],0));
