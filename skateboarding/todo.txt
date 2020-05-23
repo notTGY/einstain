@@ -19,5 +19,5 @@ add new obstacles:
     1)manual pad
 
 
-EXTENSION - new decks,wheels,figures (just textures)
+EXTENSION - new decks, wheels, figures (just textures)
 that can be bought in the shop  (new button and scene)

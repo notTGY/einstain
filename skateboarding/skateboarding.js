@@ -9,12 +9,13 @@ let isFiasko=false;
 
 let delay=0;
 
-let slowMoQualifier=1;//FIX ME
+let slowMoQualifier=1;
 
 const SK8_OFFSET_FROM_LEFT=40;
 const SK8_WIDTH=160;
 const SK8_FROM_CENTER_TO_WHEEL=50;
 const SK8_HEIGHT=25;
+let offset;
 
 const CONCRETE_HEIGHT=20;
 
@@ -56,7 +57,7 @@ function drainManagement(){//draw and move drains
 
             ctx.fillRect(drain[j]-DRAIN_WIDTH/2,canvas.height-CONCRETE_HEIGHT,DRAIN_WIDTH,18);
 
-            if( (drain[j]<(SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL+DRAIN_WIDTH/2)) && (drain[j]>(SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL-DRAIN_WIDTH/2)) && jump==0 ){
+            if( (drain[j]<(offset+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL+DRAIN_WIDTH/2)) && (drain[j]>(offset+SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL-DRAIN_WIDTH/2)) && jump==0 ){
                 doFiasko();
             }
         }
@@ -70,9 +71,11 @@ function drainManagement(){//draw and move drains
 function drawSpeedThingies(){     //draw grey rects that create illusion of speed
     setColor`#666`;
     for(j=0;j<speedPiece.length;j++){
-        if(speedPiece[j]<30)speedPiece[j]=canvas.width;
+        if(speedPiece[j]<-30 && speed>=0)speedPiece[j]=canvas.width+30;
+        if(speedPiece[j]>canvas.width+30 && speed<0)speedPiece[j]=-30;
 
-        speedPiece[j]-=speed;
+        if(speed>=0)speedPiece[j]-=speed;
+        if(speed<0)speedPiece[j]+=Math.abs(speed);
 
         ctx.fillRect(speedPiece[j],canvas.height-CONCRETE_HEIGHT/2,30,4)
     }
@@ -105,10 +108,11 @@ function drawSkateboard(h,a,r,y){
     let smallerThick=thick*0.7+thick*Math.abs(Math.sin(r)*0.9);
     thick=thick*0.5+thick/(1.1-Math.abs(Math.sin(r)));//roll body
 
+    offset=SK8_OFFSET_FROM_LEFT;
+    if(speed<0){offset=canvas.width-offset-SK8_WIDTH;}
 
 
-
-    ctx.translate(SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2,canvas.height-h);//drawing skateboard
+    ctx.translate(offset+SK8_WIDTH/2,canvas.height-h);//drawing skateboard
     ctx.rotate(a);
 
 
@@ -137,7 +141,7 @@ function drawSkateboard(h,a,r,y){
     }
 
     ctx.rotate(-a);
-    ctx.translate(-(SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2),h-canvas.height);
+    ctx.translate(-(offset+SK8_WIDTH/2),h-canvas.height);
 }
 
 
@@ -183,7 +187,8 @@ function initialization(){//every game start (when you die)
     roll=0;
 
     speedPiece=[10,150,290];
-    drain=[1000,3000];
+    //drain=[1000,3000];
+    drain=[];
     quaterPipe=[10000];
     backQuaterPipe=[-2000];
 
