@@ -15,11 +15,14 @@ const SK8_OFFSET_FROM_LEFT=40;
 const SK8_WIDTH=160;
 const SK8_FROM_CENTER_TO_WHEEL=50;
 const SK8_HEIGHT=25;
+const SK8_THICK=5;
 let offset;
 
 const CONCRETE_HEIGHT=20;
 
 const DRAIN_WIDTH=90;
+
+const QUATERPIPE_SIZE=120;
 
 let height;
 let pitch;
@@ -83,6 +86,21 @@ function drawSpeedThingies(){     //draw grey rects that create illusion of spee
 
 
 function pipeManagement(){//FIX ME
+    backQuaterPipe+=speed;//moving pipes
+    quaterPipe+=speed;
+
+    if(quaterPipe-QUATERPIPE_SIZE<=canvas.width){//drawing pipes
+        ;
+    }
+    if(backQuaterPipe+QUATERPIPE_SIZE>=0){
+        ;
+    }
+    //detecting collisions with pipes
+    if(jump!=0 && speed>=0 && quaterPipe-QUATERPIPE_SIZE<=SK8_OFFSET_FROM_LEFT+SK8_WIDTH)doFiasko();
+    if(jump!=0 && speed<0 && backQuaterPipe+QUATERPIPE_SIZE<=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH)doFiasko();
+}
+
+function drawQuater(x,y){
 
 }
 
@@ -93,7 +111,7 @@ function drawSkateboard(h,a,r,y){
 
     let width=SK8_WIDTH*Math.cos(y); //what changes when you turn yaw
     let to_wheel=SK8_FROM_CENTER_TO_WHEEL*Math.cos(y);
-    let thick=5;
+    let thick=SK8_THICK;
     let r1=10*(1+Math.sin(y)*0.3);
     let lilr1=3*(1+Math.sin(y)*0.3);
     let r2=10*(1-Math.sin(y)*0.3);
@@ -187,10 +205,9 @@ function initialization(){//every game start (when you die)
     roll=0;
 
     speedPiece=[10,150,290];
-    //drain=[1000,3000];
-    drain=[];
-    quaterPipe=[10000];
-    backQuaterPipe=[-2000];
+    drain=[1000,3000];
+    quaterPipe=10000;
+    backQuaterPipe=-2000;
 
     scene='game';
 
