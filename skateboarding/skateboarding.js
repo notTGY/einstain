@@ -1,5 +1,5 @@
-let CANVAS_WIDTH=300;
-let CANVAS_HEIGHT=300;
+const CANVAS_WIDTH=300;
+const CANVAS_HEIGHT=300;
 let ctx,canvas;
 
 let mainInterval;
@@ -11,18 +11,25 @@ let delay=0;
 
 let slowMoQualifier=1;
 
+const JumpQualifier=1;
+
 const SK8_OFFSET_FROM_LEFT=40;
 const SK8_WIDTH=160;
 const SK8_FROM_CENTER_TO_WHEEL=50;
 const SK8_HEIGHT=25;
 const SK8_THICK=5;
-let offset;
 
 const CONCRETE_HEIGHT=20;
 
 const DRAIN_WIDTH=90;
 
 const QUATERPIPE_SIZE=120;
+
+const QUATERPIPE_THICK=30;
+
+const STARTING_SPEED=50;
+
+let offset;
 
 let height;
 let pitch;
@@ -38,6 +45,20 @@ let backQuaterPipe;
 
 let scene='start';
 
+const DRAIN_COLOR='#111';
+const SPEEDTHINGS_COLOR='#666';
+const WHEEL_COLOR='#FFF';
+const DECK_COLOR='#642';
+const GRIPTAPE_COLOR='#000';
+const BOLTS_COLOR='#CCC';
+const BACKGROUND_COLOR='#333';
+const CONCRETE_COLOR='#999';
+const QUATERPIPE_COLOR='#777';
+
+function whenResized(){
+
+}
+
 
 function drawCircle(x,y,r){ctx.beginPath();ctx.arc(x,y,r,0,2*Math.PI,1);ctx.fill()}
 
@@ -52,9 +73,9 @@ function doFiasko(){clearInterval(mainInterval);isFiasko=true;setTimeout(initial
 
 
 function drainManagement(){//draw and move drains
-    setColor`#111`;
+    setColor(DRAIN_COLOR);
     for(j=0;j<drain.length;j++){
-        drain[j]-=speed;
+        drain[j]-=speed/10;
 
         if(drain[j]-DRAIN_WIDTH/2<canvas.width && drain[j]>-DRAIN_WIDTH/2){
 
@@ -72,38 +93,80 @@ function drainManagement(){//draw and move drains
 
 
 function drawSpeedThingies(){     //draw grey rects that create illusion of speed
-    setColor`#666`;
+    setColor(SPEEDTHINGS_COLOR);
     for(j=0;j<speedPiece.length;j++){
         if(speedPiece[j]<-30 && speed>=0)speedPiece[j]=canvas.width+30;
         if(speedPiece[j]>canvas.width+30 && speed<0)speedPiece[j]=-30;
 
-        if(speed>=0)speedPiece[j]-=speed;
-        if(speed<0)speedPiece[j]+=Math.abs(speed);
+        if(speed>=0)speedPiece[j]-=speed/10;
+        if(speed<0)speedPiece[j]+=Math.abs(speed/10);
 
         ctx.fillRect(speedPiece[j],canvas.height-CONCRETE_HEIGHT/2,30,4)
     }
 }
 
 
-function pipeManagement(){//FIX ME
-    backQuaterPipe+=speed;//moving pipes
-    quaterPipe+=speed;
+function pipeManagement(){
+    backQuaterPipe-=speed/10;//moving pipes
+    quaterPipe-=speed/10;
 
     if(quaterPipe-QUATERPIPE_SIZE<=canvas.width){//drawing pipes
-        ;
+        drawQuater(quaterPipe-QUATERPIPE_SIZE,canvas.height-(CONCRETE_HEIGHT+QUATERPIPE_SIZE));
     }
     if(backQuaterPipe+QUATERPIPE_SIZE>=0){
-        ;
+        drawBackQuater(backQuaterPipe,canvas.height-(CONCRETE_HEIGHT+QUATERPIPE_SIZE));
     }
     //detecting collisions with pipes
-    if(jump!=0 && speed>=0 && quaterPipe-QUATERPIPE_SIZE<=SK8_OFFSET_FROM_LEFT+SK8_WIDTH)doFiasko();
-    if(jump!=0 && speed<0 && backQuaterPipe+QUATERPIPE_SIZE<=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH)doFiasko();
+    if(jump!=0 && speed>=0 && quaterPipe-QUATERPIPE_SIZE<=SK8_OFFSET_FROM_LEFT+SK8_WIDTH && quaterPipe-QUATERPIPE_SIZE>=SK8_OFFSET_FROM_LEFT+SK8_WIDTH-QUATERPIPE_SIZE){
+        doFiasko();
+    }
+    if(jump!=0 && speed<0 && backQuaterPipe+QUATERPIPE_SIZE>=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH && backQuaterPipe+QUATERPIPE_SIZE>=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH +QUATERPIPE_SIZE){
+        doFiasko();
+    }
+
+
+    //if we are in pipes
+    if(quaterPipe-QUATERPIPE_SIZE<=SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL){
+        speed-=1;
+        if(speed>=0){
+            height+=1*JumpQualifier;
+            pitch-=0.01*speed/STARTING_SPEED;
+            if(speed==0){
+                pitch-=0.01;
+            }
+        }else if(speed<0){
+            height-=1*JumpQualifier;
+            pitch-=0.01*speed/STARTING_SPEED;
+        }
+    }
+    if(backQuaterPipe+QUATERPIPE_SIZE>=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL){
+        speed+=1;
+        if(speed<=0){
+            height+=1*JumpQualifier;
+            pitch-=0.01*speed/STARTING_SPEED;
+            if(speed==0){
+                pitch+=0.01;
+            }
+        }else if(speed>0){
+            height-=1*JumpQualifier;
+            pitch-=0.01*speed/STARTING_SPEED;
+        }
+    }
 }
 
 function drawQuater(x,y){
-
+    setColor(QUATERPIPE_COLOR);
+    ctx.fillRect(x,y,QUATERPIPE_SIZE+QUATERPIPE_THICK,QUATERPIPE_SIZE);
+    setColor(BACKGROUND_COLOR);
+    drawCircle(x,y,QUATERPIPE_SIZE);
 }
 
+function drawBackQuater(x,y){
+    setColor(QUATERPIPE_COLOR);
+    ctx.fillRect(x-QUATERPIPE_THICK,y,QUATERPIPE_SIZE+QUATERPIPE_THICK,QUATERPIPE_SIZE);
+    setColor(BACKGROUND_COLOR);
+    drawCircle(x+QUATERPIPE_SIZE,y,QUATERPIPE_SIZE);
+}
 
 
 function drawSkateboard(h,a,r,y){
@@ -127,7 +190,7 @@ function drawSkateboard(h,a,r,y){
     thick=thick*0.5+thick/(1.1-Math.abs(Math.sin(r)));//roll body
 
     offset=SK8_OFFSET_FROM_LEFT;
-    if(speed<0){offset=canvas.width-offset-SK8_WIDTH;}
+    //if(speed<0){offset=canvas.width-offset-SK8_WIDTH;}
 
 
     ctx.translate(offset+SK8_WIDTH/2,canvas.height-h);//drawing skateboard
@@ -137,25 +200,25 @@ function drawSkateboard(h,a,r,y){
     if(r<Math.PI){
         let wheelHeight=smallerThick*Math.cos(r);
 
-        setColor`#FFF`;drawCircle(-to_wheel,wheelHeight+r1,r1);//drawing wheels first
-        setColor`#CCC`;drawCircle(-to_wheel,wheelHeight+r1,lilr1);
+        setColor(WHEEL_COLOR);drawCircle(-to_wheel,wheelHeight+r1,r1);//drawing wheels first
+        setColor(BOLTS_COLOR);drawCircle(-to_wheel,wheelHeight+r1,lilr1);
 
-        setColor`#FFF`;drawCircle(to_wheel,wheelHeight+r2,r2);
-        setColor`#CCC`;drawCircle(to_wheel,wheelHeight+r2,lilr2);
+        setColor(WHEEL_COLOR);drawCircle(to_wheel,wheelHeight+r2,r2);
+        setColor(BOLTS_COLOR);drawCircle(to_wheel,wheelHeight+r2,lilr2);
 
-        setColor`#642`;ctx.fillRect(-width/2,0,width,smallerThick);//draw brown thing first
-        setColor`#000`;ctx.fillRect(-width/2,-thick,width,thick);
+        setColor(DECK_COLOR);ctx.fillRect(-width/2,0,width,smallerThick);//draw brown thing first
+        setColor(GRIPTAPE_COLOR);ctx.fillRect(-width/2,-thick,width,thick);
     }else{
         let wheelHeight=thick*Math.cos(r);
 
-        setColor`#000`;ctx.fillRect(-width/2,0,width,smallerThick);//draw black thing first
-        setColor`#642`;ctx.fillRect(-width/2,-thick,width,thick);
+        setColor(GRIPTAPE_COLOR);ctx.fillRect(-width/2,0,width,smallerThick);//draw black thing first
+        setColor(DECK_COLOR);ctx.fillRect(-width/2,-thick,width,thick);
 
-        setColor`#FFF`;drawCircle(-to_wheel,-(r1+wheelHeight),r1);//drawing wheels after everything else
-        setColor`#CCC`;drawCircle(-to_wheel,-(r1+wheelHeight),lilr1);
+        setColor(WHEEL_COLOR);drawCircle(-to_wheel,-(r1+wheelHeight),r1);//drawing wheels after everything else
+        setColor(BOLTS_COLOR);drawCircle(-to_wheel,-(r1+wheelHeight),lilr1);
 
-        setColor`#FFF`;drawCircle(to_wheel,-(r2+wheelHeight),r2);
-        setColor`#CCC`;drawCircle(to_wheel,-(r2+wheelHeight),lilr2);
+        setColor(WHEEL_COLOR);drawCircle(to_wheel,-(r2+wheelHeight),r2);
+        setColor(BOLTS_COLOR);drawCircle(to_wheel,-(r2+wheelHeight),lilr2);
     }
 
     ctx.rotate(-a);
@@ -177,8 +240,8 @@ function start(){//what is on start of the application
     roll=0;
     yaw=0;
 
-    setColor`#999`;ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
-    setColor`#333`;ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
+    setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
+    setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
 
     drawSkateboard(height,pitch,roll,yaw);
 
@@ -199,14 +262,14 @@ function initialization(){//every game start (when you die)
 
     height=SK8_HEIGHT+CONCRETE_HEIGHT;
     pitch=0;
-    speed=5;
+    speed=STARTING_SPEED;
     jump=0;
     yaw=0;
     roll=0;
 
     speedPiece=[10,150,290];
-    drain=[1000,3000];
-    quaterPipe=10000;
+    drain=[2000,3000];
+    quaterPipe=1000;
     backQuaterPipe=-2000;
 
     scene='game';
@@ -216,8 +279,8 @@ function initialization(){//every game start (when you die)
 
         if(delay<0)delay=0;
 
-        setColor`#999`;ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
-        setColor`#333`;ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
+        setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
+        setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
 
         drawSpeedThingies();
 
@@ -340,15 +403,15 @@ function ollie(){
 jumpInterval=setInterval( ()=>{//perform jump
     jump++;
     if(jump<=80){
-        height+=1.5;pitch-=.01
+        height+=1.5*JumpQualifier;pitch-=.01
     }
 
     if(jump>80 && jump<=120){
-        height+=1;pitch+=.02
+        height+=1*JumpQualifier;pitch+=.02
     }
 
     if(jump>120){
-        height-=4
+        height-=4*JumpQualifier
     }
 
     if(jump==160 || isFiasko){
@@ -362,15 +425,15 @@ function nollie(){
 jumpInterval=setInterval( ()=>{//perform jump
     jump++;
     if(jump<=80){
-        height+=1.5;pitch+=.01
+        height+=1.5*JumpQualifier;pitch+=.01
     }
 
     if(jump>80 && jump<=120){
-        height+=1;pitch-=.02
+        height+=1*JumpQualifier;pitch-=.02
     }
 
     if(jump>120){
-        height-=4
+        height-=4*JumpQualifier
     }
 
     if(jump==160 || isFiasko){
