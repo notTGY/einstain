@@ -1,14 +1,10 @@
-complete quaterpipe management
-
- enchance starting screen:
+enchance starting screen:
     1)some pretty buttons
     2)tutorial
     3)name of game
 
 show on screen what trick has been done
 in fashionable way (animation of text)
-
-maybe more texture to wall and concrete?
 
 make wheels spin
 

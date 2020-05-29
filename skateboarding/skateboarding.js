@@ -4,6 +4,7 @@ let ctx,canvas;
 
 let mainInterval;
 
+let trickLine=[];
 
 let isFiasko=false;
 
@@ -11,23 +12,37 @@ let delay=0;
 
 let slowMoQualifier=1;
 
-const JumpQualifier=1;
+let JumpQualifier=1;
 
-const SK8_OFFSET_FROM_LEFT=40;
-const SK8_WIDTH=160;
-const SK8_FROM_CENTER_TO_WHEEL=50;
-const SK8_HEIGHT=25;
-const SK8_THICK=5;
+let SK8_OFFSET_FROM_LEFT=40;
+let SK8_WIDTH=160;
+let SK8_FROM_CENTER_TO_WHEEL=50;
+let SK8_HEIGHT=25;
+let SK8_THICK=5;
 
-const CONCRETE_HEIGHT=20;
+let CONCRETE_HEIGHT=20;
 
-const DRAIN_WIDTH=90;
+let DRAIN_WIDTH=90;
 
-const QUATERPIPE_SIZE=120;
+let QUATERPIPE_SIZE=100;
 
-const QUATERPIPE_THICK=30;
+let QUATERPIPE_THICK=30;
 
-const STARTING_SPEED=50;
+let STARTING_SPEED=50;
+
+const constants={
+    JumpQualifier:1,
+    SK8_OFFSET_FROM_LEFT:40,
+    SK8_WIDTH:160,
+    SK8_FROM_CENTER_TO_WHEEL:50,
+    SK8_HEIGHT:25,
+    SK8_THICK:5,
+    CONCRETE_HEIGHT:20,
+    DRAIN_WIDTH:90,
+    QUATERPIPE_SIZE:100,
+    QUATERPIPE_THICK:30,
+    STARTING_SPEED:50
+};
 
 let offset;
 
@@ -55,7 +70,22 @@ const BACKGROUND_COLOR='#333';
 const CONCRETE_COLOR='#999';
 const QUATERPIPE_COLOR='#777';
 
+
+function myMin(x,y){
+    if(x>y)return y;
+    return x;
+}
+
 function whenResized(){
+    //change height and width of CANVAS
+
+
+    // change constants of graphics and jumping
+
+    let tmp1=canvas.width/CANVAS_WIDTH;
+    let tmp2=canvas.height/CANVAS_HEIGHT;
+
+
 
 }
 
@@ -126,32 +156,71 @@ function pipeManagement(){
 
 
     //if we are in pipes
+    //when we ride quaterPipe
     if(quaterPipe-QUATERPIPE_SIZE<=SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL){
         speed-=1;
+        let tmp=speed/STARTING_SPEED;
         if(speed>=0){
-            height+=1*JumpQualifier;
-            pitch-=0.01*speed/STARTING_SPEED;
-            if(speed==0){
-                pitch-=0.01;
+            height+=1*JumpQualifier*tmp;
+            pitch-=0.04*tmp;
+            if(tmp==0){
+                pitch-=0.04;
+                height+=1*JumpQualifier;
             }
         }else if(speed<0){
-            height-=1*JumpQualifier;
-            pitch-=0.01*speed/STARTING_SPEED;
+            height+=1*JumpQualifier*tmp;
+            pitch-=0.04*tmp;
+            if(speed== (-STARTING_SPEED)){
+                pitch=0;
+            }
         }
     }
+    //when we ride backQuaterPipe
     if(backQuaterPipe+QUATERPIPE_SIZE>=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL){
         speed+=1;
+        let tmp=speed/STARTING_SPEED;
         if(speed<=0){
-            height+=1*JumpQualifier;
-            pitch-=0.01*speed/STARTING_SPEED;
-            if(speed==0){
-                pitch+=0.01;
+            height-=1*JumpQualifier*tmp;
+            pitch-=0.04*tmp;
+            if(tmp==0){
+                pitch+=0.04;
+                height+=1*JumpQualifier;
             }
         }else if(speed>0){
-            height-=1*JumpQualifier;
-            pitch-=0.01*speed/STARTING_SPEED;
+            height-=1*JumpQualifier*tmp;
+            pitch-=0.04*tmp;
+            if(speed==(STARTING_SPEED)){
+                pitch=0;
+            }
         }
     }
+    //when we leave quaterPipe
+    if(quaterPipe-QUATERPIPE_SIZE-10<=SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL){
+        if(quaterPipe-QUATERPIPE_SIZE>=SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL){
+            if(speed<0){
+            pitch=0;
+            height=CONCRETE_HEIGHT+SK8_HEIGHT;
+            offset=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH;
+            if(jump!=0){
+            jump=159;
+            }
+            }
+        }
+    }
+    //when we leave backQuaterPipe
+    if(backQuaterPipe+QUATERPIPE_SIZE+10>=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL){
+        if(backQuaterPipe+QUATERPIPE_SIZE<=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL){
+            if(speed>0){
+            pitch=0;
+            height=CONCRETE_HEIGHT+SK8_HEIGHT;
+            offset=SK8_OFFSET_FROM_LEFT;
+            if(jump!=0){
+            jump=159;
+            }
+            }
+        }
+    }
+
 }
 
 function drawQuater(x,y){
@@ -189,7 +258,7 @@ function drawSkateboard(h,a,r,y){
     let smallerThick=thick*0.7+thick*Math.abs(Math.sin(r)*0.9);
     thick=thick*0.5+thick/(1.1-Math.abs(Math.sin(r)));//roll body
 
-    offset=SK8_OFFSET_FROM_LEFT;
+    //offset=SK8_OFFSET_FROM_LEFT;
     //if(speed<0){offset=canvas.width-offset-SK8_WIDTH;}
 
 
@@ -240,6 +309,8 @@ function start(){//what is on start of the application
     roll=0;
     yaw=0;
 
+    offset=SK8_OFFSET_FROM_LEFT;
+
     setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
     setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
 
@@ -266,6 +337,8 @@ function initialization(){//every game start (when you die)
     jump=0;
     yaw=0;
     roll=0;
+
+    offset=SK8_OFFSET_FROM_LEFT;
 
     speedPiece=[10,150,290];
     drain=[2000,3000];
@@ -323,21 +396,15 @@ function processInteraction(evt){//interaction
     if(scene=='game'){//if we are playing and if we touched in 3rd zone (like math zones but 45 degrees turned clockwise)
         if(determineZone(evt)==3){
             if(jump==0){//if we are not jumping
-                if(speed>=0){
+
                     ollie();
-                }else{
-                    nollie();
-                }
             }else if(yaw==0){
                 clockwise_shoveit();
             }
         }else if(determineZone(evt)==1){
             if(jump==0){
-                if(speed>=0){
+
                     nollie();
-                }else{
-                    ollie();
-                }
             }else if(yaw==0){
                 anticlockwise_shoveit();
             }
@@ -399,10 +466,17 @@ return -2;
 }
 
 function ollie(){
+
+    trickLine=[];
+    if(speed<0){
+        trickLine[trickLine.length]='switch';
+    }
+    trickLine[trickLine.length]='ollie';
+
     delay=8;
 jumpInterval=setInterval( ()=>{//perform jump
     jump++;
-    if(jump<=80){
+    if(jump>0 && jump<=80){
         height+=1.5*JumpQualifier;pitch-=.01
     }
 
@@ -414,17 +488,29 @@ jumpInterval=setInterval( ()=>{//perform jump
         height-=4*JumpQualifier
     }
 
-    if(jump==160 || isFiasko){
-        clearInterval(jumpInterval);jump=0
+    if(jump==160 || isFiasko || jump==0){
+        clearInterval(jumpInterval);jump=0;
+        if(!isFiasko){
+            console.log(trickLine);
+        }
     }
 },5*slowMoQualifier);
 }
 
 function nollie(){
+
+    trickLine=[];
+    if(speed<0){
+        trickLine[trickLine.length]='switch';
+    }
+    trickLine[trickLine.length]='nollie';
+
+
+
     delay=8;
 jumpInterval=setInterval( ()=>{//perform jump
     jump++;
-    if(jump<=80){
+    if(jump>0 && jump<=80){
         height+=1.5*JumpQualifier;pitch+=.01
     }
 
@@ -436,61 +522,71 @@ jumpInterval=setInterval( ()=>{//perform jump
         height-=4*JumpQualifier
     }
 
-    if(jump==160 || isFiasko){
-        clearInterval(jumpInterval);jump=0
+    if(jump==160 || isFiasko || jump==0){
+        clearInterval(jumpInterval);jump=0;
+        if(!isFiasko){
+            console.log(trickLine);
+        }
     }
 },5*slowMoQualifier);
 }
 
 
 function kickflip(){
+
+    trickLine[trickLine.length]='kickflip';
+
+
+
     delay=8;
-console.log('kickflip');
 flipInterval=setInterval( ()=>{//perform flip
     roll+=Math.PI/10;
     if(roll>=2*Math.PI || isFiasko){
             clearInterval(flipInterval);
-            console.log('kickflip done!');
             roll=0;
         }
 },8*slowMoQualifier);
 }
 
 function heelflip(){
+
+    trickLine[trickLine.length]='heelflip';
+
     delay=8;
-console.log('heelflip');
 roll=2*Math.PI;
 flipInterval=setInterval( ()=>{//perform flip
     roll-=Math.PI/10;
     if(roll<=0 || isFiasko){
             clearInterval(flipInterval);
-            console.log('heelflip done!');
             roll=0;
         }
 },8*slowMoQualifier);
 }
 
 function clockwise_shoveit(){
+
+    trickLine[trickLine.length]='bs shoveit';
+
     delay=8;
-console.log('clockwise shoveit');
 shoveInterval=setInterval( ()=>{//perform thing
     yaw+=Math.PI/10;
     if(yaw>=Math.PI || isFiasko){
             clearInterval(shoveInterval);
-            console.log('clockwise shoveit done!');
             yaw=0;
         }
 },17*slowMoQualifier);
 }
 
 function anticlockwise_shoveit(){
+
+    trickLine[trickLine.length]='fs shoveit';
+
     delay=8;
-console.log('anticlockwise shoveit');
+
 shoveInterval=setInterval( ()=>{//perform thing
     yaw-=Math.PI/10;
     if(yaw<=-Math.PI || isFiasko){
             clearInterval(shoveInterval);
-            console.log('anticlockwise shoveit done!');
             yaw=0;
         }
 },17*slowMoQualifier);
