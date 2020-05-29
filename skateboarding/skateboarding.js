@@ -12,24 +12,38 @@ let delay=0;
 
 let slowMoQualifier=1;
 
-let JumpQualifier=1;
 
-let SK8_OFFSET_FROM_LEFT=40;
-let SK8_WIDTH=160;
-let SK8_FROM_CENTER_TO_WHEEL=50;
-let SK8_HEIGHT=25;
-let SK8_THICK=5;
+//changing constants
+let JumpQualifier;
 
-let CONCRETE_HEIGHT=20;
+let SK8_OFFSET_FROM_LEFT;
+let SK8_WIDTH;
+let SK8_FROM_CENTER_TO_WHEEL;
+let SK8_HEIGHT;
+let SK8_THICK;
+let WHEEL_RADIUS;
+let BOLTS_RADIUS;
 
-let DRAIN_WIDTH=90;
+let CONCRETE_HEIGHT;
 
-let QUATERPIPE_SIZE=100;
+let DRAIN_WIDTH;
+let DRAIN_HEIGHT;
 
-let QUATERPIPE_THICK=30;
+let QUATERPIPE_SIZE;
 
-let STARTING_SPEED=50;
+let QUATERPIPE_THICK;
 
+let STARTING_SPEED;
+
+let SPEEDTHINGS_WIDTH;
+let SPEEDTHINGS_HEIGHT;
+
+let SPEEDTHINGIES;
+let DRAINS;
+let QUATERPIPE;
+let BACKQUATERPIPE;
+
+//constant constants
 const constants={
     JumpQualifier:1,
     SK8_OFFSET_FROM_LEFT:40,
@@ -37,13 +51,24 @@ const constants={
     SK8_FROM_CENTER_TO_WHEEL:50,
     SK8_HEIGHT:25,
     SK8_THICK:5,
+    WHEEL_RADIUS:10,
+    BOLTS_RADIUS:3,
     CONCRETE_HEIGHT:20,
     DRAIN_WIDTH:90,
+    DRAIN_HEIGHT:18,
     QUATERPIPE_SIZE:100,
     QUATERPIPE_THICK:30,
-    STARTING_SPEED:50
+    STARTING_SPEED:50,
+    SPEEDTHINGS_WIDTH:30,
+    SPEEDTHINGS_HEIGHT:4,
+    SPEEDTHINGIES:[10,150,290],
+    DRAINS:[1000,2000],
+    QUATERPIPE:5000,
+    BACKQUATERPIPE:-1000
 };
 
+
+//game frequent changing things
 let offset;
 
 let height;
@@ -70,7 +95,6 @@ const BACKGROUND_COLOR='#333';
 const CONCRETE_COLOR='#999';
 const QUATERPIPE_COLOR='#777';
 
-
 function myMin(x,y){
     if(x>y)return y;
     return x;
@@ -78,15 +102,54 @@ function myMin(x,y){
 
 function whenResized(){
     //change height and width of CANVAS
+    let tmp=myMin(window.innerWidth,window.innerHeight);
+
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    canvas.width=tmp;
+    canvas.height=tmp;                                                          //FIX ME
 
 
+    ctx=canvas.getContext`2d`;
     // change constants of graphics and jumping
 
     let tmp1=canvas.width/CANVAS_WIDTH;
     let tmp2=canvas.height/CANVAS_HEIGHT;
 
+    JumpQualifier=constants.JumpQualifier*tmp2;
+
+    SK8_OFFSET_FROM_LEFT=constants.SK8_OFFSET_FROM_LEFT*tmp1;
+    SK8_WIDTH=constants.SK8_WIDTH*tmp1;
+    SK8_FROM_CENTER_TO_WHEEL=constants.SK8_FROM_CENTER_TO_WHEEL*tmp1;
+    SK8_HEIGHT=constants.SK8_HEIGHT*tmp2;
+    SK8_THICK=constants.SK8_THICK*tmp2;
+    WHEEL_RADIUS=constants.WHEEL_RADIUS*tmp2;
+    BOLTS_RADIUS=constants.BOLTS_RADIUS*tmp2;
+    CONCRETE_HEIGHT=constants.CONCRETE_HEIGHT*tmp2;
+    DRAIN_WIDTH=constants.DRAIN_WIDTH*tmp1;
+    DRAIN_HEIGHT=constants.DRAIN_HEIGHT*tmp2;
+    QUATERPIPE_SIZE=constants.QUATERPIPE_SIZE*myMin(tmp1,tmp2);
+    QUATERPIPE_THICK=constants.QUATERPIPE_THICK*tmp1;
+    STARTING_SPEED=constants.STARTING_SPEED*tmp1;
+    SPEEDTHINGS_WIDTH=constants.SPEEDTHINGS_WIDTH*tmp1;
+    SPEEDTHINGS_HEIGHT=constants.SPEEDTHINGS_HEIGHT*tmp2;
+
+    SPEEDTHINGIES=[];
+    for(let i=0;i<constants.SPEEDTHINGIES.length;i++){
+        SPEEDTHINGIES[i]=constants.SPEEDTHINGIES[i]*tmp1;
+    }
+
+    DRAINS=[];
+    for(let i=0;i<constants.DRAINS.length;i++){
+        DRAINS[i]=constants.DRAINS[i]*tmp1;
+    }
+
+    QUATERPIPE=constants.QUATERPIPE*tmp1;
+    BACKQUATERPIPE=constants.BACKQUATERPIPE*tmp1;
 
 
+    if(mainInterval!=undefined){doFiasko}
 }
 
 
@@ -109,7 +172,7 @@ function drainManagement(){//draw and move drains
 
         if(drain[j]-DRAIN_WIDTH/2<canvas.width && drain[j]>-DRAIN_WIDTH/2){
 
-            ctx.fillRect(drain[j]-DRAIN_WIDTH/2,canvas.height-CONCRETE_HEIGHT,DRAIN_WIDTH,18);
+            ctx.fillRect(drain[j]-DRAIN_WIDTH/2,canvas.height-CONCRETE_HEIGHT,DRAIN_WIDTH,DRAIN_HEIGHT);
 
             if( (drain[j]<(offset+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL+DRAIN_WIDTH/2)) && (drain[j]>(offset+SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL-DRAIN_WIDTH/2)) && jump==0 ){
                 doFiasko();
@@ -125,18 +188,20 @@ function drainManagement(){//draw and move drains
 function drawSpeedThingies(){     //draw grey rects that create illusion of speed
     setColor(SPEEDTHINGS_COLOR);
     for(j=0;j<speedPiece.length;j++){
-        if(speedPiece[j]<-30 && speed>=0)speedPiece[j]=canvas.width+30;
-        if(speedPiece[j]>canvas.width+30 && speed<0)speedPiece[j]=-30;
+        if(speedPiece[j]<-SPEEDTHINGS_WIDTH && speed>=0)speedPiece[j]=canvas.width+SPEEDTHINGS_WIDTH;
+        if(speedPiece[j]>canvas.width+SPEEDTHINGS_WIDTH && speed<0)speedPiece[j]=-SPEEDTHINGS_WIDTH;
 
         if(speed>=0)speedPiece[j]-=speed/10;
         if(speed<0)speedPiece[j]+=Math.abs(speed/10);
 
-        ctx.fillRect(speedPiece[j],canvas.height-CONCRETE_HEIGHT/2,30,4)
+        ctx.fillRect(speedPiece[j],canvas.height-CONCRETE_HEIGHT/2,SPEEDTHINGS_WIDTH,SPEEDTHINGS_HEIGHT)
     }
 }
 
 
 function pipeManagement(){
+    let transformation=STARTING_SPEED/constants.STARTING_SPEED;
+
     backQuaterPipe-=speed/10;//moving pipes
     quaterPipe-=speed/10;
 
@@ -158,7 +223,7 @@ function pipeManagement(){
     //if we are in pipes
     //when we ride quaterPipe
     if(quaterPipe-QUATERPIPE_SIZE<=SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL){
-        speed-=1;
+        speed-=1*transformation;
         let tmp=speed/STARTING_SPEED;
         if(speed>=0){
             height+=1*JumpQualifier*tmp;
@@ -177,7 +242,7 @@ function pipeManagement(){
     }
     //when we ride backQuaterPipe
     if(backQuaterPipe+QUATERPIPE_SIZE>=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL){
-        speed+=1;
+        speed+=1*transformation;
         let tmp=speed/STARTING_SPEED;
         if(speed<=0){
             height-=1*JumpQualifier*tmp;
@@ -195,7 +260,7 @@ function pipeManagement(){
         }
     }
     //when we leave quaterPipe
-    if(quaterPipe-QUATERPIPE_SIZE-10<=SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL){
+    if(quaterPipe-QUATERPIPE_SIZE-10*transformation<=SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL){
         if(quaterPipe-QUATERPIPE_SIZE>=SK8_OFFSET_FROM_LEFT+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL){
             if(speed<0){
             pitch=0;
@@ -208,7 +273,7 @@ function pipeManagement(){
         }
     }
     //when we leave backQuaterPipe
-    if(backQuaterPipe+QUATERPIPE_SIZE+10>=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL){
+    if(backQuaterPipe+QUATERPIPE_SIZE+10*transformation>=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL){
         if(backQuaterPipe+QUATERPIPE_SIZE<=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL){
             if(speed>0){
             pitch=0;
@@ -244,10 +309,10 @@ function drawSkateboard(h,a,r,y){
     let width=SK8_WIDTH*Math.cos(y); //what changes when you turn yaw
     let to_wheel=SK8_FROM_CENTER_TO_WHEEL*Math.cos(y);
     let thick=SK8_THICK;
-    let r1=10*(1+Math.sin(y)*0.3);
-    let lilr1=3*(1+Math.sin(y)*0.3);
-    let r2=10*(1-Math.sin(y)*0.3);
-    let lilr2=3*(1-Math.sin(y)*0.3);//yaw ends here
+    let r1=WHEEL_RADIUS*(1+Math.sin(y)*0.3);
+    let lilr1=BOLTS_RADIUS*(1+Math.sin(y)*0.3);
+    let r2=WHEEL_RADIUS*(1-Math.sin(y)*0.3);
+    let lilr2=BOLTS_RADIUS*(1-Math.sin(y)*0.3);//yaw ends here
 
     r1=r1*(.1+Math.abs(Math.cos(r)));//roll to wheels
     r2=r2*(.1+Math.abs(Math.cos(r)));
@@ -296,40 +361,10 @@ function drawSkateboard(h,a,r,y){
 
 
 
-
-function start(){//what is on start of the application
-    canvas=document.querySelector('#a');
-    canvas.height=CANVAS_HEIGHT;
-    canvas.width=CANVAS_WIDTH;
-
-    ctx=canvas.getContext`2d`;
-
-    height=SK8_HEIGHT+CONCRETE_HEIGHT;
-    pitch=0;
-    roll=0;
-    yaw=0;
-
-    offset=SK8_OFFSET_FROM_LEFT;
-
-    setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
-    setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
-
-    drawSkateboard(height,pitch,roll,yaw);
-
-
-}
-
-
 function initialization(){//every game start (when you die)
-    canvas=document.querySelector('#a');
-    canvas.height=CANVAS_HEIGHT;
-    canvas.width=CANVAS_WIDTH;
-
     isFiasko=false;
 
     delay=0;
-
-    ctx=canvas.getContext`2d`;
 
     height=SK8_HEIGHT+CONCRETE_HEIGHT;
     pitch=0;
@@ -340,10 +375,10 @@ function initialization(){//every game start (when you die)
 
     offset=SK8_OFFSET_FROM_LEFT;
 
-    speedPiece=[10,150,290];
-    drain=[2000,3000];
-    quaterPipe=1000;
-    backQuaterPipe=-2000;
+    speedPiece=[...SPEEDTHINGIES];
+    drain=[...DRAINS];
+    quaterPipe=QUATERPIPE;
+    backQuaterPipe=BACKQUATERPIPE;
 
     scene='game';
 
@@ -385,9 +420,11 @@ onclick=evt=>{
 };
 
 onkeydown=evt=>{
-    //evt.preventDefault();       FIX ME
+    evt.preventDefault();
     processInteraction(evt)
 };
+
+
 
 function processInteraction(evt){//interaction
     if(delay>0)return -1;
@@ -427,7 +464,7 @@ function processInteraction(evt){//interaction
         }
 
 }else if(scene=='start'){//if this is start of the game
-    scene='game';initialization();//we want just start game after any event
+    passOnInteraction(evt);
     }
 
 }
@@ -437,14 +474,14 @@ function processInteraction(evt){//interaction
 function determineZone(evt){
 if(evt.type=='keydown'){//for keyboard input
     if(evt.keyCode==37)return 3;
-    if(evt.keyCode==38)return 2;
+    if(evt.keyCode==38)return 4;
     if(evt.keyCode==39)return 1;
-    if(evt.keyCode==40)return 4;
+    if(evt.keyCode==40)return 2;
 
     if(evt.keyCode==65)return 3;
-    if(evt.keyCode==87)return 2;
+    if(evt.keyCode==87)return 4;
     if(evt.keyCode==68)return 1;
-    if(evt.keyCode==83)return 4;
+    if(evt.keyCode==83)return 2;
 
     //problem with getting keyboard input
     return -1;
@@ -457,9 +494,9 @@ let y= evt.clientY - rect.top - root.scrollTop - canvas.height/2;
 let x= evt.clientX - rect.left - root.scrollLeft - canvas.width/2;
 
 if(y<x && y>-x)return 1;
-if(y<x && y<-x)return 2;
+if(y>x && y>-x)return 2;
 if(y>x && y<-x)return 3;
-if(y>x && y>-x)return 4;
+if(y<x && y<-x)return 4;
 
 //error handling
 return -2;
@@ -591,3 +628,76 @@ shoveInterval=setInterval( ()=>{//perform thing
         }
 },17*slowMoQualifier);
 }
+
+
+function start(){//what is on start of the application
+    canvas=document.querySelector('#a');
+    whenResized();
+    window.addEventListener('resize',whenResized);
+
+    drawStartScreen();
+}
+
+
+function drawStartScreen(){
+    height=SK8_HEIGHT+CONCRETE_HEIGHT;
+    pitch=0;
+    roll=0;
+    yaw=0;
+    offset=SK8_OFFSET_FROM_LEFT;
+
+    setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
+    setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
+
+    drawSkateboard(height,pitch,roll,yaw);
+
+    drawInstructions();
+}
+
+
+
+function passOnInteraction(evt){
+    console.log(determineZone(evt));
+    if(determineZone(evt)==2){
+        scene='game';
+        initialization();
+    }else if(determineZone(evt)==1){
+        //proceed to tutorial scene
+    }else if(determineZone(evt)==3){
+        //proceed to credits page
+    }
+}
+
+
+function drawInstructions(){
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
