@@ -44,31 +44,6 @@ let DRAINS;
 let QUATERPIPE;
 let BACKQUATERPIPE;
 
-//constant constants
-const constants={
-    JumpQualifier:1,
-    SK8_OFFSET_FROM_LEFT:40,
-    SK8_WIDTH:160,
-    SK8_FROM_CENTER_TO_WHEEL:50,
-    SK8_HEIGHT:25,
-    SK8_THICK:5,
-    WHEEL_RADIUS:10,
-    BOLTS_RADIUS:3,
-    CONCRETE_HEIGHT:20,
-    DRAIN_WIDTH:90,
-    DRAIN_HEIGHT:18,
-    QUATERPIPE_SIZE:100,
-    QUATERPIPE_THICK:30,
-    STARTING_SPEED:50,
-    SPEEDTHINGS_WIDTH:30,
-    SPEEDTHINGS_HEIGHT:4,
-    SPEEDTHINGIES:[10,150,290],
-    DRAINS:[1000,2000],
-    QUATERPIPE:5000,
-    BACKQUATERPIPE:-1000
-};
-
-
 //game frequent changing things
 let offset;
 
@@ -86,15 +61,6 @@ let backQuaterPipe;
 
 let scene='start';
 
-const DRAIN_COLOR='#111';
-const SPEEDTHINGS_COLOR='#666';
-const WHEEL_COLOR='#FFF';
-const DECK_COLOR='#642';
-const GRIPTAPE_COLOR='#000';
-const BOLTS_COLOR='#CCC';
-const BACKGROUND_COLOR='#333';
-const CONCRETE_COLOR='#999';
-const QUATERPIPE_COLOR='#777';
 
 function myMin(x,y){
     if(x>y)return y;
@@ -156,7 +122,7 @@ function whenResized(){
 
     if(scene=='start'){drawStartScreen()}
     if(scene=='tutorial'){drawTutorial()}
-    if(scene=='titles'){drawTitles()}
+    if(scene=='titles'){drawTitles('abracadabra!')}
 }
 
 
@@ -494,8 +460,12 @@ function processInteraction(evt){//interaction
         }
 
 }else if(scene=='start'){//if this is start of the game
-    passOnInteraction(evt);
-    }
+    passOnInteractionToStartScreen(evt);
+}else if(scene=='tutorial'){//tutorial
+        passOnInteractionToTutorial(evt);
+}else if(scene=='titles'){//titles
+        passOnInteractionToTitles(evt);
+}
 
 }
 
@@ -558,7 +528,7 @@ jumpInterval=setInterval( ()=>{//perform jump
     if(jump==160 || isFiasko || jump==0){
         clearInterval(jumpInterval);jump=0;
         if(!isFiasko){
-            console.log(trickLine);
+            drawTrick(trickLine);
         }
     }
 },5*slowMoQualifier);
@@ -592,7 +562,7 @@ jumpInterval=setInterval( ()=>{//perform jump
     if(jump==160 || isFiasko || jump==0){
         clearInterval(jumpInterval);jump=0;
         if(!isFiasko){
-            console.log(trickLine);
+            drawTrick(trickLine);
         }
     }
 },5*slowMoQualifier);
@@ -660,6 +630,17 @@ shoveInterval=setInterval( ()=>{//perform thing
 }
 
 
+
+function drawTrick(trickSequence){
+    console.log(trickSequence);                                                 //FIX ME
+}
+
+
+
+
+
+
+
 function start(){//what is on start of the application
     canvas=document.querySelector('#a');
     whenResized();
@@ -689,9 +670,9 @@ function drawStartScreen(){
 
 
 
-function passOnInteraction(evt){
-    console.log(determineZone(evt));
+function passOnInteractionToStartScreen(evt){
     if(determineZone(evt)==2){
+        //start the game
         scene='game';
         initialization();
     }else if(determineZone(evt)==1){
@@ -737,35 +718,98 @@ function drawInstructions(){
     ctx.fillText('tap left to see titles',canvas.width/4-textOffset,4*canvas.height/7);
 }
 
+function passOnInteractionToTitles(evt){
+    if(determineZone(evt)==1){
+        scene='start';
+        drawStartScreen();
+    }
+}
+function passOnInteractionToTutorial(evt){
+    if(determineZone(evt)==3){
+        scene='start';
+        drawStartScreen();
+    }
+}
+
+function drawTitles(isFromResized){
+    height=SK8_HEIGHT+CONCRETE_HEIGHT;
+    pitch=0;
+    roll=0;
+    yaw=0;
+    offset=SK8_OFFSET_FROM_LEFT;
+
+    let intensity=10;
+    let increasing=true;
+    if(isFromResized==undefined){
+    titlesInterval=setInterval(()=>{
+        if(scene=='start'){
+            clearInterval(titlesInterval);
+        }else{
+
+        setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
+        setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
+
+        drawSkateboard(height,pitch,roll,yaw);
+
+        displayTitles(intensity);
+
+        if(increasing){
+            intensity++;
+            if(intensity>=99){
+                increasing=false;
+            }
+        }else{
+            intensity--;
+            if(intensity<=10){
+                increasing=true;
+            }
+        }
+        }
+    },30);
+    }
+}
+
+function displayTitles(intensity){
+    ctx.fillStyle='#00'+ intensity +'00';
+
+    let textSize=8*canvas.width/CANVAS_WIDTH;
+    let textOffset=textSize*10;
+    ctx.font=textSize+'px "Lucida Console", Monaco, monospace';
+
+    ctx.fillText('Your ads could have been there',canvas.width/2-textOffset,canvas.height/2);   //FIX ME
+
+
+    ctx.fillStyle='#F009';
+    textSize=8*canvas.width/CANVAS_WIDTH;
+    textOffset=textSize*10;
+    ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+
+    ctx.fillText('tap right to go back',canvas.width-textOffset,textOffset);
+}
+
 
 function drawTutorial(){
-    scene='start';
+    height=SK8_HEIGHT+CONCRETE_HEIGHT;
+    pitch=0;
+    roll=0;
+    yaw=0;
+    offset=SK8_OFFSET_FROM_LEFT;
+
+    setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
+    setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
+
+    drawSkateboard(height,pitch,roll,yaw);
+
+    displayTutorial();
 }
-function drawTitles(){
-    scene='start';
+
+function displayTutorial(){
+    ctx.fillStyle='#F009';
+    let textSize=8*canvas.width/CANVAS_WIDTH;
+    let textOffset=textSize*4;
+    ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+
+    ctx.fillText('tap left to go back',textOffset,textOffset*10/4);
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,7 +1,4 @@
-enchance starting screen:
-    1)some pretty buttons
-    2)tutorial
-    3)name of game
+complete tutorial
 
 show on screen what trick has been done
 in fashionable way (animation of text)
@@ -10,6 +7,10 @@ make wheels spin
 
 recognise combinations of tricks
 for example - varial kickflip
+
+there are some fix me`s:
+    1)  displayTitles need to know what to display
+    2)  drawTrick has to draw tricks
 
 
 EXTENSION - new decks, wheels, figures (just textures)
