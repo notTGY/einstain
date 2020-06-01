@@ -2,7 +2,7 @@ const CANVAS_WIDTH=300;
 const CANVAS_HEIGHT=300;
 let ctx,canvas;
 
-let mainInterval;
+let mainInterval,jumpInterval,flipInterval,shoveInterval;
 
 let trickLine=[];
 
@@ -12,6 +12,7 @@ let delay=0;
 
 let slowMoQualifier=1;
 
+let IwantToUseSmallerCavas=false;
 
 //changing constants
 let JumpQualifier;
@@ -104,11 +105,13 @@ function whenResized(){
     //change height and width of CANVAS
     let tmp=myMin(window.innerWidth,window.innerHeight);
 
-    canvas.width=window.innerWidth;
-    canvas.height=window.innerHeight;
-
     canvas.width=tmp;
-    canvas.height=tmp;                                                          //FIX ME
+    canvas.height=tmp;
+
+    if(IwantToUseSmallerCavas){
+            canvas.width=CANVAS_WIDTH;
+            canvas.height=CANVAS_HEIGHT;
+    }
 
 
     ctx=canvas.getContext`2d`;
@@ -150,6 +153,10 @@ function whenResized(){
 
 
     if(mainInterval!=undefined){doFiasko}
+
+    if(scene=='start'){drawStartScreen()}
+    if(scene=='tutorial'){drawTutorial()}
+    if(scene=='titles'){drawTitles()}
 }
 
 
@@ -161,7 +168,30 @@ function setColor(color){ctx.fillStyle=color}
 
 
 
-function doFiasko(){clearInterval(mainInterval);isFiasko=true;setTimeout(initialization,1500)}
+function doFiasko(){
+    clearInterval(mainInterval);
+    clearInterval(jumpInterval);
+    clearInterval(flipInterval);
+    clearInterval(shoveInterval);
+    isFiasko=true;
+    setTimeout(initialization,1500);
+    //doing job of taking out the rubbish
+    delay=0;
+
+    height=SK8_HEIGHT+CONCRETE_HEIGHT;
+    pitch=0;
+    speed=STARTING_SPEED;
+    jump=0;
+    yaw=0;
+    roll=0;
+
+    offset=SK8_OFFSET_FROM_LEFT;
+
+    speedPiece=[...SPEEDTHINGIES];
+    drain=[...DRAINS];
+    quaterPipe=QUATERPIPE;
+    backQuaterPipe=BACKQUATERPIPE;
+}
 
 
 
@@ -651,6 +681,9 @@ function drawStartScreen(){
 
     drawSkateboard(height,pitch,roll,yaw);
 
+
+    drawTitle();
+
     drawInstructions();
 }
 
@@ -663,19 +696,54 @@ function passOnInteraction(evt){
         initialization();
     }else if(determineZone(evt)==1){
         //proceed to tutorial scene
+        scene='tutorial';
+        drawTutorial();
     }else if(determineZone(evt)==3){
         //proceed to credits page
+        scene='titles';
+        drawTitles();
     }
+}
+
+function drawTitle(){
+    let textSize=30*canvas.width/CANVAS_WIDTH;
+    let textOffset=textSize*4;
+    ctx.font=textSize+'px "Comic Sans MS", cursive, sans-serif';
+
+    ctx.strokeStyle='#ffcd3c';
+    ctx.lineWidth=5;
+    ctx.strokeText('Skateboardin`',canvas.width/2-textOffset,canvas.height/2);
+
+    ctx.fillStyle='#ff9234';
+    ctx.fillText('Skateboardin`',canvas.width/2-textOffset,canvas.height/2);
 }
 
 
 function drawInstructions(){
-    
+    let textSize=6*canvas.width/CANVAS_WIDTH;
+    let textOffset=textSize*8;
+    ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+    ctx.fillStyle='#f6cd61';
+    ctx.fillText('tap down to play',canvas.width/2-textOffset,3*canvas.height/4);
+
+    textSize=6*canvas.width/CANVAS_WIDTH;
+    textOffset=textSize*8;
+
+    ctx.fillText('tap right to watch tutorial',3*canvas.width/4-textOffset,4*canvas.height/7);
+
+    textSize=6*canvas.width/CANVAS_WIDTH;
+    textOffset=textSize*8;
+
+    ctx.fillText('tap left to see titles',canvas.width/4-textOffset,4*canvas.height/7);
 }
 
 
-
-
+function drawTutorial(){
+    scene='start';
+}
+function drawTitles(){
+    scene='start';
+}
 
 
 
