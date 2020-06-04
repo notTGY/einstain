@@ -8,6 +8,8 @@ let trickLine=[];
 
 let isFiasko=false;
 
+let currentPage=0;
+
 let delay=0;
 
 let slowMoQualifier=1;
@@ -118,10 +120,18 @@ function whenResized(){
     BACKQUATERPIPE=constants.BACKQUATERPIPE*tmp1;
 
 
-    if(mainInterval!=undefined){doFiasko}
+    if(mainInterval!=undefined){
+        doFiasko();
+        setTimeout(initialization,1500);
+    }
 
     if(scene=='start'){drawStartScreen()}
-    if(scene=='tutorial'){drawTutorial()}
+
+    if(scene=='tutorial'){
+            doFiasko();
+            drawTutorial(currentPage);
+        }
+
     if(scene=='titles'){drawTitles('abracadabra!')}
 }
 
@@ -140,7 +150,7 @@ function doFiasko(){
     clearInterval(flipInterval);
     clearInterval(shoveInterval);
     isFiasko=true;
-    setTimeout(initialization,1500);
+    //setTimeout(initialization,1500);
     //doing job of taking out the rubbish
     delay=0;
 
@@ -172,6 +182,7 @@ function drainManagement(){//draw and move drains
 
             if( (drain[j]<(offset+SK8_WIDTH/2+SK8_FROM_CENTER_TO_WHEEL+DRAIN_WIDTH/2)) && (drain[j]>(offset+SK8_WIDTH/2-SK8_FROM_CENTER_TO_WHEEL-DRAIN_WIDTH/2)) && jump==0 ){
                 doFiasko();
+                setTimeout(initialization,1500);
             }
         }
     }
@@ -210,9 +221,11 @@ function pipeManagement(){
     //detecting collisions with pipes
     if(jump!=0 && speed>=0 && quaterPipe-QUATERPIPE_SIZE<=SK8_OFFSET_FROM_LEFT+SK8_WIDTH && quaterPipe-QUATERPIPE_SIZE>=SK8_OFFSET_FROM_LEFT+SK8_WIDTH-QUATERPIPE_SIZE){
         doFiasko();
+        setTimeout(initialization,1500);
     }
     if(jump!=0 && speed<0 && backQuaterPipe+QUATERPIPE_SIZE>=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH && backQuaterPipe+QUATERPIPE_SIZE>=canvas.width-SK8_OFFSET_FROM_LEFT-SK8_WIDTH +QUATERPIPE_SIZE){
         doFiasko();
+        setTimeout(initialization,1500);
     }
 
 
@@ -358,6 +371,8 @@ function drawSkateboard(h,a,r,y){
 
 
 function initialization(){//every game start (when you die)
+    if(scene=='game'){
+
     isFiasko=false;
 
     delay=0;
@@ -394,15 +409,25 @@ function initialization(){//every game start (when you die)
 
         drawSkateboard(height,pitch,roll,yaw);
 
+        ctx.fillStyle=OVERLAY_COLOR;
+        let textSize=8*canvas.width/CANVAS_WIDTH;
+        let textOffset=textSize;
+        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+
+        ctx.fillText('tap down to quit',textOffset,textOffset);
+
         if(roll!=0 && height<SK8_HEIGHT+CONCRETE_HEIGHT*1.5){
                 doFiasko();
+                setTimeout(initialization,1500);
         }
 
         if(yaw!=0 && height<SK8_HEIGHT+CONCRETE_HEIGHT*1.5){
                 doFiasko();
+                setTimeout(initialization,1500);
         }
 
     },17*slowMoQualifier);
+    }
 }
 
 ontouchstart=evt=>{
@@ -427,6 +452,10 @@ function processInteraction(evt){//interaction
 
 
     if(scene=='game'){//if we are playing and if we touched in 3rd zone (like math zones but 45 degrees turned clockwise)
+
+
+
+
         if(determineZone(evt)==3){
             if(jump==0){//if we are not jumping
 
@@ -456,6 +485,11 @@ function processInteraction(evt){//interaction
                 }else{
                     kickflip();
                 }
+            }
+            if(jump==0){
+                doFiasko();
+                scene='start';
+                drawStartScreen();
             }
         }
 
@@ -631,16 +665,6 @@ shoveInterval=setInterval( ()=>{//perform thing
 
 
 
-function drawTrick(trickSequence){
-    console.log(trickSequence);                                                 //FIX ME
-}
-
-
-
-
-
-
-
 function start(){//what is on start of the application
     canvas=document.querySelector('#a');
     whenResized();
@@ -651,6 +675,8 @@ function start(){//what is on start of the application
 
 
 function drawStartScreen(){
+    isFiasko=false;
+
     height=SK8_HEIGHT+CONCRETE_HEIGHT;
     pitch=0;
     roll=0;
@@ -678,7 +704,9 @@ function passOnInteractionToStartScreen(evt){
     }else if(determineZone(evt)==1){
         //proceed to tutorial scene
         scene='tutorial';
-        drawTutorial();
+        currentPage=0;
+        doFiasko();
+        drawTutorial(currentPage);
     }else if(determineZone(evt)==3){
         //proceed to credits page
         scene='titles';
@@ -725,13 +753,38 @@ function passOnInteractionToTitles(evt){
     }
 }
 function passOnInteractionToTutorial(evt){
+
+    console.log('hi');//FIX ME
+
     if(determineZone(evt)==3){
+        currentPage=0;
         scene='start';
+
+        doFiasko();
+
         drawStartScreen();
+    }
+    if(determineZone(evt)==4){
+        if(currentPage>=1){
+            currentPage--;
+
+            doFiasko();
+            drawTutorial(currentPage);
+        }
+    }
+    if(determineZone(evt)==2){
+        if(currentPage<=4){
+            currentPage++;
+
+            doFiasko();
+            drawTutorial(currentPage);
+        }
     }
 }
 
 function drawTitles(isFromResized){
+    isFiasko=false;
+
     height=SK8_HEIGHT+CONCRETE_HEIGHT;
     pitch=0;
     roll=0;
@@ -788,22 +841,33 @@ function displayTitles(intensity){
 }
 
 
-function drawTutorial(){
+function drawTutorial(page){
+    isFiasko=false;
+
+    delay=0;
+
     height=SK8_HEIGHT+CONCRETE_HEIGHT;
     pitch=0;
-    roll=0;
+    speed=STARTING_SPEED;
+    jump=0;
     yaw=0;
+    roll=0;
+
     offset=SK8_OFFSET_FROM_LEFT;
 
-    setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
-    setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
+    mainInterval=setInterval( ()=>{
+        delay=0;
 
-    drawSkateboard(height,pitch,roll,yaw);
+        setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
+        setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
 
-    displayTutorial();
+        drawSkateboard(height,pitch,roll,yaw);
+
+        displayTutorial(currentPage);
+    },17*slowMoQualifier);
 }
 
-function displayTutorial(){
+function displayTutorial(page){
     ctx.fillStyle='#F009';
     let textSize=8*canvas.width/CANVAS_WIDTH;
     let textOffset=textSize*4;
@@ -811,5 +875,106 @@ function displayTutorial(){
 
     ctx.fillText('tap left to go back',textOffset,textOffset*10/4);
 
+    ctx.fillText('tap up&down to go between pages',textOffset,(7/6)*textOffset*10/4);
 
+    if(page==0){
+        if(jump==0){
+            ollie();
+        }
+
+
+        ctx.fillStyle='#0A0';
+        textSize=8*canvas.width/CANVAS_WIDTH;
+        textOffset=textSize*10;
+        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+
+        ctx.fillText('tap left to do ollie',canvas.width/2-textOffset,canvas.height/2);
+
+    }else if(page==1){
+        if(jump==0){
+            nollie();
+        }
+
+
+        ctx.fillStyle='#0A0';
+        textSize=8*canvas.width/CANVAS_WIDTH;
+        textOffset=textSize*10;
+        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+
+        ctx.fillText('tap right to do nollie',canvas.width/2-textOffset,canvas.height/2);
+
+    }else if(page==2){
+        if(jump==0){
+            ollie();
+            setTimeout(TutorialKickflip(currentPage),slowMoQualifier*250);
+        }
+
+
+        ctx.fillStyle='#0A0';
+        textSize=8*canvas.width/CANVAS_WIDTH;
+        textOffset=textSize*10;
+        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+
+        ctx.fillText('tap up while in the air to do kickflip',canvas.width/2-textOffset,canvas.height/2);
+    }else if(page==3){
+        if(jump==0){
+            ollie();
+            setTimeout(TutorialHeelflip(currentPage),slowMoQualifier*250);
+        }
+
+
+        ctx.fillStyle='#0A0';
+        textSize=8*canvas.width/CANVAS_WIDTH;
+        textOffset=textSize*10;
+        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+
+        ctx.fillText('tap down while in the air to do heelflip',canvas.width/2-textOffset,canvas.height/2);
+    }else if(page==4){
+        if(jump==0){
+            ollie();
+            setTimeout(TutorialBsShoveit(currentPage),slowMoQualifier*250);
+        }
+
+
+        ctx.fillStyle='#0A0';
+        textSize=8*canvas.width/CANVAS_WIDTH;
+        textOffset=textSize*10;
+        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+
+        ctx.fillText('tap right while in the air to do bs shove-it',canvas.width/2-textOffset,canvas.height/2);
+    }else if(page==5){
+        if(jump==0){
+            ollie();
+            setTimeout(TutorialFsShoveit(currentPage),slowMoQualifier*250);
+        }
+
+
+        ctx.fillStyle='#0A0';
+        textSize=8*canvas.width/CANVAS_WIDTH;
+        textOffset=textSize*10;
+        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+
+        ctx.fillText('tap right while in the air to do fs shove-it',canvas.width/2-textOffset,canvas.height/2);
+    }
+}
+
+function TutorialKickflip(page){
+    if(currentPage==page && scene=='tutorial'){kickflip();}
+}
+
+function TutorialHeelflip(page){
+    if(currentPage==page && scene=='tutorial'){heelflip();}
+}
+
+function TutorialBsShoveit(page){
+    if(currentPage==page && scene=='tutorial'){clockwise_shoveit();}
+}
+
+function TutorialFsShoveit(page){
+    if(currentPage==page && scene=='tutorial'){anticlockwise_shoveit();}
+}
+
+
+function drawTrick(trickSequence){
+    console.log(trickSequence);                                                 //FIX ME
 }

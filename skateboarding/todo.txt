@@ -1,5 +1,3 @@
-complete tutorial
-
 show on screen what trick has been done
 in fashionable way (animation of text)
 
