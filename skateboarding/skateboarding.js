@@ -877,6 +877,11 @@ function displayTutorial(page){
 
     ctx.fillText('tap up&down to go between pages',textOffset,(7/6)*textOffset*10/4);
 
+    ctx.fillStyle='#00F9';
+    textOffset=textSize;
+
+    ctx.fillText('you can also use WASD and arrow keys',textOffset,canvas.height-textOffset);
+
     if(page==0){
         if(jump==0){
             ollie();
