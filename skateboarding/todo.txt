@@ -1,6 +1,3 @@
-show on screen what trick has been done
-in fashionable way (animation of text)
-
 make wheels spin
 
 recognise combinations of tricks
@@ -8,8 +5,3 @@ for example - varial kickflip
 
 there are some fix me`s:
     1)  displayTitles need to know what to display
-    2)  drawTrick has to draw tricks
-
-
-EXTENSION - new decks, wheels, figures (just textures)
-that can be bought in the shop  (new button and scene)

@@ -50,15 +50,15 @@ function displayTitles(intensity){
 
     let textSize=8*canvas.width/CANVAS_WIDTH;
     let textOffset=textSize*10;
-    ctx.font=textSize+'px "Lucida Console", Monaco, monospace';
+    ctx.font=textSize+'px '+THIRD_FONT;
 
     ctx.fillText('Your ads could have been there',canvas.width/2-textOffset,canvas.height/2);   //FIX ME
 
 
-    ctx.fillStyle='#F009';
+    ctx.fillStyle=GO_BACK_OVERLAY_COLOR;
     textSize=8*canvas.width/CANVAS_WIDTH;
     textOffset=textSize*10;
-    ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+    ctx.font=textSize+'px '+SECOND_FONT;
 
     ctx.fillText('tap right to go back',canvas.width-textOffset,textOffset);
 }

@@ -63,6 +63,8 @@ let backQuaterPipe;
 
 let scene='start';
 
+let canRenderTricks=false;
+
 
 
 function start(){//what is on start of the application
@@ -107,13 +109,15 @@ function initialization(){//every game start (when you die)
         setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
         setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
 
+        pipeManagement();
+
+        drawSkateboard(height,pitch,roll,yaw);
+
         drawSpeedThingies();
 
         drainManagement();
 
-        pipeManagement();
-
-        drawSkateboard(height,pitch,roll,yaw);
+        renderDoneTricks();
 
         ctx.fillStyle=OVERLAY_COLOR;
         let textSize=8*canvas.width/CANVAS_WIDTH;
@@ -137,14 +141,13 @@ function initialization(){//every game start (when you die)
 }
 
 
-function doFiasko(){
+function doFiasko(){//doing job of taking out the rubbish
     clearInterval(mainInterval);
     clearInterval(jumpInterval);
     clearInterval(flipInterval);
     clearInterval(shoveInterval);
     isFiasko=true;
-    //setTimeout(initialization,1500);
-    //doing job of taking out the rubbish
+
     delay=0;
 
     height=SK8_HEIGHT+CONCRETE_HEIGHT;

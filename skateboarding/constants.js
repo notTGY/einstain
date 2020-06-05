@@ -34,4 +34,20 @@ const CONCRETE_COLOR='#999';
 const QUATERPIPE_COLOR='#777';
 const OVERLAY_COLOR='#FFF5';
 
+const TRICK_SEQUENCE_COLOR='#00FD';
+
+
+
+const SKATEBOARDING_COLOR='#ff9234';
+const SKATEBOARDING_OUTLINE_COLOR='#ffcd3c';
+const START_SCREEN_INSTRUCTIONS_COLOR='#f6cd61';
+const GO_BACK_OVERLAY_COLOR='#F009';
+const TUTORIAL_COLOR='#0A0';
+const TUTORIAL_SECONDARY_COLOR='#00F9';
+
+const TITLE_FONT='"Comic Sans MS", cursive, sans-serif';
+const SECOND_FONT='Impact, Charcoal, sans-serif';
+const THIRD_FONT='"Lucida Console", Monaco, monospace';
+
+
 const TIME_AFTER_HIT=1500;

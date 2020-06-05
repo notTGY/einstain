@@ -1,7 +1,5 @@
 function passOnInteractionToTutorial(evt){
 
-    console.log('hi');//FIX ME
-
     if(determineZone(evt)==3){
         currentPage=0;
         scene='start';
@@ -57,16 +55,16 @@ function drawTutorial(page){
 }
 
 function displayTutorial(page){
-    ctx.fillStyle='#F009';
+    ctx.fillStyle=GO_BACK_OVERLAY_COLOR;
     let textSize=8*canvas.width/CANVAS_WIDTH;
     let textOffset=textSize*4;
-    ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+    ctx.font=textSize+'px '+SECOND_FONT;
 
     ctx.fillText('tap left to go back',textOffset,textOffset*10/4);
 
     ctx.fillText('tap up&down to go between pages',textOffset,(7/6)*textOffset*10/4);
 
-    ctx.fillStyle='#00F9';
+    ctx.fillStyle=TUTORIAL_SECONDARY_COLOR;
     textOffset=textSize;
 
     ctx.fillText('you can also use WASD and arrow keys',textOffset,canvas.height-textOffset);
@@ -77,10 +75,10 @@ function displayTutorial(page){
         }
 
 
-        ctx.fillStyle='#0A0';
+        ctx.fillStyle=TUTORIAL_COLOR;
         textSize=8*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
-        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+        ctx.font=textSize+'px '+SECOND_FONT;
 
         ctx.fillText('tap left to do ollie',canvas.width/2-textOffset,canvas.height/2);
 
@@ -90,10 +88,10 @@ function displayTutorial(page){
         }
 
 
-        ctx.fillStyle='#0A0';
+        ctx.fillStyle=TUTORIAL_COLOR;
         textSize=8*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
-        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+        ctx.font=textSize+'px '+SECOND_FONT;
 
         ctx.fillText('tap right to do nollie',canvas.width/2-textOffset,canvas.height/2);
 
@@ -104,10 +102,10 @@ function displayTutorial(page){
         }
 
 
-        ctx.fillStyle='#0A0';
+        ctx.fillStyle=TUTORIAL_COLOR;
         textSize=8*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
-        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+        ctx.font=textSize+'px '+SECOND_FONT;
 
         ctx.fillText('tap up while in the air to do kickflip',canvas.width/2-textOffset,canvas.height/2);
     }else if(page==3){
@@ -117,10 +115,10 @@ function displayTutorial(page){
         }
 
 
-        ctx.fillStyle='#0A0';
+        ctx.fillStyle=TUTORIAL_COLOR;
         textSize=8*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
-        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+        ctx.font=textSize+'px '+SECOND_FONT;
 
         ctx.fillText('tap down while in the air to do heelflip',canvas.width/2-textOffset,canvas.height/2);
     }else if(page==4){
@@ -130,12 +128,12 @@ function displayTutorial(page){
         }
 
 
-        ctx.fillStyle='#0A0';
+        ctx.fillStyle=TUTORIAL_COLOR;
         textSize=8*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
-        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+        ctx.font=textSize+'px '+SECOND_FONT;
 
-        ctx.fillText('tap right while in the air to do bs shove-it',canvas.width/2-textOffset,canvas.height/2);
+        ctx.fillText('tap right while in the air to do fs shove-it',canvas.width/2-textOffset,canvas.height/2);
     }else if(page==5){
         if(jump==0){
             ollie();
@@ -143,12 +141,12 @@ function displayTutorial(page){
         }
 
 
-        ctx.fillStyle='#0A0';
+        ctx.fillStyle=TUTORIAL_COLOR;
         textSize=8*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
-        ctx.font=textSize+'px Impact, Charcoal, sans-serif';
+        ctx.font=textSize+'px '+SECOND_FONT;
 
-        ctx.fillText('tap left while in the air to do fs shove-it',canvas.width/2-textOffset,canvas.height/2);
+        ctx.fillText('tap left while in the air to do bs shove-it',canvas.width/2-textOffset,canvas.height/2);
     }
 }
 

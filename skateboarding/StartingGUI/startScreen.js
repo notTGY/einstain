@@ -41,13 +41,13 @@ function passOnInteractionToStartScreen(evt){
 function drawTitle(){
     let textSize=30*canvas.width/CANVAS_WIDTH;
     let textOffset=textSize*4;
-    ctx.font=textSize+'px "Comic Sans MS", cursive, sans-serif';
+    ctx.font=textSize+'px '+TITLE_FONT;
 
-    ctx.strokeStyle='#ffcd3c';
+    ctx.strokeStyle=SKATEBOARDING_OUTLINE_COLOR;
     ctx.lineWidth=5;
     ctx.strokeText('Skateboardin`',canvas.width/2-textOffset,canvas.height/2);
 
-    ctx.fillStyle='#ff9234';
+    ctx.fillStyle=SKATEBOARDING_COLOR;
     ctx.fillText('Skateboardin`',canvas.width/2-textOffset,canvas.height/2);
 }
 
@@ -55,8 +55,8 @@ function drawTitle(){
 function drawInstructions(){
     let textSize=6*canvas.width/CANVAS_WIDTH;
     let textOffset=textSize*8;
-    ctx.font=textSize+'px Impact, Charcoal, sans-serif';
-    ctx.fillStyle='#f6cd61';
+    ctx.font=textSize+'px '+SECOND_FONT;
+    ctx.fillStyle=START_SCREEN_INSTRUCTIONS_COLOR;
     ctx.fillText('tap down to play',canvas.width/2-textOffset,3*canvas.height/4);
 
     textSize=6*canvas.width/CANVAS_WIDTH;
