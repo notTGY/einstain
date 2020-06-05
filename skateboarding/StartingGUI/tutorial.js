@@ -56,11 +56,11 @@ function drawTutorial(page){
 
 function displayTutorial(page){
     ctx.fillStyle=GO_BACK_OVERLAY_COLOR;
-    let textSize=8*canvas.width/CANVAS_WIDTH;
-    let textOffset=textSize*4;
+    let textSize=12*canvas.width/CANVAS_WIDTH;
+    let textOffset=textSize;
     ctx.font=textSize+'px '+SECOND_FONT;
 
-    ctx.fillText('tap left to go back',textOffset,textOffset*10/4);
+    ctx.fillText('tap left to go back',textOffset,textSize);
 
     ctx.fillText('tap up&down to go between pages',textOffset,(7/6)*textOffset*10/4);
 
@@ -76,7 +76,7 @@ function displayTutorial(page){
 
 
         ctx.fillStyle=TUTORIAL_COLOR;
-        textSize=8*canvas.width/CANVAS_WIDTH;
+        textSize=14*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
         ctx.font=textSize+'px '+SECOND_FONT;
 
@@ -89,7 +89,7 @@ function displayTutorial(page){
 
 
         ctx.fillStyle=TUTORIAL_COLOR;
-        textSize=8*canvas.width/CANVAS_WIDTH;
+        textSize=14*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
         ctx.font=textSize+'px '+SECOND_FONT;
 
@@ -103,7 +103,7 @@ function displayTutorial(page){
 
 
         ctx.fillStyle=TUTORIAL_COLOR;
-        textSize=8*canvas.width/CANVAS_WIDTH;
+        textSize=14*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
         ctx.font=textSize+'px '+SECOND_FONT;
 
@@ -116,7 +116,7 @@ function displayTutorial(page){
 
 
         ctx.fillStyle=TUTORIAL_COLOR;
-        textSize=8*canvas.width/CANVAS_WIDTH;
+        textSize=14*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
         ctx.font=textSize+'px '+SECOND_FONT;
 
@@ -129,7 +129,7 @@ function displayTutorial(page){
 
 
         ctx.fillStyle=TUTORIAL_COLOR;
-        textSize=8*canvas.width/CANVAS_WIDTH;
+        textSize=14*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
         ctx.font=textSize+'px '+SECOND_FONT;
 
@@ -142,7 +142,7 @@ function displayTutorial(page){
 
 
         ctx.fillStyle=TUTORIAL_COLOR;
-        textSize=8*canvas.width/CANVAS_WIDTH;
+        textSize=14*canvas.width/CANVAS_WIDTH;
         textOffset=textSize*10;
         ctx.font=textSize+'px '+SECOND_FONT;
 

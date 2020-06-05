@@ -48,7 +48,7 @@ function drawTitles(isFromResized){
 function displayTitles(intensity){
     ctx.fillStyle='#00'+ intensity +'00';
 
-    let textSize=8*canvas.width/CANVAS_WIDTH;
+    let textSize=12*canvas.width/CANVAS_WIDTH;
     let textOffset=textSize*10;
     ctx.font=textSize+'px '+THIRD_FONT;
 
@@ -56,9 +56,9 @@ function displayTitles(intensity){
 
 
     ctx.fillStyle=GO_BACK_OVERLAY_COLOR;
-    textSize=8*canvas.width/CANVAS_WIDTH;
-    textOffset=textSize*10;
+    textSize=12*canvas.width/CANVAS_WIDTH;
+    textOffset=textSize*8;
     ctx.font=textSize+'px '+SECOND_FONT;
 
-    ctx.fillText('tap right to go back',canvas.width-textOffset,textOffset);
+    ctx.fillText('tap right to go back',canvas.width-textOffset,textSize);
 }

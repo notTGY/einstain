@@ -120,7 +120,7 @@ function initialization(){//every game start (when you die)
         renderDoneTricks();
 
         ctx.fillStyle=OVERLAY_COLOR;
-        let textSize=8*canvas.width/CANVAS_WIDTH;
+        let textSize=14*canvas.width/CANVAS_WIDTH;
         let textOffset=textSize;
         ctx.font=textSize+'px Impact, Charcoal, sans-serif';
 

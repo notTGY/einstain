@@ -53,19 +53,19 @@ function drawTitle(){
 
 
 function drawInstructions(){
-    let textSize=6*canvas.width/CANVAS_WIDTH;
+    let textSize=10*canvas.width/CANVAS_WIDTH;
     let textOffset=textSize*8;
     ctx.font=textSize+'px '+SECOND_FONT;
     ctx.fillStyle=START_SCREEN_INSTRUCTIONS_COLOR;
     ctx.fillText('tap down to play',canvas.width/2-textOffset,3*canvas.height/4);
 
-    textSize=6*canvas.width/CANVAS_WIDTH;
+    textSize=10*canvas.width/CANVAS_WIDTH;
     textOffset=textSize*8;
 
-    ctx.fillText('tap right to watch tutorial',3*canvas.width/4-textOffset,4*canvas.height/7);
+    ctx.fillText('tap right to watch tutorial',3*canvas.width/4-textOffset*0.6,4*canvas.height/7);
 
-    textSize=6*canvas.width/CANVAS_WIDTH;
+    textSize=10*canvas.width/CANVAS_WIDTH;
     textOffset=textSize*8;
 
-    ctx.fillText('tap left to see credits',canvas.width/4-textOffset,4*canvas.height/7);
+    ctx.fillText('tap left to see credits',canvas.width/4-textOffset*0.6,4*canvas.height/7);
 }
