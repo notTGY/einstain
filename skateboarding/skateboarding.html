@@ -3,37 +3,39 @@
     <head>
         <meta charset="utf-8">
         <title>skateboarding</title>
-        <script src="skateboarding.js"></script>
-        <script src="constants.js"></script>
-        <style>
-            #a{
-                margin: 0 auto;
-                padding:0 auto;
-                top: 0px;
-                display: block;
-            }
-            #badi{
-                text-align: center;
-                margin: 0;
 
-                background-color: #333;
-            }
-            .wrapper{
-                text-align: center;
-            }
-        </style>
+        <script src="./skateboarding.js"></script>
+        <script src="./constants.js"></script>
+
+        <script src="./resizing.js"></script>
+        <script src="./eventHandling.js"></script>
+
+
+        <script src="./game/tricks.js"></script>
+        <script src="./game/drawing.js"></script>
+        <script src="./game/movingPieces.js"></script>
+
+        <script src="./StartingGUI/startScreen.js"></script>
+        <script src="./StartingGUI/titles.js"></script>
+        <script src="./StartingGUI/tutorial.js"></script>
+
+        <link rel="stylesheet" href="./skateboarding.css">
     </head>
     <body id="badi">
 
 
-<div class="wrapper">
+    <div class="wrapper">
 
 
-<canvas id="a">
-<script>
-onload=start();
-</script>
-</canvas>
-</div>
-</body>
+    <canvas id="a">
+        Your browser does not support canvas.
+    <script>
+        onload=start();
+    </script>
+
+    </canvas>
+
+    </div>
+
+    </body>
 </html>
