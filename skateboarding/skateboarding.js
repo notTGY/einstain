@@ -26,6 +26,7 @@ let SK8_HEIGHT;
 let SK8_THICK;
 let WHEEL_RADIUS;
 let BOLTS_RADIUS;
+let SHADE_RADIUS;
 
 let CONCRETE_HEIGHT;
 
@@ -55,6 +56,8 @@ let speed;
 let jump;
 let roll;
 let yaw;
+let shades;
+
 
 let speedPiece;
 let drain;
@@ -91,6 +94,7 @@ function initialization(){//every game start (when you die)
     jump=0;
     yaw=0;
     roll=0;
+    shades=0;
 
     offset=SK8_OFFSET_FROM_LEFT;
 
@@ -109,9 +113,11 @@ function initialization(){//every game start (when you die)
         setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
         setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
 
+        shadeManagement();
+
         pipeManagement();
 
-        drawSkateboard(height,pitch,roll,yaw);
+        drawSkateboard(height,pitch,roll,yaw,shades);
 
         drawSpeedThingies();
 
@@ -156,6 +162,7 @@ function doFiasko(){//doing job of taking out the rubbish
     jump=0;
     yaw=0;
     roll=0;
+    shades=0;
 
     offset=SK8_OFFSET_FROM_LEFT;
 

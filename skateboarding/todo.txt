@@ -1,7 +1,14 @@
-make wheels spin
-
 recognise combinations of tricks
 for example - varial kickflip
 
 there are some fix me`s:
     1)  displayTitles need to know what to display
+
+
+Settings
+
+
+Multiplayer on same device
+
+
+Multiplayer

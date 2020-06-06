@@ -8,6 +8,7 @@ const constants={
     SK8_THICK:5,
     WHEEL_RADIUS:10,
     BOLTS_RADIUS:3,
+    SHADE_RADIUS:6,
     CONCRETE_HEIGHT:20,
     DRAIN_WIDTH:90,
     DRAIN_HEIGHT:18,
@@ -26,6 +27,7 @@ const constants={
 const DRAIN_COLOR='#111';
 const SPEEDTHINGS_COLOR='#666';
 const WHEEL_COLOR='#FFF';
+const SHADE_COLOR='#AAAE';
 const DECK_COLOR='#642';
 const GRIPTAPE_COLOR='#000';
 const BOLTS_COLOR='#CCC';

@@ -31,6 +31,7 @@ function whenResized(){
     SK8_THICK=constants.SK8_THICK*tmp2;
     WHEEL_RADIUS=constants.WHEEL_RADIUS*tmp2;
     BOLTS_RADIUS=constants.BOLTS_RADIUS*tmp2;
+    SHADE_RADIUS=constants.SHADE_RADIUS*tmp2;
     CONCRETE_HEIGHT=constants.CONCRETE_HEIGHT*tmp2;
     DRAIN_WIDTH=constants.DRAIN_WIDTH*tmp1;
     DRAIN_HEIGHT=constants.DRAIN_HEIGHT*tmp2;

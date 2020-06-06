@@ -5,12 +5,13 @@ function drawStartScreen(){
     pitch=0;
     roll=0;
     yaw=0;
+    shades=0;
     offset=SK8_OFFSET_FROM_LEFT;
 
     setColor(CONCRETE_COLOR);ctx.fillRect(0,canvas.height-CONCRETE_HEIGHT,canvas.width,CONCRETE_HEIGHT);//draw concrete
     setColor(BACKGROUND_COLOR);ctx.fillRect(0,0,canvas.width,canvas.height-CONCRETE_HEIGHT);//draw wall
 
-    drawSkateboard(height,pitch,roll,yaw);
+    drawSkateboard(height,pitch,roll,yaw,shades);
 
 
     drawTitle();

@@ -1,5 +1,5 @@
 let tricksToRender=[];
-
+let trickTextOffset;
 
 function ollie(){
 
@@ -134,13 +134,16 @@ shoveInterval=setInterval( ()=>{//perform thing
 function drawTrick(trickSequence){
     convertSequenceToRender(trickSequence);
     canRenderTricks=true;
-    setTimeout( ()=>{
-        canRenderTricks=false;
-    },2000*slowMoQualifier)
+    trickTextOffset=50*canvas.width/CANVAS_WIDTH;
 }
 
 function renderDoneTricks(){
     if(!canRenderTricks)return -1;
+
+    trickTextOffset-=speed*0.05;
+    if(trickTextOffset<=-CANVAS_WIDTH*canvas.width/CANVAS_WIDTH){
+        canRenderTricks=false;
+    }
 
     if(tricksToRender[0]=='switch'){
         renderSwitch();
@@ -153,10 +156,10 @@ function renderDoneTricks(){
 function renderSwitch(){
     let textSize=16*canvas.width/CANVAS_WIDTH;
     ctx.font=textSize+'px '+SECOND_FONT;
-
+    trickTextOffset
 
     ctx.fillStyle=TRICK_SEQUENCE_COLOR;
-    ctx.fillText('Switch',textSize,canvas.height/6);
+    ctx.fillText('Switch',trickTextOffset,canvas.height/6);
 }
 
 function renderTrick(str){
@@ -165,6 +168,6 @@ function renderTrick(str){
 
 
     ctx.fillStyle=TRICK_SEQUENCE_COLOR;
-    ctx.fillText(str,textSize*4.2,canvas.height/6);
+    ctx.fillText(str,trickTextOffset+textSize*3.2,canvas.height/6);
 }
 

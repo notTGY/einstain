@@ -123,3 +123,10 @@ function pipeManagement(){
     }
 
 }
+
+
+
+function shadeManagement(){
+    shades+=(speed/SHADE_RADIUS)/(10*Math.PI);
+    if(shades>=2*Math.PI)shades-=2*Math.PI;
+}
