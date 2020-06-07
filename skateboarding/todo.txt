@@ -5,6 +5,10 @@ there are some fix me`s:
     1)  displayTitles need to know what to display
 
 
+Better controls at start screen
+
+Music
+
 Settings
 
 
