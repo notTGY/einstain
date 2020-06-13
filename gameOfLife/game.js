@@ -7,7 +7,7 @@ let previousField=[];
 
 let cell_size=30;
 
-let field_size=1000;
+let field_size=100;
 
 let mainInterval;
 let FPS=3;
@@ -26,6 +26,24 @@ function start(){
         ctx=canvas.getContext`2d`;
     });
 
+    oncontextmenu=()=>{return false};
+
+    field=[field_size*field_size];
+    for(let i=0;i<field_size;i++){
+        for(let j=0;j<field_size;j++){
+            field[i*field_size+j]=false;
+            if(Math.random()>=0.8){
+                field[i*field_size+j]=true;
+            }
+        }
+    }
+
+    displayField(field,dx,dy);
+
+
+    addEventListener('keydown',(evt)=>{
+        processKeyDown(evt);
+    });
 
     addEventListener('mousedown',(evt)=>{
         if(evt.which ==3){
@@ -35,22 +53,6 @@ function start(){
             processLeftClick(evt);
         }
         evt.preventDefault();
-    });
-
-    oncontextmenu=()=>{return false};
-
-    field=[field_size*field_size];
-    for(let i=0;i<field_size;i++){
-        for(let j=0;j<field_size;j++){
-            field[i*field_size+j]=false;
-        }
-    }
-
-    displayField(field,dx,dy);
-
-
-    addEventListener('keydown',(evt)=>{
-        processKeyDown(evt);
     });
 }
 
@@ -124,6 +126,8 @@ function processRightClick(evt){
 }
 
 function displayField(f,dx,dy){
+    ctx.fillStyle='#000';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
     for(let i=0;i<Math.floor(canvas.height/cell_size);i++){
         for(let j=0;j<Math.floor(canvas.width/cell_size);j++){
             if( (i+Math.floor(dy/cell_size)<field_size) && (j+Math.floor(dx/cell_size)<field_size)){
@@ -133,14 +137,12 @@ function displayField(f,dx,dy){
     }
 }
 
-function displayCell(f,j,i,x,y){
+async function displayCell(f,j,i,x,y){
+    ctx.fillStyle='#000';
     if( f[i*(field_size)+j] == true){
         ctx.fillStyle='#FFF';
-        ctx.fillRect(x,y,cell_size,cell_size);
-    }else{
-        ctx.fillStyle='#000';
-        ctx.fillRect(x,y,cell_size,cell_size);
     }
+    ctx.fillRect(x,y,cell_size,cell_size);
 }
 
 function numberOfAliveNear(p,j,i){
