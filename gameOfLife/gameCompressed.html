@@ -1,0 +1,39 @@
+<body style=margin:0>
+    <canvas id="c">
+    <script>
+    onload=_=>{
+        f=[];
+        S=20;
+        d=_=>{
+            for(i=0;i<S*S;i++){
+                    X.fillStyle=f[i]?'#FFF':'#000';
+                    X.fillRect(i%S*S,i-i%S,S-1,S-1)
+            }
+        };
+        G=_=>{
+            p=[...f];
+            for(i=0;i<S*S;i++){
+                    l=i%S;
+                    r=(i-l)/S;
+                    n=0;
+                    for(x=-1;x<2;x++)
+                        for(y=-1;y<2;y++)
+                            if(p[(r+y+S)%S*S+(x+l+S)%S])
+                                    !(x==0 && y==0)&&n++;
+                    k=false;
+                    if(n<2)f[i]=k;
+                    if(n>3)f[i]=k;
+                    if(n==3)f[i]=!k;
+                }
+            d();
+            setTimeout(G,500)
+        };
+        onmousedown=e=>{
+            if(e.which==2)G();
+                else I=Math.floor(e.y/S)*S+Math.floor(e.x/S),f[I]=!f[I],d()
+        };
+        c.width=c.height=S*S;
+        X=c.getContext`2d`;
+        d()
+    }
+    </script>

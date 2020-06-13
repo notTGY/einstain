@@ -2,13 +2,14 @@
     margin: 0 auto;
     padding:0 auto;
     top: 0px;
+    right: 0px;
+
     display: block;
 }
 #badi{
-    text-align: center;
     margin: 0;
 
-    background-color: #000;
+    background-color: #FFF;
 }
 p{
     text-align: center;
