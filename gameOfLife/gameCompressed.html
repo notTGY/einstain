@@ -13,13 +13,12 @@
         G=_=>{
             p=[...f];
             for(i=0;i<S*S;i++){
-                    l=i%S;
-                    r=(i-l)/S;
-                    n=0;
-                    for(x=-1;x<2;x++)
-                        for(y=-1;y<2;y++)
-                            if(p[(r+y+S)%S*S+(x+l+S)%S])
-                                    !(x==0 && y==0)&&n++;
+                    for(n=j=0;j<9;j++){
+                        x=j%3-1;
+                        if(p[((i-i%S)/S+(j-x-1)/3-1+S)%S*S+(x+i%S+S)%S])
+                                j!=4&&n++;
+                        }
+
                     k=false;
                     if(n<2)f[i]=k;
                     if(n>3)f[i]=k;
