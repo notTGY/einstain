@@ -156,7 +156,7 @@ function renderDoneTricks(){
 function renderSwitch(){
     let textSize=16*canvas.width/CANVAS_WIDTH;
     ctx.font=textSize+'px '+SECOND_FONT;
-    trickTextOffset
+    trickTextOffset//FIX ME
 
     ctx.fillStyle=TRICK_SEQUENCE_COLOR;
     ctx.fillText('Switch',trickTextOffset,canvas.height/6);
