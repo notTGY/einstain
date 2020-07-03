@@ -1,3 +1,4 @@
+/*
 //if you have another AudioContext class use that one, as some browsers have a limit
 var audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
 
@@ -23,3 +24,4 @@ function beep(duration, frequency, volume, type, callback) {
     oscillator.start(audioCtx.currentTime);
     oscillator.stop(audioCtx.currentTime + ((duration || 500) / 1000));
 };
+*/
