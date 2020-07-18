@@ -1,6 +1,0 @@
-onload=startUp();
-
-
-function startUp(){
-    
-}
