@@ -19,7 +19,7 @@ function convertNotes(lines){
 }
 
 
-function smth(){
+function generateSampleAndPlayIt(){
     let actx=new(window.audioContext||window.AudioContext||window.webkitAudioContext);
     music=[[]];
 
