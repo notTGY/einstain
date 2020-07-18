@@ -19,7 +19,7 @@ function playLineNotes(line,audioCtx,index,doWeLoop){
                 let t=currentTime;
                 start(t);
                 stop(t+line[index].dur);
-                onended=_=>{playLine(line,audioCtx,index+1,doWeLoop)};
+                onended=_=>{playLineNotes(line,audioCtx,index+1,doWeLoop)};
             }
         }
     }

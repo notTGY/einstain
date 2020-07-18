@@ -1,5 +1,3 @@
-let music;
-
 function Note(vol,f,type,dur){
     this.vol=vol;
     this.f=f;
@@ -10,7 +8,7 @@ function Note(vol,f,type,dur){
 
 function generateSampleAndPlayIt(){
     let actx=new(window.audioContext||window.AudioContext||window.webkitAudioContext);
-    music=[[]];
+    let music=[[]];
 
     note1=new Note(1,200,'sine',.5);
     note2=new Note(.3,400,'sine',.5);
