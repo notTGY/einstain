@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>microCSV demo</title>
+    </head>
+    <body>
+
+        Insert .csv file, It will be displayed in console.<br>
+        <input type="file" id=IN>
+        <script>
+IN.onchange=e=>{data=[[]];let f=e.target.files[0];if(!f)return;with(new FileReader){onload=x=>{for(let i=0,t=x.target.result.split('\n');i<t.length;i++)data[i]=t[i].split(',');console.log(data)};readAsText(f)}};
+        </script>
+    </body>
+</html>
