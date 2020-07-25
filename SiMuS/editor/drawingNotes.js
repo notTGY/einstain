@@ -16,6 +16,10 @@ function drawLinesNotes(){
 function drawLineNotes(line,previousY){
     //let previousX=0;
     let previousX=bigData.drawingOffset.x;
+
+    bigData.mainCtx.fillStyle='#FFF';
+    bigData.mainCtx.fillRect(0,previousY,bigData.mainCanvas.width,bigData.mainCanvas.height);
+
     if(previousX>0){
         let x=previousX;
         let y=previousY;
@@ -59,26 +63,26 @@ function drawNote(note,x0,y0,w0,h0,condition){
     if(condition)bigData.mainCtx.fillStyle='#FFF';
     bigData.mainCtx.fillRect(x,y,w,h);
 
-    if(note.vol){
+    if(note.vol && note.vol>0 && note.vol<=1){
         bigData.mainCtx.fillStyle='#0458';
         bigData.mainCtx.fillRect(x+2,(y+h-2)-(h-4)*note.vol,w-4,(h-4)*note.vol);
-    }
 
-    if(note.type){
-        bigData.mainCtx.fillStyle='#F008';
-        if(note.type=='square'){
-            bigData.mainCtx.fillRect(x+w/2-h/8,y+h/2-h/8,h/4,h/4);
+        if(note.type){
+            bigData.mainCtx.fillStyle='#F008';
+            if(note.type=='square'){
+                bigData.mainCtx.fillRect(x+w/2-h/8,y+h/2-h/8,h/4,h/4);
+            }
+            if(note.type=='sine'){
+                drawCircle(x+1+w/2,y+1+h/2,h/8);
+            }
         }
-        if(note.type=='sine'){
-            drawCircle(x+1+w/2,y+1+h/2,h/8);
+
+        if(note.f){
+            let s=(note.f-note.f%10)+' Hz';
+
+            bigData.mainCtx.fillStyle='#7308';
+            bigData.mainCtx.font=Math.ceil(bigData.fontSize)+'px Impact, Charcoal, sans-serif';
+            bigData.mainCtx.fillText(s,x+4,y+4+bigData.fontSize);
         }
-    }
-
-    if(note.f){
-        let s=(note.f-note.f%10)+' Hz';
-
-        bigData.mainCtx.fillStyle='#7308';
-        bigData.mainCtx.font=Math.ceil(bigData.fontSize)+'px Impact, Charcoal, sans-serif';
-        bigData.mainCtx.fillText(s,x+4,y+4+bigData.fontSize);
     }
 }

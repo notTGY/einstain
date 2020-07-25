@@ -1,5 +1,8 @@
 function keydownHandler(evt){
     //SMSplayNotes(bigData.music,bigData.audioCtx,0);
+
+
+
     if(evt.key=='ArrowLeft'){
         bigData.keyboard.left=1;
     }else if(evt.key=='ArrowRight'){
@@ -11,6 +14,11 @@ function keydownHandler(evt){
     }
 }
 function keyupHandler(evt){
+    if(evt.key=='p'){
+        SMSplayNotes(bigData.music,bigData.audioCtx,0);
+    }
+
+
     if(evt.key=='ArrowLeft'){
         bigData.keyboard.left=0;
     }else if(evt.key=='ArrowRight'){

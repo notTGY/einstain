@@ -17,27 +17,13 @@ function startUp(){
     let music=[[]];
 
     note1=new Note(1,200,'sine',.5);
+    blankNote=new Note(0,0,'sine',.5);
     note2=new Note(.3,400,'sine',.5);
-    note3=new Note(.8,500,'square',1.5);
+    note3=new Note(.2,500,'square',1.5);
 
-    music[0]=[note1,note1,note1,note1,note2];
-    music[1]=[note1,note3,note1,note2];
-    music[2]=[note1,note1,note1,note1,note2];
-    music[3]=[note1,note1,note1,note1,note2];
+    music[0]=[note1,blankNote,note1,blankNote,note2];
+    music[1]=[blankNote,note3,blankNote,note1];
 
-    /*
-    onclick=function(audioCtx){
-        let music=[[]];
-        note1=new Note(1,200,'sine',.5);
-        note2=new Note(.3,400,'sine',.5);
-
-        music[0]=[note1,note2];
-
-        SMSplayNotes(music,audioCtx,0);
-
-        //music=convertNotes(music);
-        //SMSplay(music,audioCtx,0);
-    };*/
 
     bigData={
         drawingOffset:{x:100,y:0},
