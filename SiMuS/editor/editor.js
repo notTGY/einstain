@@ -65,6 +65,9 @@ function drawPlayTriangle(x,y,widthDiv2){
     bigData.mainCtx.fill();
 }
 
+function drawPause(x,y,widthDiv2){
+    bigData.mainCtx.fillRect(x-widthDiv2,y-widthDiv2,widthDiv2*2,widthDiv2*2);
+}
 
 
 function myMin(a,b){
@@ -106,13 +109,17 @@ function startUp(){
 
     bigData.mouseInteract={right:0,left:0,up:0,down:0};
 
-    bigData.keyboard={right:0,left:0,up:0,down:0};
+    bigData.keyboard={right:0,left:0,up:0,down:0,shift:0};
 
     bigData.attached={row:undefined,num:undefined};
 
-    bigData.selected={row:undefined,num:undefined};
+    bigData.selected={row:0,num:0};
 
     bigData.leftMousePressed=0;
+
+    bigData.playing=0;
+
+    bigData.registeringEvents=1;
 
     keyManageInterval=setInterval(keyManager,17);
 

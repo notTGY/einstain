@@ -27,7 +27,7 @@ function drawLineNotes(line,previousY,index){
         let h=bigData.noteHeight;
         let w=50*qualifier;
         let x=bigData.drawingOffset.x-w;
-
+        
         drawNote({},x,y,w,h,1);
         let width=myMin(w/2,bigData.noteHeight/2);
         bigData.mainCtx.fillStyle='#090';

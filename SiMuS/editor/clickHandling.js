@@ -1,27 +1,49 @@
 function clicker(evt){
-    evt.preventDefault();
-    evt.stopPropagation();
-    if(evt.which==1){
-        leftClicker(evt);
-        bigData.leftMousePressed=1;
-    }else if(evt.which==3){
-        rightClicker(evt);
+
+    if(bigData.registeringEvents){
+
+        evt.preventDefault();
+        evt.stopPropagation();
+        if(evt.which==1){
+            leftClicker(evt);
+            bigData.leftMousePressed=1;
+        }else if(evt.which==3){
+            rightClicker(evt);
+        }
+
     }
 }
 
 function unclicker(evt){
     if(evt.which==1){
-        if(bigData.attached!=undefined && bigData.attached.row!=undefined && bigData.attached.num!= undefined){
-            if(bigData.music[bigData.attached.row][bigData.attached.num].dur<=0){
-                bigData.music[bigData.attached.row].splice(bigData.attached.num,1);
-                if(bigData.music[bigData.attached.row].length==0){
-                    bigData.music.splice(bigData.attached.row,1);
+        if(bigData.selected!=undefined && bigData.selected.row!=undefined && bigData.selected.num!=undefined){
+            if(bigData.music[bigData.selected.row][bigData.selected.num].dur<=0){
+                bigData.music[bigData.selected.row].splice(bigData.selected.num,1);
+                if(bigData.music[bigData.selected.row].length==0){
+                    bigData.music.splice(bigData.selected.row,1);
+                    if(bigData.music[bigData.selected.row]!=undefined){
+                        if(bigData.music[bigData.selected.row].length<=bigData.selected.num){
+                            bigData.selected.num=bigData.music[bigData.selected.row].length-1;
+                        }
+                    }
+                }else{
+                    if(bigData.music[bigData.selected.row].length<=bigData.selected.num){
+                        bigData.selected.num=bigData.music[bigData.selected.row].length-1;
+                    }
                 }
-                bigData.selected.row=undefined;
-                bigData.selected.num=undefined;
+
+
+                bigData.attached.row=undefined;
+                bigData.attached.num=undefined;
+
+
+                if(bigData.music.length==0){
+                    let newNote=new Note(1,200,'sine',.5);
+                    bigData.music[0]=[newNote.c(),newNote.c()];
+                    bigData.selected.row=0;
+                    bigData.selected.num=0;
+                }
             }
-            bigData.attached.row=undefined;
-            bigData.attached.num=undefined;
         }
         bigData.leftMousePressed=0;
         bigData.attached={row:undefined,num:undefined};
@@ -104,6 +126,23 @@ function leftClicker(evt){
     }
 
     tryToRecogniseSelection(evt.x,evt.y);
+
+    let qualifier=bigData.mainCanvas.width/640;
+    let w=50*qualifier;
+    let x=y=10*qualifier;
+    let h=bigData.mainCanvas.height/4;
+    let width=myMin((w-20*qualifier)/2,h/2);
+
+    if(evt.x<x+width*2 && evt.x>x ){
+        if(evt.y>y && evt.y<y+width*2){
+            if(bigData.playing==0){
+                bigData.playing=1;
+                SMSplayNotes(bigData.music,bigData.audioCtx,0);
+            }else{
+                bigData.playing=0;
+            }
+        }
+    }
 
     drawEverything();
 }
@@ -214,6 +253,6 @@ function tryToRecogniseSelection(x,y){
     }
     if(answer==undefined || answer.row==undefined || answer.num==undefined)return undefined;
 
-    
+
     bigData.selected={row:answer.row,num:answer.num};
 }
