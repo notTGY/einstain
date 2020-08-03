@@ -25,6 +25,8 @@ function unclicker(evt){
                         if(bigData.music[bigData.selected.row].length<=bigData.selected.num){
                             bigData.selected.num=bigData.music[bigData.selected.row].length-1;
                         }
+                    }else{
+                        bigData.selected.row--;
                     }
                 }else{
                     if(bigData.music[bigData.selected.row].length<=bigData.selected.num){
