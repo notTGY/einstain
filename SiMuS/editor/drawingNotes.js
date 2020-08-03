@@ -52,9 +52,8 @@ function drawLineNotes(line,previousY){
 }
 
 function drawNote(note,x0,y0,w0,h0,condition){
-    //let x=x0+bigData.drawingOffset.x;
+    let oQ=2*bigData.mainCanvas.width/640;
     let x=x0;
-
     let y=y0;
     let w=w0;
     let h=h0;
@@ -65,15 +64,26 @@ function drawNote(note,x0,y0,w0,h0,condition){
 
     if(note.vol && note.vol>0 && note.vol<=1){
         bigData.mainCtx.fillStyle='#0458';
-        bigData.mainCtx.fillRect(x+2,(y+h-2)-(h-4)*note.vol,w-4,(h-4)*note.vol);
+        bigData.mainCtx.fillRect(x+oQ,(y+h-oQ)-(h-2*oQ)*note.vol,w-2*oQ,(h-2*oQ)*note.vol);
 
-        if(note.type){
+        if(note.type && w>=oQ){
             bigData.mainCtx.fillStyle='#F008';
+            bigData.mainCtx.strokeStyle='#F008';
             if(note.type=='square'){
-                bigData.mainCtx.fillRect(x+w/2-h/8,y+h/2-h/8,h/4,h/4);
+                let side=myMin(h/4,(w-oQ)/2);
+                bigData.mainCtx.fillRect(x+w/2-side/2,y+h/2-side/2,side,side);
             }
             if(note.type=='sine'){
-                drawCircle(x+1+w/2,y+1+h/2,h/8);
+                let radius=myMin(h/8,(w-oQ)/2);
+                drawCircle(x+w/2,y+h/2,radius);
+            }
+            if(note.type=='triangle'){
+                let radius=myMin(h/8,(w-oQ)/2);
+                drawRightTriangle(x+w/2,y+h/2,radius);
+            }
+            if(note.type=='sawtooth'){
+                let radius=myMin(h/8,(w-oQ)/2);
+                drawSawTooth(x+w/2,y+h/2,radius);
             }
         }
 
@@ -81,8 +91,9 @@ function drawNote(note,x0,y0,w0,h0,condition){
             let s=(note.f-note.f%10)+' Hz';
 
             bigData.mainCtx.fillStyle='#7308';
-            bigData.mainCtx.font=Math.ceil(bigData.fontSize)+'px Impact, Charcoal, sans-serif';
-            bigData.mainCtx.fillText(s,x+4,y+4+bigData.fontSize);
+            let fontSize=Math.ceil(bigData.fontSize);
+            bigData.mainCtx.font=fontSize+'px Impact, Charcoal, sans-serif';
+            bigData.mainCtx.fillText(s,x+2*oQ,y+2*oQ+bigData.fontSize);
         }
     }
 }

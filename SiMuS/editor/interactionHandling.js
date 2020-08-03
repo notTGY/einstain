@@ -47,9 +47,11 @@ function keyupHandler(evt){
 let keyManageInterval;
 
 function keyManager(){
+    let qualifier=bigData.mainCanvas.width/640;
+
     if(bigData.keyboard.left)bigData.drawingOffset.x+=bigData.mainCanvas.width/100;
     if(bigData.keyboard.right)bigData.drawingOffset.x-=bigData.mainCanvas.width/100;
-    if(bigData.drawingOffset.x>50)bigData.drawingOffset.x=50;
+    if(bigData.drawingOffset.x>50*qualifier)bigData.drawingOffset.x=50*qualifier;
 
     if(bigData.music.length*bigData.noteHeight>(3/4)*bigData.mainCanvas.height){
 

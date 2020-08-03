@@ -7,6 +7,48 @@ function drawCircle(x,y,r){
     bigData.mainCtx.fill();
 }
 
+function drawRightTriangle(x,y,widthDiv2){
+
+    let sqrt3=Math.sqrt(3);
+    let heightDiv2=widthDiv2*sqrt3/2;
+
+    let p1={x:x-widthDiv2,y:y+heightDiv2};
+    let p2={x:x,y:y-heightDiv2};
+    let p3={x:x+widthDiv2,y:y+heightDiv2};
+
+    bigData.mainCtx.beginPath();
+    bigData.mainCtx.moveTo(p1.x,p1.y);
+    bigData.mainCtx.lineTo(p2.x,p2.y);
+    bigData.mainCtx.lineTo(p3.x,p3.y);
+    bigData.mainCtx.closePath();
+    bigData.mainCtx.fill();
+}
+
+function drawSawTooth(x,y,widthDiv2){
+    let outlineQualifier=2*bigData.mainCanvas.width/640;
+
+    let heightDiv2=widthDiv2*5/8;
+
+    let p1={x:x-widthDiv2,y:y};
+    let p2={x:x,y:y-heightDiv2};
+    let p3={x:x,y:y+heightDiv2};
+    let p4={x:x+widthDiv2,y:y};
+
+    bigData.mainCtx.beginPath();
+    bigData.mainCtx.moveTo(p1.x,p1.y);
+    bigData.mainCtx.lineTo(p2.x,p2.y);
+    bigData.mainCtx.lineTo(p3.x,p3.y);
+    bigData.mainCtx.lineTo(p4.x,p4.y);
+    bigData.mainCtx.lineWidth=outlineQualifier;
+    bigData.mainCtx.stroke();
+}
+
+
+function myMin(a,b){
+    if(a>b)return b;
+    return a;
+}
+
 
 function startUp(){
     mainCanvas=document.querySelector('#mainCanvas');
@@ -19,10 +61,12 @@ function startUp(){
     note1=new Note(1,200,'sine',.5);
     blankNote=new Note(0,0,'sine',.5);
     note2=new Note(.3,400,'sine',.5);
-    note3=new Note(.2,500,'square',1.5);
+    note3=new Note(.2,500,'square',1);
+    note4=new Note(.2,500,'triangle',.5);
+    note5=new Note(.2,500,'sawtooth',.7);
 
-    music[0]=[note1,blankNote,note1,blankNote,note2];
-    music[1]=[blankNote,note3,blankNote,note1];
+    music[0]=[note1.c(),blankNote.c(),note4.c(),blankNote.c(),note2.c()];
+    music[1]=[blankNote.c(),note3.c(),blankNote.c(),note5.c()];
 
 
     bigData={
@@ -37,10 +81,19 @@ function startUp(){
 
     bigData.keyboard={right:0,left:0,up:0,down:0};
 
+    bigData.attached={row:undefined,num:undefined};
+
+    bigData.selected={row:undefined,num:undefined};
+
+    bigData.leftMousePressed=0;
+
     keyManageInterval=setInterval(keyManager,17);
 
     addEventListener('resize',whenResized);
-    addEventListener('click',clicker);
+    addEventListener('mousedown',clicker);
+    addEventListener('mouseup',unclicker);
+    oncontextmenu=()=>{return false};
+    addEventListener('mousemove',mouseMover);
     addEventListener('keydown',keydownHandler);
     addEventListener('keyup',keyupHandler);
     whenResized();
