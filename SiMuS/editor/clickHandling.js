@@ -14,6 +14,9 @@ function unclicker(evt){
         if(bigData.attached!=undefined && bigData.attached.row!=undefined && bigData.attached.num!= undefined){
             if(bigData.music[bigData.attached.row][bigData.attached.num].dur<=0){
                 bigData.music[bigData.attached.row].splice(bigData.attached.num,1);
+                if(bigData.music[bigData.attached.row].length==0){
+                    bigData.music.splice(bigData.attached.row,1);
+                }
                 bigData.selected.row=undefined;
                 bigData.selected.num=undefined;
             }
@@ -27,14 +30,32 @@ function unclicker(evt){
 
 
 function mouseMover(evt){
+    //movement of camera
     if(evt.x>bigData.mainCanvas.width*9/10){
-
+        bigData.mouseInteract.right=1;
+    }else{
+        bigData.mouseInteract.right=0;
     }
+
     if(evt.x<bigData.mainCanvas.width*1/10){
-
+        bigData.mouseInteract.left=1;
+    }else{
+        bigData.mouseInteract.left=0;
     }
 
+    if(evt.y>bigData.mainCanvas.height*9/10){
+        bigData.mouseInteract.down=1;
+    }else{
+        bigData.mouseInteract.down=0;
+    }
 
+    if(evt.y<bigData.mainCanvas.height*1/10){
+        bigData.mouseInteract.up=1;
+    }else{
+        bigData.mouseInteract.up=0;
+    }
+
+    //changing duration of attached note
     if(bigData.leftMousePressed){
         if(bigData.attached!=undefined && bigData.attached.row!=undefined && bigData.attached.num!= undefined){
             let pixelsToDur1Sec=bigData.stdNoteWidth*bigData.mainCanvas.width/640;
@@ -60,6 +81,9 @@ function mouseMover(evt){
 
 
 function leftClicker(evt){
+    tryToAddNewRow(evt);
+
+
     let index=recogniseRightBoundOfNote(evt.x,evt.y);
 
     if(index!=undefined){
@@ -78,6 +102,9 @@ function leftClicker(evt){
             bigData.music[index.row][index.num].type=swapTypeOfNote(typeOfNote);
         }
     }
+
+    tryToRecogniseSelection(evt.x,evt.y);
+
     drawEverything();
 }
 
@@ -128,22 +155,13 @@ function recogniseCenterOfNote(x,y){
 
 
 function rightClicker(evt){
-    if(bigData.attached!=undefined && bigData.attached.row!=undefined && bigData.attached.num!= undefined){
-        if(bigData.music[bigData.attached.row][bigData.attached.num].dur<=0){
-            bigData.music[bigData.attached.row].splice(bigData.attached.num,1);
-            bigData.selected.row=undefined;
-            bigData.selected.num=undefined;
-        }
-        bigData.attached.row=undefined;
-        bigData.attached.num=undefined;
-    }else{
-        let newNote=new Note(1,200,'sine',.5);
-        let index=recogniseRightBoundOfNote(evt.x,evt.y);
-        if(index!=undefined){
-            bigData.music[index.row].splice(index.num+1,0,newNote.c());
-            bigData.selected.num++;
-        }
+    let newNote=new Note(1,200,'sine',.5);
+    let index=recogniseRightBoundOfNote(evt.x,evt.y);
+    if(index!=undefined){
+        bigData.music[index.row].splice(index.num+1,0,newNote.c());
+        bigData.selected.num++;
     }
+
     drawEverything();
 }
 
@@ -157,4 +175,45 @@ function swapTypeOfNote(type){
 
     if(summary>=arrayOfTypes.length)summary%=arrayOfTypes.length;
     return arrayOfTypes[summary];
+}
+
+function tryToAddNewRow(evt){
+    if(bigData.drawingOffset.x>0){
+        if(evt.x<bigData.drawingOffset.x){
+            let summary=undefined;
+            let matchingHeight0=bigData.drawingOffset.y+bigData.mainCanvas.height/4;
+            let height=bigData.noteHeight;
+            for(let i=0;i<bigData.music.length;i++){
+                let matchingHeight=matchingHeight0+i*height;
+                if(evt.y>matchingHeight && evt.y<matchingHeight+height)summary=i;
+            }
+            if(summary!=undefined){
+                let newNote=new Note(1,200,'sine',.5);
+                bigData.music.splice(summary+1,0,[newNote.c(),newNote.c()]);
+            }
+        }
+    }
+}
+
+function tryToRecogniseSelection(x,y){
+    let matchingHeight0=bigData.drawingOffset.y+bigData.mainCanvas.height/4;
+    let answer={row:undefined,num:undefined};
+    for(let i=0;i<bigData.music.length;i++){
+        let matchingHeight=matchingHeight0+bigData.noteHeight*i;
+        if(y>matchingHeight && y<matchingHeight+bigData.noteHeight){
+            answer.row=i;
+            let matchingX=bigData.drawingOffset.x;
+            for(let j=0;j<bigData.music[answer.row].length;j++){
+                let w=bigData.secondNoteWidth*bigData.music[answer.row][j].dur;
+                if(x>matchingX && x<matchingX+w ){
+                    answer.num=j;
+                }
+                matchingX+=w;
+            }
+        }
+    }
+    if(answer==undefined || answer.row==undefined || answer.num==undefined)return undefined;
+
+    
+    bigData.selected={row:answer.row,num:answer.num};
 }

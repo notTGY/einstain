@@ -4,7 +4,7 @@ function drawLinesNotes(){
 
     for(let i=0;i<bigData.music.length;i++){
 
-        drawLineNotes(bigData.music[i],previousY);
+        drawLineNotes(bigData.music[i],previousY,i);
         previousY+=HEIGHT;
     }
 
@@ -12,8 +12,9 @@ function drawLinesNotes(){
         bigData.mainCtx.fillStyle='#FFF';
         bigData.mainCtx.fillRect(0,previousY,bigData.mainCanvas.width,bigData.mainCanvas.height);
     }
+
 }
-function drawLineNotes(line,previousY){
+function drawLineNotes(line,previousY,index){
     //let previousX=0;
     let previousX=bigData.drawingOffset.x;
 
@@ -21,13 +22,16 @@ function drawLineNotes(line,previousY){
     bigData.mainCtx.fillRect(0,previousY,bigData.mainCanvas.width,bigData.mainCanvas.height);
 
     if(previousX>0){
-        let x=previousX;
+        let qualifier=bigData.mainCanvas.width/640;
         let y=previousY;
         let h=bigData.noteHeight;
-
-        let w=bigData.mainCanvas.width;
+        let w=50*qualifier;
+        let x=bigData.drawingOffset.x-w;
 
         drawNote({},x,y,w,h,1);
+        let width=myMin(w/2,bigData.noteHeight/2);
+        bigData.mainCtx.fillStyle='#090';
+        drawCross(x+width,y+bigData.noteHeight/2,width-2*qualifier);
     }
     for(let i=0;i<line.length;i++){
         let x=previousX;
@@ -36,7 +40,17 @@ function drawLineNotes(line,previousY){
 
         let w=bigData.secondNoteWidth*line[i].dur;
 
-        drawNote(line[i],x,y,w,h);
+        let highlighted=0;
+
+        if(bigData.selected!=undefined && bigData.selected.row!=undefined && bigData.selected.num!=undefined){
+            if(bigData.selected.row==index){
+                if(bigData.selected.num==i){
+                    highlighted=1;
+                }
+            }
+        }
+
+        drawNote(line[i],x,y,w,h,0,highlighted);
 
         previousX+=w;
     }
@@ -51,7 +65,7 @@ function drawLineNotes(line,previousY){
     }
 }
 
-function drawNote(note,x0,y0,w0,h0,condition){
+function drawNote(note,x0,y0,w0,h0,condition,highlight){
     let oQ=2*bigData.mainCanvas.width/640;
     let x=x0;
     let y=y0;
@@ -61,6 +75,11 @@ function drawNote(note,x0,y0,w0,h0,condition){
     bigData.mainCtx.fillStyle='#CCC';
     if(condition)bigData.mainCtx.fillStyle='#FFF';
     bigData.mainCtx.fillRect(x,y,w,h);
+    if(highlight){
+        bigData.mainCtx.strokeStyle='#880';
+        bigData.mainCtx.lineWidth=oQ;
+        bigData.mainCtx.strokeRect(x+oQ,y+oQ,w-oQ*2,h-oQ*2);
+    }
 
     if(note.vol && note.vol>0 && note.vol<=1){
         bigData.mainCtx.fillStyle='#0458';

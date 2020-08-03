@@ -43,6 +43,29 @@ function drawSawTooth(x,y,widthDiv2){
     bigData.mainCtx.stroke();
 }
 
+function drawCross(x,y,widthDiv2){
+    bigData.mainCtx.fillRect(x-widthDiv2,y-widthDiv2/3,2*widthDiv2,widthDiv2*2/3);
+    bigData.mainCtx.fillRect(x-widthDiv2/3,y-widthDiv2,widthDiv2*2/3,2*widthDiv2);
+}
+
+function drawPlayTriangle(x,y,widthDiv2){
+
+    let sqrt3=Math.sqrt(3);
+    let heightDiv2=widthDiv2*2/sqrt3;
+
+    let p1={x:x-widthDiv2,y:y-heightDiv2};
+    let p2={x:x-widthDiv2,y:y+heightDiv2};
+    let p3={x:x+widthDiv2,y:y};
+
+    bigData.mainCtx.beginPath();
+    bigData.mainCtx.moveTo(p1.x,p1.y);
+    bigData.mainCtx.lineTo(p2.x,p2.y);
+    bigData.mainCtx.lineTo(p3.x,p3.y);
+    bigData.mainCtx.closePath();
+    bigData.mainCtx.fill();
+}
+
+
 
 function myMin(a,b){
     if(a>b)return b;
@@ -78,6 +101,10 @@ function startUp(){
         stdNoteHeight:120,stdNoteWidth:200,
         stdFontSize:12
     };
+
+    bigData.interact={right:0,left:0,up:0,down:0};
+
+    bigData.mouseInteract={right:0,left:0,up:0,down:0};
 
     bigData.keyboard={right:0,left:0,up:0,down:0};
 
