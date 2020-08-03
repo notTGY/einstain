@@ -1,13 +1,12 @@
+
+
+
 function drawUpperMenu(){
     bigData.mainCtx.fillStyle='#666';
     bigData.mainCtx.fillRect(0,0,bigData.mainCanvas.width,bigData.mainCanvas.height/4);
     displaySelectedNote();
     displayPlayButton();
-    displayFrequencyChangingButtons();
-    displayVolumeChangingButtons();
-    displayExportButton();
-    displayImportButton();
-    displayHelpButton();
+    drawButtons();
 }
 
 
@@ -42,22 +41,3 @@ function displayPlayButton(){
     }
 }
 
-function displayVolumeChangingButtons(){
-    //+0.1 +0.05 +0.01 -0.01 -0.05 -0.1
-}
-
-function displayFrequencyChangingButtons(){
-    //+100 +20 +5 -5 -20 -100
-}
-
-function displayExportButton(){
-
-}
-
-function displayImportButton(){
-
-}
-
-function displayHelpButton(){
-    
-}

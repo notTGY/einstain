@@ -121,6 +121,8 @@ function startUp(){
 
     bigData.registeringEvents=1;
 
+    initButtons();
+
     keyManageInterval=setInterval(keyManager,17);
 
     addEventListener('resize',whenResized);
@@ -143,6 +145,8 @@ function whenResized(){
     bigData.noteHeight=bigData.stdNoteHeight*mainCanvas.height/480;
     bigData.secondNoteWidth=bigData.stdNoteWidth*bigData.mainCanvas.width/640;
     bigData.fontSize=bigData.stdFontSize*bigData.mainCanvas.height/480;
+
+    resizeButtons(bigData.mainCanvas.width,bigData.mainCanvas.height);
 
     bigData.mainCtx=bigData.mainCanvas.getContext`2d`;
 

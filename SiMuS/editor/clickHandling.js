@@ -16,6 +16,8 @@ function clicker(evt){
 
 function unclicker(evt){
     if(evt.which==1){
+        checkButtons(evt);
+
         if(bigData.selected!=undefined && bigData.selected.row!=undefined && bigData.selected.num!=undefined){
             if(bigData.music[bigData.selected.row][bigData.selected.num].dur<=0){
                 bigData.music[bigData.selected.row].splice(bigData.selected.num,1);
