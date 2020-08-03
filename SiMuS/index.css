@@ -10,3 +10,11 @@ body{
     left:0;
     top:0;
 }
+#secondaryWindow{
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    position:fixed;
+    left:0;
+    top:0;
+}

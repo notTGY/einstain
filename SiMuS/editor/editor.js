@@ -121,6 +121,8 @@ function startUp(){
 
     bigData.registeringEvents=1;
 
+    bigData.secondaryWindow=document.querySelector("#secondaryWindow");
+
     initButtons();
 
     keyManageInterval=setInterval(keyManager,17);
@@ -147,6 +149,8 @@ function whenResized(){
     bigData.fontSize=bigData.stdFontSize*bigData.mainCanvas.height/480;
 
     resizeButtons(bigData.mainCanvas.width,bigData.mainCanvas.height);
+
+    onWindowResize(bigData.mainCanvas.width,bigData.mainCanvas.height);
 
     bigData.mainCtx=bigData.mainCanvas.getContext`2d`;
 

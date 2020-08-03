@@ -89,6 +89,12 @@ function keyupHandler(evt){
                 }
             }else if(evt.key=='Shift'){
                 bigData.keyboard.shift=0;
+            }else if(evt.key=='t'){
+                if(bigData.selected!=undefined && bigData.selected.row!=undefined && bigData.selected.num!=undefined){
+                    let index={row:bigData.selected.row,num:bigData.selected.num};
+                    let typeOfNote=bigData.music[index.row][index.num].type;
+                    bigData.music[index.row][index.num].type=swapTypeOfNote(typeOfNote);
+                }
             }
 
             if(bigData.keyboard.shift==1){

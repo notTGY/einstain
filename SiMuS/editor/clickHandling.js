@@ -57,25 +57,25 @@ function unclicker(evt){
 
 function mouseMover(evt){
     //movement of camera
-    if(evt.x>bigData.mainCanvas.width*9/10){
+    if(evt.x>bigData.mainCanvas.width*29/30){
         bigData.mouseInteract.right=1;
     }else{
         bigData.mouseInteract.right=0;
     }
 
-    if(evt.x<bigData.mainCanvas.width*1/10){
+    if(evt.x<bigData.mainCanvas.width*1/30){
         bigData.mouseInteract.left=1;
     }else{
         bigData.mouseInteract.left=0;
     }
 
-    if(evt.y>bigData.mainCanvas.height*9/10){
+    if(evt.y>bigData.mainCanvas.height*29/30){
         bigData.mouseInteract.down=1;
     }else{
         bigData.mouseInteract.down=0;
     }
 
-    if(evt.y<bigData.mainCanvas.height*1/10){
+    if(evt.y<bigData.mainCanvas.height*1/30){
         bigData.mouseInteract.up=1;
     }else{
         bigData.mouseInteract.up=0;
