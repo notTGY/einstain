@@ -15,8 +15,13 @@ function clicker(evt){
 }
 
 function unclicker(evt){
+
+
+
     if(evt.which==1){
         checkButtons(evt);
+
+        if(!bigData.registeringEvents)return 0;
 
         if(bigData.selected!=undefined && bigData.selected.row!=undefined && bigData.selected.num!=undefined){
             if(bigData.music[bigData.selected.row][bigData.selected.num].dur<=0){

@@ -3,45 +3,50 @@ function initButtons(){
 }
 
 function checkButtons(evt){
-    for(let i=0;i<bigData.frequencyButtons.length;i++){
-        let butt=bigData.frequencyButtons[i];
-        if(evt.x>butt.x && evt.x<butt.x+butt.w){
-            if(evt.y>butt.y && evt.y<butt.y+butt.h){
-                if(bigData.selected!=undefined && bigData.selected.row!=undefined && bigData.selected.num!=undefined){
-                    let ammount;
-                    if(i==0)ammount=100;
-                    if(i==1)ammount=20;
-                    if(i==2)ammount=5;
-                    if(i==3)ammount=-5;
-                    if(i==4)ammount=-20;
-                    if(i==5)ammount=-100;
-                    bigData.music[bigData.selected.row][bigData.selected.num].f+=ammount;
-                }
-            }
-        }
-    }
-    for(let i=0;i<bigData.volumeButtons.length;i++){
-        let butt=bigData.volumeButtons[i];
-        if(evt.x>butt.x && evt.x<butt.x+butt.w){
-            if(evt.y>butt.y && evt.y<butt.y+butt.h){
-                if(bigData.selected!=undefined && bigData.selected.row!=undefined && bigData.selected.num!=undefined){
-                    let ammount;
-                    if(i==0)ammount=.2;
-                    if(i==1)ammount=.05;
-                    if(i==2)ammount=.01;
-                    if(i==3)ammount=-.01;
-                    if(i==4)ammount=-.05;
-                    if(i==5)ammount=-.2;
-                    bigData.music[bigData.selected.row][bigData.selected.num].vol+=ammount;
-                    if(bigData.music[bigData.selected.row][bigData.selected.num].vol>1){
-                        bigData.music[bigData.selected.row][bigData.selected.num].vol=1;
-                    }
-                    if(bigData.music[bigData.selected.row][bigData.selected.num].vol<0){
-                        bigData.music[bigData.selected.row][bigData.selected.num].vol=0;
+
+    if(bigData.registeringEvents){
+
+        for(let i=0;i<bigData.frequencyButtons.length;i++){
+            let butt=bigData.frequencyButtons[i];
+            if(evt.x>butt.x && evt.x<butt.x+butt.w){
+                if(evt.y>butt.y && evt.y<butt.y+butt.h){
+                    if(bigData.selected!=undefined && bigData.selected.row!=undefined && bigData.selected.num!=undefined){
+                        let ammount;
+                        if(i==0)ammount=100;
+                        if(i==1)ammount=20;
+                        if(i==2)ammount=5;
+                        if(i==3)ammount=-5;
+                        if(i==4)ammount=-20;
+                        if(i==5)ammount=-100;
+                        bigData.music[bigData.selected.row][bigData.selected.num].f+=ammount;
                     }
                 }
             }
         }
+        for(let i=0;i<bigData.volumeButtons.length;i++){
+            let butt=bigData.volumeButtons[i];
+            if(evt.x>butt.x && evt.x<butt.x+butt.w){
+                if(evt.y>butt.y && evt.y<butt.y+butt.h){
+                    if(bigData.selected!=undefined && bigData.selected.row!=undefined && bigData.selected.num!=undefined){
+                        let ammount;
+                        if(i==0)ammount=.2;
+                        if(i==1)ammount=.05;
+                        if(i==2)ammount=.01;
+                        if(i==3)ammount=-.01;
+                        if(i==4)ammount=-.05;
+                        if(i==5)ammount=-.2;
+                        bigData.music[bigData.selected.row][bigData.selected.num].vol+=ammount;
+                        if(bigData.music[bigData.selected.row][bigData.selected.num].vol>1){
+                            bigData.music[bigData.selected.row][bigData.selected.num].vol=1;
+                        }
+                        if(bigData.music[bigData.selected.row][bigData.selected.num].vol<0){
+                            bigData.music[bigData.selected.row][bigData.selected.num].vol=0;
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     let butt=bigData.exportButton;
@@ -107,7 +112,7 @@ function drawButtons(){
     bigData.mainCtx.fillRect(x,y,w,h);
     bigData.mainCtx.strokeRect(x,y,w,h);
     bigData.mainCtx.fillStyle='#001';
-    bigData.mainCtx.fillText(text,x+10*qualifierW,y+h-6*qualifier);
+    bigData.mainCtx.fillText(text,x+8*qualifierW,y+h-6*qualifier);
 
     x=bigData.importButton.x;
     y=bigData.importButton.y;
@@ -118,7 +123,7 @@ function drawButtons(){
     bigData.mainCtx.fillRect(x,y,w,h);
     bigData.mainCtx.strokeRect(x,y,w,h);
     bigData.mainCtx.fillStyle='#001';
-    bigData.mainCtx.fillText(text,x+10*qualifierW,y+h-6*qualifier);
+    bigData.mainCtx.fillText(text,x+8*qualifierW,y+h-6*qualifier);
 
     x=bigData.helpButton.x;
     y=bigData.helpButton.y;
@@ -159,13 +164,43 @@ function resizeButtons(width,height){
 
 
 function exportButtonDoes(){
-
+    bigData.registeringEvents=0;
+    if(bigData.stage==''){
+        bigData.stage='export';
+        drawExportPage();
+    }else{
+        if(bigData.stage=='export'){
+            clearSecondaryWindow();
+            bigData.stage='';
+            bigData.registeringEvents=1;
+        }
+    }
 }
 
 function importButtonDoes(){
-
+    bigData.registeringEvents=0;
+    if(bigData.stage==''){
+        bigData.stage='import';
+        drawImportPage();
+    }else{
+        if(bigData.stage=='import'){
+            clearSecondaryWindow();
+            bigData.stage='';
+            bigData.registeringEvents=1;
+        }
+    }
 }
 
 function helpButtonDoes(){
-    
+    bigData.registeringEvents=0;
+    if(bigData.stage==''){
+        bigData.stage='help';
+        drawHelpWindow();
+    }else{
+        if(bigData.stage=='help'){
+            clearSecondaryWindow();
+            bigData.stage='';
+            bigData.registeringEvents=1;
+        }
+    }
 }

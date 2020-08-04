@@ -75,6 +75,9 @@ function myMin(a,b){
     return a;
 }
 
+function copy(input){
+    return JSON.parse(JSON.stringify(input));
+}
 
 function startUp(){
     mainCanvas=document.querySelector('#mainCanvas');
@@ -120,6 +123,10 @@ function startUp(){
     bigData.playing=0;
 
     bigData.registeringEvents=1;
+
+    bigData.switchedToSecondaryWindow=0;
+
+    bigData.stage='';
 
     bigData.secondaryWindow=document.querySelector("#secondaryWindow");
 
