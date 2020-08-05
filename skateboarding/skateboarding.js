@@ -76,11 +76,13 @@ function start(){//what is on start of the application
     canvas=document.querySelector('#a');
 
     audioCtx=new(window.audioContext||window.AudioContext||window.webkitAudioContext);
-    
+
     whenResized();
     window.addEventListener('resize',whenResized);
 
     drawStartScreen();
+
+    startBackgroundMusic();
 }
 
 

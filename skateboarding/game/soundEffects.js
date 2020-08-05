@@ -10,3 +10,7 @@ function landingSound(){
 function swooshSound(){
     let music=[[]];
 }
+
+function startBackgroundMusic(){
+    let music=[[]];
+}
