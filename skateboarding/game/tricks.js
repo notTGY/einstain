@@ -10,6 +10,9 @@ function ollie(){
     trickLine[trickLine.length]='ollie';
 
     delay=8;
+
+    snapSound();
+
 jumpInterval=setInterval( ()=>{//perform jump
     jump++;
     if(jump>0 && jump<=80){
@@ -26,6 +29,9 @@ jumpInterval=setInterval( ()=>{//perform jump
 
     if(jump==160 || isFiasko || jump==0){
         clearInterval(jumpInterval);jump=0;
+
+        landingSound();
+
         if(!isFiasko){
             drawTrick(trickLine);
         }
@@ -41,7 +47,7 @@ function nollie(){
     }
     trickLine[trickLine.length]='nollie';
 
-
+    snapSound();
 
     delay=8;
 jumpInterval=setInterval( ()=>{//perform jump
@@ -60,6 +66,9 @@ jumpInterval=setInterval( ()=>{//perform jump
 
     if(jump==160 || isFiasko || jump==0){
         clearInterval(jumpInterval);jump=0;
+
+        landingSound();
+
         if(!isFiasko){
             drawTrick(trickLine);
         }
@@ -72,7 +81,7 @@ function kickflip(){
 
     trickLine[trickLine.length]='kickflip';
 
-
+    swooshSound();
 
     delay=8;
 flipInterval=setInterval( ()=>{//perform flip
@@ -87,6 +96,8 @@ flipInterval=setInterval( ()=>{//perform flip
 function heelflip(){
 
     trickLine[trickLine.length]='heelflip';
+
+    swooshSound();
 
     delay=8;
 roll=2*Math.PI;
@@ -103,6 +114,8 @@ function clockwise_shoveit(){
 
     trickLine[trickLine.length]='bs shoveit';
 
+    swooshSound();
+
     delay=8;
 shoveInterval=setInterval( ()=>{//perform thing
     yaw+=Math.PI/10;
@@ -114,6 +127,8 @@ shoveInterval=setInterval( ()=>{//perform thing
 }
 
 function anticlockwise_shoveit(){
+
+    swooshSound();
 
     trickLine[trickLine.length]='fs shoveit';
 

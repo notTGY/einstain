@@ -2,6 +2,8 @@ const CANVAS_WIDTH=300;
 const CANVAS_HEIGHT=300;
 let ctx,canvas;
 
+let audioCtx;
+
 let mainInterval,jumpInterval,flipInterval,shoveInterval;
 
 let trickLine=[];
@@ -72,6 +74,9 @@ let canRenderTricks=false;
 
 function start(){//what is on start of the application
     canvas=document.querySelector('#a');
+
+    audioCtx=new(window.audioContext||window.AudioContext||window.webkitAudioContext);
+    
     whenResized();
     window.addEventListener('resize',whenResized);
 
