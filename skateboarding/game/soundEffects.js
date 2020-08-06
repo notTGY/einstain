@@ -14,7 +14,8 @@ function landingSound(){
 }
 
 function swooshSound(){
-    let music=[[]];
+    let music=[[[0.119,65,"sine",0.165]],[[0.1,10,"sine",0.153]]];
+    playMusic(music,audioCtx,0);
 }
 
 function startBackgroundMusic(){
