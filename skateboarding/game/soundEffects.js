@@ -4,8 +4,8 @@ let playLine=(l,c,i,p)=>{if(i>=l.length&&p)i=0;if(l.length>i){with(c){with(creat
 
 function snapSound(){
     let music=[[]];
-    let m=[[[0.06,20,"sawtooth",0.0583]]];
-
+    music=[[[0.06,20,"sawtooth",0.0583]]];
+    playMusic(music,audioCtx,0);
 }
 
 function landingSound(){
