@@ -29,7 +29,7 @@ function clearSecondaryWindow(){
 function drawExportPage(){
     let text='';
     text+='<h4 style="text-align:center">Copy following code. To play music execute p(m,new AudioContext,0);</h4><br>';
-    text+="p=(L,c,l)=>{for(let i=0;L.length>i;i++)o(L[i],c,0,l)};o=(l,c,i,p)=>{if(i>=l.length&&p)i=0;if(l.length>i){with(c){with(createOscillator()){let g=createGain(),t=currentTime;connect(g);g.connect(destination);g.gain.value=l[i][0];frequency.value=l[i][1];type=l[i][2];start(t);stop(t+l[i][3]);onended=_=>{playLine(l,c,i+1,p)}}}}};";
+    text+="p=(L,c,l)=>{for(let i=0;L.length>i;i++)o(L[i],c,0,l)};o=(l,c,i,p)=>{if(i>=l.length&&p)i=0;if(l.length>i){with(c){with(createOscillator()){let g=createGain(),t=currentTime;connect(g);g.connect(destination);g.gain.value=l[i][0];frequency.value=l[i][1];type=l[i][2];start(t);stop(t+l[i][3]);onended=_=>{o(l,c,i+1,p)}}}}};";
     text+='<br>m=[';
     let musicConverted=[[]];
     musicConverted=convertNotes(copy(bigData.music));
