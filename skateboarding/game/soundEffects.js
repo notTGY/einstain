@@ -9,7 +9,7 @@ function snapSound(){
 }
 
 function landingSound(){
-    let music=[[[0.01,70,"sine",0.09],[0,200,"sine",0.186],[0.01,70,"sine",0.0983]]];
+    let music=[[[0.01,70,"sine",0.09]]];
     playMusic(music,audioCtx,0);
 }
 
