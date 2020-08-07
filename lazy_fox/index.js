@@ -42,6 +42,16 @@ function fillForbidden(){
     dict[27]={key:'&'};
     dict[28]={key:'*'};
     dict[29]={key:'_'};
+    dict[30]={key:'0'};
+    dict[31]={key:'1'};
+    dict[32]={key:'2'};
+    dict[33]={key:'3'};
+    dict[34]={key:'4'};
+    dict[35]={key:'5'};
+    dict[36]={key:'6'};
+    dict[37]={key:'7'};
+    dict[38]={key:'8'};
+    dict[39]={key:'9'};
     return dict;
 }
 
