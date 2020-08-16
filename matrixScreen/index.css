@@ -1,0 +1,12 @@
+#c{
+    margin: 0 auto;
+    padding:0 auto;
+    top: 0px;
+    display: block;
+}
+body{
+    text-align: center;
+    margin: 0;
+
+    background-color: #333;
+}
