@@ -1,9 +1,6 @@
 /* Global variables:
 
-
-load_style_TGY_bookmarklet_JStool_v1 - function that initializes style
-
-mainCanvas_TGY_bookmarklet_JStool_v1 - mainCanvas
+mainCanvas_TGY_JStool_v1 - mainCanvas
 
 */
 
@@ -22,30 +19,39 @@ mainCanvas_TGY_bookmarklet_JStool_v1 - mainCanvas
   /*Add canvas if we can*/
 
   /*
-  if (mainCanvas_TGY_bookmarklet_JStool_v1 == undefined) {
-    mainCanvas_TGY_bookmarklet_JStool_v1 = document.createElement('canvas');
+  if (mainCanvas_TGY_JStool_v1 == undefined) {
+    mainCanvas_TGY_JStool_v1 = document.createElement('canvas');
   } else {
     return 1;
   }
   */
 
 
-  mainCanvas_TGY_bookmarklet_JStool_v1 = document.createElement('canvas');//FIXME
+  mainCanvas_TGY_JStool_v1 = document.createElement('canvas');//FIXME
 
   /* Add id to accept stylesheet */
-  mainCanvas_TGY_bookmarklet_JStool_v1.id = 'mainCanvas_TGY_bookmarklet_JStool_v1';
+  mainCanvas_TGY_JStool_v1.id = 'mainCanvas_TGY_JStool_v1';
+
+  mainCanvas_TGY_JStool_v1.width = 100;
+  mainCanvas_TGY_JStool_v1.height = 100;
 
 
-  /* local variable mainCanvas for easier access */
-  let mainCanvas = mainCanvas_TGY_bookmarklet_JStool_v1;
+  document.body.appendChild(mainCanvas_TGY_JStool_v1);
 
-  document.body.appendChild(mainCanvas);
-
+  let mainCtx = mainCanvas_TGY_JStool_v1.getContext('2d');
 
   /* Click handler */
   document.addEventListener('click', e=>{
+    let mainCtx = mainCanvas_TGY_JStool_v1.getContext('2d');
 
 
+    if (e.clientX <= mainCanvas_TGY_JStool_v1.width) {
+      if (e.clientY <= mainCanvas_TGY_JStool_v1.height) {
+        mainCtx.fillStyle = 'tan';
+        mainCtx.fillRect(5,5,45,45);
+      }
+    }
+    
   });
 
 
@@ -53,7 +59,7 @@ mainCanvas_TGY_bookmarklet_JStool_v1 - mainCanvas
     /* keydown handler */
     document.addEventListener('keydown', e=>{
 
-      
+
     });
 
 })();
