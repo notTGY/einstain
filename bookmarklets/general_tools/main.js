@@ -58,10 +58,12 @@ mainCanvas_TGY_JStool_v1 - mainCanvas
       if (X <= x+w && Y <= y+h) {
         if (X > x+w/2 && Y > y+h/2) {
           mainCanvas_TGY_JStool_v1.id = 'mainCanvas_TGY_JStool_v1_down';
+          drawTriangleUp(mainCtx,x+w/2,y+h/2,Math.min(w/2,h/2));
+          return 0;
         }
       }
 
-
+      /* other buttons */
 
     } else if (id == 'mainCanvas_TGY_JStool_v1_down'){
 
@@ -70,10 +72,11 @@ mainCanvas_TGY_JStool_v1 - mainCanvas
         if (X > x+w/2 && Y > y) {
           mainCanvas_TGY_JStool_v1.id = 'mainCanvas_TGY_JStool_v1';
           drawTriangleDown(mainCtx,x+w/2,y+h/2,Math.min(w/2,h/2));
+          return 0;
         }
       }
 
-
+      /* other buttons */
 
     }
 
@@ -88,8 +91,14 @@ mainCanvas_TGY_JStool_v1 - mainCanvas
 
     });
 
-    /* draws light-gray triangle on the given ctx, at given coords, s is size of each side */
+    /* draws light-gray triangle on the given ctx, at given coords, s is size of each side
+    x and y are coords of top left corner */
     function drawTriangleDown(ctx,x,y,s) {
+      ;
+    }
+    /* draws light-gray triangle on the given ctx, at given coords, s is size of each side
+    x and y are coords of top left corner */
+    function drawTriangleUp(ctx,x,y,s) {
       ;
     }
 })();
