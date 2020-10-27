@@ -45,13 +45,37 @@ mainCanvas_TGY_JStool_v1 - mainCanvas
     let mainCtx = mainCanvas_TGY_JStool_v1.getContext('2d');
 
 
-    if (e.clientX <= mainCanvas_TGY_JStool_v1.width) {
-      if (e.clientY <= mainCanvas_TGY_JStool_v1.height) {
-        mainCtx.fillStyle = 'tan';
-        mainCtx.fillRect(5,5,45,45);
+    let x = mainCanvas_TGY_JStool_v1.offsetLeft - document.body.offsetLeft;
+    let y = mainCanvas_TGY_JStool_v1.offsetTop - document.body.offsetTop;
+    let w = mainCanvas_TGY_JStool_v1.width;
+    let h = mainCanvas_TGY_JStool_v1.height;
+    let id = mainCanvas_TGY_JStool_v1.id;
+
+
+    if (id == 'mainCanvas_TGY_JStool_v1') {
+      if (e.clientX <= x+w) {
+        if (e.clientY <= y+h) {
+          if (e.clientX > x+w/2) {
+            if (e.clientY > y+h/2) {
+              mainCanvas_TGY_JStool_v1.id = 'mainCanvas_TGY_JStool_v1_down';
+            }
+          }
+        }
+      }
+    } else if (id == 'mainCanvas_TGY_JStool_v1_down'){
+      if (e.clientX <= x+w) {
+        if (e.clientY >= y) {
+          if (e.clientX > x+w/2) {
+            if (e.clientY < y+h/2) {
+              mainCanvas_TGY_JStool_v1.id = 'mainCanvas_TGY_JStool_v1';
+              drawTriangleDown(mainCtx,x+w/2,y+h/2,Math.min(w/2,h/2));
+            }
+          }
+        }
       }
     }
-    
+
+
   });
 
 
@@ -62,4 +86,8 @@ mainCanvas_TGY_JStool_v1 - mainCanvas
 
     });
 
+    /* draws light-gray triangle on the given ctx, at given coords, s is size of each side */
+    function drawTriangleDown(ctx,x,y,s) {
+      ;
+    }
 })();
