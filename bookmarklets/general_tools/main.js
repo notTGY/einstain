@@ -1,3 +1,12 @@
+/* Global variables:
+
+
+load_style_TGY_bookmarklet_JStool_v1 - function that initializes style
+
+mainCanvas_TGY_bookmarklet_JStool_v1 - mainCanvas
+
+*/
+
 (function () {
 
   /*Check if we had already loaded extension*/
@@ -11,6 +20,7 @@
   */
 
   /*Add canvas if we can*/
+
   /*
   if (mainCanvas_TGY_bookmarklet_JStool_v1 == undefined) {
     mainCanvas_TGY_bookmarklet_JStool_v1 = document.createElement('canvas');
@@ -22,14 +32,13 @@
 
   mainCanvas_TGY_bookmarklet_JStool_v1 = document.createElement('canvas');//FIXME
 
+  /* Add id to accept stylesheet */
+  mainCanvas_TGY_bookmarklet_JStool_v1.id = 'mainCanvas_TGY_bookmarklet_JStool_v1';
+
+
   /* local variable mainCanvas for easier access */
   let mainCanvas = mainCanvas_TGY_bookmarklet_JStool_v1;
-  mainCanvas.style.position='fixed';
-  mainCanvas.style.top = 0;
-  mainCanvas.style.left = 0;
-  mainCanvas.width = 100;
-  mainCanvas.height = 100;
-  load_style_TGY_bookmarklet_JStool_v1();
+
   document.body.appendChild(mainCanvas);
 
 
@@ -44,7 +53,7 @@
     /* keydown handler */
     document.addEventListener('keydown', e=>{
 
-
+      
     });
 
 })();
