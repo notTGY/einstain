@@ -44,35 +44,37 @@ mainCanvas_TGY_JStool_v1 - mainCanvas
   document.addEventListener('click', e=>{
     let mainCtx = mainCanvas_TGY_JStool_v1.getContext('2d');
 
-
     let x = mainCanvas_TGY_JStool_v1.offsetLeft - document.body.offsetLeft;
     let y = mainCanvas_TGY_JStool_v1.offsetTop - document.body.offsetTop;
     let w = mainCanvas_TGY_JStool_v1.width;
     let h = mainCanvas_TGY_JStool_v1.height;
     let id = mainCanvas_TGY_JStool_v1.id;
-
+    let X = e.clientX;
+    let Y = e.clientY;
 
     if (id == 'mainCanvas_TGY_JStool_v1') {
-      if (e.clientX <= x+w) {
-        if (e.clientY <= y+h) {
-          if (e.clientX > x+w/2) {
-            if (e.clientY > y+h/2) {
-              mainCanvas_TGY_JStool_v1.id = 'mainCanvas_TGY_JStool_v1_down';
-            }
-          }
+
+      /* check if we need to move this thing down */
+      if (X <= x+w && Y <= y+h) {
+        if (X > x+w/2 && Y > y+h/2) {
+          mainCanvas_TGY_JStool_v1.id = 'mainCanvas_TGY_JStool_v1_down';
         }
       }
+
+
+
     } else if (id == 'mainCanvas_TGY_JStool_v1_down'){
-      if (e.clientX <= x+w) {
-        if (e.clientY >= y) {
-          if (e.clientX > x+w/2) {
-            if (e.clientY < y+h/2) {
-              mainCanvas_TGY_JStool_v1.id = 'mainCanvas_TGY_JStool_v1';
-              drawTriangleDown(mainCtx,x+w/2,y+h/2,Math.min(w/2,h/2));
-            }
-          }
+
+      /* check if we need to move this thing up */
+      if (X <= x+w && Y <= y+h/2) {
+        if (X > x+w/2 && Y > y) {
+          mainCanvas_TGY_JStool_v1.id = 'mainCanvas_TGY_JStool_v1';
+          drawTriangleDown(mainCtx,x+w/2,y+h/2,Math.min(w/2,h/2));
         }
       }
+
+
+
     }
 
 
