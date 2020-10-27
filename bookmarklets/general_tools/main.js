@@ -25,15 +25,26 @@
   /* local variable mainCanvas for easier access */
   let mainCanvas = mainCanvas_TGY_bookmarklet_JStool_v1;
   mainCanvas.style.position='fixed';
-  mainCanvas.style.backgroundColor='#55A8';
   mainCanvas.style.top = 0;
   mainCanvas.style.left = 0;
   mainCanvas.width = 100;
   mainCanvas.height = 100;
+  load_style_TGY_bookmarklet_JStool_v1();
   document.body.appendChild(mainCanvas);
 
 
+  /* Click handler */
+  document.addEventListener('click', e=>{
 
 
+  });
+
+
+
+    /* keydown handler */
+    document.addEventListener('keydown', e=>{
+
+
+    });
 
 })();
