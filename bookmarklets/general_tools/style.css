@@ -1,4 +1,4 @@
-#mainCanvas_TGY_JStool_v1{
+#mainCanvas{
   background-color: #55A8;
   position: fixed;
   top: 0px;
@@ -9,16 +9,16 @@
   border-radius: 5px;
 }
 
-#mainCanvas_TGY_JStool_v1:hover{
+#mainCanvas:hover{
   background-color: #00A8;
 }
 
-#mainCanvas_TGY_JStool_v1:active{
+#mainCanvas:active{
   background-color: #0E08;
 }
 
 
-#mainCanvas_TGY_JStool_v1_down{
+#mainCanvas_down{
   background-color: #55A8;
   position: fixed;
   bottom: : 0px;
@@ -29,10 +29,34 @@
   border-radius: 5px;
 }
 
-#mainCanvas_TGY_JStool_v1_down:hover{
+#mainCanvas_down:hover{
   background-color: #00A8;
 }
 
-#mainCanvas_TGY_JStool_v1_down:active{
+#mainCanvas_down:active{
   background-color: #0E08;
+}
+
+
+#close_button_canvas{
+  background-color: #CCC8;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #AAA8;
+}
+#close_button_canvas:hover{
+  background-color: #F008;
+}
+#close_button_canvas:active{
+  background-color: #F00F;
+}
+
+#selector_canvas{
+  background-color: #EEE8;
+  position: fixed;
+  top: 0px;
+  border: 1px solid yellow;
 }
