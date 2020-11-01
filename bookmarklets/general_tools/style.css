@@ -38,19 +38,17 @@
 }
 
 
-#close_button_canvas{
+.close_button_canvas{
   background-color: #CCC8;
   position: fixed;
-  top: 0px;
-  right: 0px;
   width: 100px;
   height: 100px;
   border: 1px solid #AAA8;
 }
-#close_button_canvas:hover{
+.close_button_canvas:hover{
   background-color: #F008;
 }
-#close_button_canvas:active{
+.close_button_canvas:active{
   background-color: #F00F;
 }
 

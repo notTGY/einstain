@@ -3,7 +3,7 @@
 
   const MAINCANVAS_ID = 'mainCanvas';
   const MAINCANVASDOWN_ID = 'mainCanvas_down';
-  const CLOSE_BUTTON_CANVAS_ID = 'close_button_canvas';
+  const CLOSE_BUTTON_CANVAS_CLASS = 'close_button_canvas';
   const SELECTOR_CANVAS_ID = 'selector_canvas';
 
   const SIZE_OF_SMALL_CANVASES = 100;
@@ -23,7 +23,7 @@
   mainCanvas.width = SIZE_OF_SMALL_CANVASES;
   mainCanvas.height = SIZE_OF_SMALL_CANVASES;
 
-  close_button_canvas.id = CLOSE_BUTTON_CANVAS_ID;
+  close_button_canvas.class = CLOSE_BUTTON_CANVAS_CLASS;
   close_button_canvas.hidden = true;
 
   document.body.appendChild(mainCanvas);
@@ -91,14 +91,20 @@
         document.body.appendChild(selector_canvas);
         is_selector_created = 1;
       }
+      selector_canvas.hidden = false;
 
       selector_canvas.offsetLeft = mainCanvas.width + mainCanvas.offsetLeft;
 
-      selector_canvas.width = window.innerWidth - selector_canvas.offsetLeft - close_button_canvas.width;
+      selector_canvas.width = window.innerWidth - selector_canvas.offsetLeft;
       selector_canvas.height = window.innerHeight;
-
-      selector_canvas.hidden = false;
+      
       close_button_canvas.hidden = false;
+
+      close_button_canvas.style.top = 0;
+      close_button_canvas.style.right = 0;
+
+
+
       is_selector_launched = 1;
     } else {
       console.log('selector is already launced');
