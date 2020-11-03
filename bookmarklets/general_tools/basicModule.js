@@ -105,7 +105,7 @@
 
       selector_canvas.style.left = (mainCanvas.width + mainCanvas.offsetLeft + 3) + 'px';
 
-      selector_canvas.width = Math.floor(window.visualViewport.width)- selector_canvas.offsetLeft - 2;
+      selector_canvas.width = Math.floor(window.visualViewport.width) - close_button_canvas.width - selector_canvas.offsetLeft - 2;
       selector_canvas.height = Math.floor(window.visualViewport.height) - 3;
 
 
