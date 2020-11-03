@@ -2,7 +2,6 @@
   /* magic numbers */
 
   const MAINCANVAS_ID = 'mainCanvas';
-  const MAINCANVASDOWN_ID = 'mainCanvas_down';
   const CLOSE_BUTTON_CANVAS_ID = 'close_button_canvas';
   const SELECTOR_CANVAS_ID = 'selector_canvas';
 
@@ -13,9 +12,13 @@
 
 
   /* initialization */
+  document.body.style.width = '100%';
+  document.body.style.height = '100%';
+
   const mainCanvas = document.createElement('canvas');
   let is_selector_launched = 0;
   let is_selector_created = 0;
+  let mainCanvas_is_down = 0;
   const close_button_canvas = document.createElement('canvas');
 
   /* Add id to accept stylesheet */
@@ -24,10 +27,15 @@
   mainCanvas.height = SIZE_OF_SMALL_CANVASES;
 
   close_button_canvas.id = CLOSE_BUTTON_CANVAS_ID;
-  close_button_canvas.hidden = true;
+  close_button_canvas.width = SIZE_OF_SMALL_CANVASES;
+  close_button_canvas.height = SIZE_OF_SMALL_CANVASES;
+
 
   document.body.appendChild(mainCanvas);
   document.body.appendChild(close_button_canvas);
+
+
+  close_button_canvas.hidden = true;
 
   const mainCtx = mainCanvas.getContext('2d');
 
@@ -68,18 +76,20 @@
   }
 
   function makeUp(mainCtx,w,h) {
-    mainCanvas.id = MAINCANVAS_ID;
+    mainCanvas.style.top = '0px';
     mainCtx.clearRect(0, 0, w, h);
     drawTriangleDown(mainCtx,w/2+w/16,h/2+h/16,Math.min(w/2-w/8,h/2-h/8));
     drawBlocks(mainCtx,w/16,h/16,Math.min(w/2-w/8,h/2-h/8));
+    mainCanvas_is_down = 0;
   }
 
   function makeDown(mainCtx,w,h) {
-      mainCanvas.id = MAINCANVASDOWN_ID;
-      mainCtx.clearRect(0, 0, w, h);
-      drawTriangleUp(mainCtx,w/2+w/16,h/16,Math.min(w/2-w/8,h/2-h/8));
-      drawBlocks(mainCtx,w/16,h/2+h/16,Math.min(w/2-w/8,h/2-h/8));
-    }
+    mainCanvas.style.top = (Math.floor(window.visualViewport.height) - mainCanvas.height) + 'px';
+    mainCtx.clearRect(0, 0, w, h);
+    drawTriangleUp(mainCtx,w/2+w/16,h/16,Math.min(w/2-w/8,h/2-h/8));
+    drawBlocks(mainCtx,w/16,h/2+h/16,Math.min(w/2-w/8,h/2-h/8));
+    mainCanvas_is_down = 1;
+  }
 
   function launchSelector() {
     if (!is_selector_launched) {
@@ -93,23 +103,14 @@
       }
       selector_canvas.hidden = false;
 
-      selector_canvas.style.left = mainCanvas.width + mainCanvas.offsetLeft;
+      selector_canvas.style.left = (mainCanvas.width + mainCanvas.offsetLeft + 3) + 'px';
+
+      selector_canvas.width = Math.floor(window.visualViewport.width) - close_button_canvas.width - selector_canvas.offsetLeft - 2;
+      selector_canvas.height = Math.floor(window.visualViewport.height) - 3;
+
+
 
       close_button_canvas.hidden = false;
-
-      selector_canvas.width = window.innerWidth - selector_canvas.offsetLeft;
-      selector_canvas.height = window.innerHeight;
-
-
-
-      close_button_canvas.width = SIZE_OF_SMALL_CANVASES;
-      close_button_canvas.height = SIZE_OF_SMALL_CANVASES;
-
-      close_button_canvas.style.top = 0;
-      with(close_button_canvas) {
-        style.left = window.innerWidth - width;
-      }
-
 
       is_selector_launched = 1;
     } else {
@@ -149,7 +150,7 @@
   }
 
 
-  /* init pictires */
+  /* init pictures */
   makeUp(mainCtx,mainCanvas.width,mainCanvas.height);
 
   initClosingCanvas();
@@ -165,7 +166,7 @@
     const id = mainCanvas.id;
     const X = e.clientX;
     const Y = e.clientY;
-    if (id == MAINCANVAS_ID) {
+    if (mainCanvas_is_down == 0) {
       /* check if we need to move this thing down */
       if (X <= x+w && Y <= y+h) {
         if (X > x+w/2 && Y > y+h/2) {
@@ -180,7 +181,7 @@
         }
       }
       /* other buttons */
-    } else if (id == MAINCANVASDOWN_ID){
+    } else if (mainCanvas_is_down == 1){
       /* check if we need to move this thing up */
       if (X <= x+w && Y <= y+h/2) {
         if (X > x+w/2 && Y > y) {
@@ -196,11 +197,12 @@
       }
       /* other buttons */
     }
-    x = close_button_canvas.offsetLeft - document.body.offsetLeft;
-    y = close_button_canvas.offsetTop - document.body.offsetTop;
-    w = close_button_canvas.width;
-    h = close_button_canvas.height;
+
     if (!close_button_canvas.hidden) {
+      x = close_button_canvas.offsetLeft - document.body.offsetLeft;
+      y = close_button_canvas.offsetTop - document.body.offsetTop;
+      w = close_button_canvas.width;
+      h = close_button_canvas.height;
       if(X>x && X<x+w) {
         if (Y>y && Y<y+h) {
           closeSelector();
