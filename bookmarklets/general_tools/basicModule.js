@@ -11,6 +11,24 @@
   const BLOCK_BUTTONS_COLOR = '#FFFF';
 
 
+  function Widget(module_path, image_path, name) {
+    return {
+      name,
+      image_path,
+      module_path,
+      loaded: 0,
+      load() {
+        if(!this.loaded) {
+          loadModule(this.module_path, 'js');
+          this.loaded = 1;
+        }
+      }
+    };
+  }
+
+
+  const FAT_JSON = [];
+
   /* initialization */
   document.body.style.width = '100%';
   document.body.style.height = '100%';
