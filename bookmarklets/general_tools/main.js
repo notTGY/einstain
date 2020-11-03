@@ -12,9 +12,13 @@
       document.body.appendChild(s);
     }
   }
+  /* external variable */
+  TGY_bookmarklet_thing_load_module = loadModule;
+
+
+
   loadModule('/C:/Users/Artem/github/einstain/bookmarklets/general_tools/basicModule.js','js');
   loadModule('/C:/Users/Artem/github/einstain/bookmarklets/general_tools/style.css', 'css');
-
-
+  /* add new modules as you like */
 
 })();
