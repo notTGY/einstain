@@ -17,8 +17,8 @@
 
 
 
-  loadModule('https://github.com/notTGY/einstain/tree/master/bookmarklets/general_tools/basicModule.js','js');
-  loadModule('https://github.com/notTGY/einstain/tree/master/bookmarklets/general_tools/style.css', 'css');
+  loadModule('https://raw.githubusercontent.com/notTGY/einstain/master/bookmarklets/general_tools/basicModule.js','js');
+  loadModule('https://raw.githubusercontent.com/notTGY/einstain/master/bookmarklets/general_tools/style.css', 'css');
   /* add new modules as you like */
 
 })();
