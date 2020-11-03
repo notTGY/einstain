@@ -3,7 +3,7 @@
 
   const MAINCANVAS_ID = 'mainCanvas';
   const MAINCANVASDOWN_ID = 'mainCanvas_down';
-  const CLOSE_BUTTON_CANVAS_CLASS = 'close_button_canvas';
+  const CLOSE_BUTTON_CANVAS_ID = 'close_button_canvas';
   const SELECTOR_CANVAS_ID = 'selector_canvas';
 
   const SIZE_OF_SMALL_CANVASES = 100;
@@ -23,7 +23,7 @@
   mainCanvas.width = SIZE_OF_SMALL_CANVASES;
   mainCanvas.height = SIZE_OF_SMALL_CANVASES;
 
-  close_button_canvas.class = CLOSE_BUTTON_CANVAS_CLASS;
+  close_button_canvas.id = CLOSE_BUTTON_CANVAS_ID;
   close_button_canvas.hidden = true;
 
   document.body.appendChild(mainCanvas);
@@ -93,16 +93,22 @@
       }
       selector_canvas.hidden = false;
 
-      selector_canvas.offsetLeft = mainCanvas.width + mainCanvas.offsetLeft;
+      selector_canvas.style.left = mainCanvas.width + mainCanvas.offsetLeft;
+
+      close_button_canvas.hidden = false;
 
       selector_canvas.width = window.innerWidth - selector_canvas.offsetLeft;
       selector_canvas.height = window.innerHeight;
-      
-      close_button_canvas.hidden = false;
+
+
+
+      close_button_canvas.width = SIZE_OF_SMALL_CANVASES;
+      close_button_canvas.height = SIZE_OF_SMALL_CANVASES;
 
       close_button_canvas.style.top = 0;
-      close_button_canvas.style.right = 0;
-
+      with(close_button_canvas) {
+        style.left = window.innerWidth - width;
+      }
 
 
       is_selector_launched = 1;
@@ -127,14 +133,18 @@
       let k = CLOSING_CANVAS_CROSS_PERCENTAGE;
       let w = close_button_canvas.width;
       let h = close_button_canvas.height;
+      let x0 = w/2-k*w/2;
+      let y0 = h/2-k*h/2;
+      let x1 = w/2+k*w/2;
+      let y1 = h/2+k*h/2;
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(w/2-k*w/2,h/2-k*h/2);
-      ctx.lineTo(w/2+k*w/2,h/2+k*h/2);
+      ctx.moveTo(x0,y0);
+      ctx.lineTo(x1,y1);
       ctx.stroke();
       ctx.beginPath();
-      ctx.moveTo(w/2-k*w/2,h/2+k*h/2);
-      ctx.lineTo(w/2+k*w/2,h/2-k*h/2);
+      ctx.moveTo(x0,y1);
+      ctx.lineTo(x1,y0);
       ctx.stroke();
   }
 

@@ -1,0 +1,11 @@
+textarea {
+  background-color: pink;
+  border-radius: 10px;
+
+}
+
+textarea:hover{
+  background-color: green;
+  border-radius: 10px;
+  
+}
