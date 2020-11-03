@@ -17,8 +17,8 @@
 
 
 
-  loadModule('https://raw.githubusercontent.com/notTGY/einstain/master/bookmarklets/general_tools/basicModule.js','js');
-  loadModule('https://raw.githubusercontent.com/notTGY/einstain/master/bookmarklets/general_tools/style.css', 'css');
+  loadModule('http://science.eu5.org/bookmarklets/general_tools/basicModule.js','js');
+  loadModule('http://science.eu5.org/bookmarklets/general_tools/style.css', 'css');
   /* add new modules as you like */
 
 })();
