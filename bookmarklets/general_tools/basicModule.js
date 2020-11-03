@@ -2,7 +2,7 @@
   /* magic numbers */
 
   const MAINCANVAS_ID = 'mainCanvas';
-  const CLOSE_BUTTON_CANVAS_ID = 'close_button_canvas';
+  const CLOSE_BUTTON_CANVAS_CLASS = 'close_button_canvas';
   const SELECTOR_CANVAS_ID = 'selector_canvas';
 
   const SIZE_OF_SMALL_CANVASES = 100;
@@ -26,7 +26,7 @@
   mainCanvas.width = SIZE_OF_SMALL_CANVASES;
   mainCanvas.height = SIZE_OF_SMALL_CANVASES;
 
-  close_button_canvas.id = CLOSE_BUTTON_CANVAS_ID;
+  close_button_canvas.classList.add(CLOSE_BUTTON_CANVAS_CLASS);
   close_button_canvas.width = SIZE_OF_SMALL_CANVASES;
   close_button_canvas.height = SIZE_OF_SMALL_CANVASES;
 
