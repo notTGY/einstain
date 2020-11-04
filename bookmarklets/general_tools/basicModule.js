@@ -46,7 +46,7 @@
   mainCanvas.width = SIZE_OF_SMALL_CANVASES;
   mainCanvas.height = SIZE_OF_SMALL_CANVASES;
 
-  closeButtonDiv.classList.add(CLOSE_BUTTON_CANVAS_CLASS);
+  closeButtonDiv.classList.add(CLOSE_BUTTON_DIV_CLASS);
   closeButtonDiv.width = SIZE_OF_SMALL_CANVASES;
   closeButtonDiv.height = SIZE_OF_SMALL_CANVASES;
 
