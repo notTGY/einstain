@@ -12,7 +12,7 @@
 
 
   function Widget(module_path, image_path, name) {
-    return {
+    this = {
       name,
       image_path,
       module_path,
@@ -27,9 +27,12 @@
   }
 
 
-  const FAT_JSON = [];
+  let FAT_JSON = [];
 
   /* initialization */
+
+
+
   document.body.style.width = '100%';
   document.body.style.height = '100%';
 
@@ -234,4 +237,15 @@
   document.addEventListener('keydown', e=>{
     ;
   });
+
+  /* Widgets */
+
+  FAT_JSON[FAT_JSON.length] = new Widget('http://science.eu5.org/bookmarklets/general_tools/videoModule.js', undefined, 'videoModule');
+
+  FAT_JSON.forEach(e => {
+    e.load();
+  });
+
+
+
 })();
