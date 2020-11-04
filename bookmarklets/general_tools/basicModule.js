@@ -124,7 +124,7 @@
 
       if (!isSelectorCreated) {
         selectorDiv = document.createElement('div');
-        selectorDiv.id = SELECTOR_CANVAS_ID;
+        selectorDiv.id = SELECTOR_DIV_ID;
         document.body.appendChild(selectorDiv);
         isSelectorCreated = 1;
       }
