@@ -13,16 +13,14 @@
 
 
   function Widget(module_path, image_path, name) {
-    this = {
-      name,
-      image_path,
-      module_path,
-      loaded: 0,
-      load() {
-        if(!this.loaded) {
-          loadModule(this.module_path, 'js');
-          this.loaded = 1;
-        }
+    this.name = name;
+    this.module_path = module_path;
+    this.image_path = image_path;
+    this.loaded = 0;
+    this.load = _ => {
+      if(!this.loaded) {
+        loadModule(this.module_path, 'js');
+        this.loaded = 1;
       }
     };
   }
