@@ -1,10 +1,10 @@
 (function (){
-  let loadModule = TGY_bookmarklet_thing_load_module;
+  let loadModule = TGYBookmarkletThingLoadModule;
   /* magic numbers */
 
   const MAINCANVAS_ID = 'mainCanvas';
-  const CLOSE_BUTTON_CANVAS_CLASS = 'close_button_canvas';
-  const SELECTOR_CANVAS_ID = 'selector_canvas';
+  const CLOSE_BUTTON_DIV_CLASS = 'closeButtonDiv';
+  const SELECTOR_DIV_ID = 'selectorDiv';
 
   const SIZE_OF_SMALL_CANVASES = 100;
   const CLOSING_CANVAS_CROSS_PERCENTAGE = 0.8;
@@ -12,14 +12,14 @@
   const BLOCK_BUTTONS_COLOR = '#FFFF';
 
 
-  function Widget(module_path, image_path, name) {
+  function Widget(modulePath, imagePath, name) {
     this.name = name;
-    this.module_path = module_path;
-    this.image_path = image_path;
+    this.modulePath = modulePath;
+    this.imagePath = imagePath;
     this.loaded = 0;
     this.load = _ => {
       if(!this.loaded) {
-        loadModule(this.module_path, 'js');
+        loadModule(this.modulePath, 'js');
         this.loaded = 1;
       }
     };
@@ -36,26 +36,26 @@
   document.body.style.height = '100%';
 
   const mainCanvas = document.createElement('canvas');
-  let is_selector_launched = 0;
-  let is_selector_created = 0;
-  let mainCanvas_is_down = 0;
-  const close_button_canvas = document.createElement('canvas');
+  let isSelectorLaunched = 0;
+  let isSelectorCreated = 0;
+  let mainCanvasIsDown = 0;
+  const closeButtonDiv = document.createElement('div');
 
   /* Add id to accept stylesheet */
   mainCanvas.id = MAINCANVAS_ID;
   mainCanvas.width = SIZE_OF_SMALL_CANVASES;
   mainCanvas.height = SIZE_OF_SMALL_CANVASES;
 
-  close_button_canvas.classList.add(CLOSE_BUTTON_CANVAS_CLASS);
-  close_button_canvas.width = SIZE_OF_SMALL_CANVASES;
-  close_button_canvas.height = SIZE_OF_SMALL_CANVASES;
+  closeButtonDiv.classList.add(CLOSE_BUTTON_CANVAS_CLASS);
+  closeButtonDiv.width = SIZE_OF_SMALL_CANVASES;
+  closeButtonDiv.height = SIZE_OF_SMALL_CANVASES;
 
 
   document.body.appendChild(mainCanvas);
-  document.body.appendChild(close_button_canvas);
+  document.body.appendChild(closeButtonDiv);
 
 
-  close_button_canvas.hidden = true;
+  closeButtonDiv.hidden = true;
 
   const mainCtx = mainCanvas.getContext('2d');
 
@@ -100,7 +100,7 @@
     mainCtx.clearRect(0, 0, w, h);
     drawTriangleDown(mainCtx,w/2+w/16,h/2+h/16,Math.min(w/2-w/8,h/2-h/8));
     drawBlocks(mainCtx,w/16,h/16,Math.min(w/2-w/8,h/2-h/8));
-    mainCanvas_is_down = 0;
+    mainCanvasIsDown = 0;
   }
 
   function makeDown(mainCtx,w,h) {
@@ -108,72 +108,65 @@
     mainCtx.clearRect(0, 0, w, h);
     drawTriangleUp(mainCtx,w/2+w/16,h/16,Math.min(w/2-w/8,h/2-h/8));
     drawBlocks(mainCtx,w/16,h/2+h/16,Math.min(w/2-w/8,h/2-h/8));
-    mainCanvas_is_down = 1;
+    mainCanvasIsDown = 1;
+  }
+
+
+
+  function drawWidgets() {
+
+
   }
 
   function launchSelector() {
-    if (!is_selector_launched) {
+    if (!isSelectorLaunched) {
       console.log('selector launched');
 
-      if (!is_selector_created) {
-        selector_canvas = document.createElement('canvas');
-        selector_canvas.id = SELECTOR_CANVAS_ID;
-        document.body.appendChild(selector_canvas);
-        is_selector_created = 1;
+      if (!isSelectorCreated) {
+        selectorDiv = document.createElement('div');
+        selectorDiv.id = SELECTOR_CANVAS_ID;
+        document.body.appendChild(selectorDiv);
+        isSelectorCreated = 1;
       }
-      selector_canvas.hidden = false;
+      selectorDiv.hidden = false;
 
-      selector_canvas.style.left = (mainCanvas.width + mainCanvas.offsetLeft + 3) + 'px';
+      selectorDiv.style.left = (mainCanvas.width + mainCanvas.offsetLeft + 3) + 'px';
 
-      selector_canvas.width = Math.floor(window.visualViewport.width) - close_button_canvas.width - selector_canvas.offsetLeft - 2;
-      selector_canvas.height = Math.floor(window.visualViewport.height) - 3;
+      selectorDiv.width = Math.floor(window.visualViewport.width) - closeButtonDiv.width - selectorDiv.offsetLeft - 2;
+      selectorDiv.height = Math.floor(window.visualViewport.height) - 3;
 
 
 
-      close_button_canvas.hidden = false;
+      closeButtonDiv.hidden = false;
 
-      is_selector_launched = 1;
+      drawWidgets();
+
+      isSelectorLaunched = 1;
     } else {
       console.log('selector is already launced');
     }
   }
   function closeSelector() {
-    if (is_selector_launched) {
+    if (isSelectorLaunched) {
       console.log('selector closed');
-      selector_canvas.hidden = true;
-      close_button_canvas.hidden = true;
-      is_selector_launched = 0;
+      selectorDiv.hidden = true;
+      closeButtonDiv.hidden = true;
+      isSelectorLaunched = 0;
     } else {
       console.log('couldn\'t find selector');
     }
 
   }
 
-  function initClosingCanvas() {
-    let ctx = close_button_canvas.getContext('2d');
-    let k = CLOSING_CANVAS_CROSS_PERCENTAGE;
-    let w = close_button_canvas.width;
-    let h = close_button_canvas.height;
-    let x0 = w/2-k*w/2;
-    let y0 = h/2-k*h/2;
-    let x1 = w/2+k*w/2;
-    let y1 = h/2+k*h/2;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(x0,y0);
-    ctx.lineTo(x1,y1);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(x0,y1);
-    ctx.lineTo(x1,y0);
-    ctx.stroke();
+  function initClosingDiv() {
+    ;
   }
 
 
   /* init pictures */
   makeUp(mainCtx,mainCanvas.width,mainCanvas.height);
 
-  initClosingCanvas();
+  initClosingDiv();
 
 
   /* Click handler */
@@ -186,7 +179,7 @@
     const id = mainCanvas.id;
     const X = e.clientX;
     const Y = e.clientY;
-    if (mainCanvas_is_down == 0) {
+    if (mainCanvasIsDown == 0) {
       /* check if we need to move this thing down */
       if (X <= x+w && Y <= y+h) {
         if (X > x+w/2 && Y > y+h/2) {
@@ -201,7 +194,7 @@
         }
       }
       /* other buttons */
-    } else if (mainCanvas_is_down == 1){
+    } else if (mainCanvasIsDown == 1){
       /* check if we need to move this thing up */
       if (X <= x+w && Y <= y+h/2) {
         if (X > x+w/2 && Y > y) {
@@ -218,11 +211,11 @@
       /* other buttons */
     }
 
-    if (!close_button_canvas.hidden) {
-      x = close_button_canvas.offsetLeft - document.body.offsetLeft;
-      y = close_button_canvas.offsetTop - document.body.offsetTop;
-      w = close_button_canvas.width;
-      h = close_button_canvas.height;
+    if (!closeButtonDiv.hidden) {
+      x = closeButtonDiv.offsetLeft - document.body.offsetLeft;
+      y = closeButtonDiv.offsetTop - document.body.offsetTop;
+      w = closeButtonDiv.width;
+      h = closeButtonDiv.height;
       if(X>x && X<x+w) {
         if (Y>y && Y<y+h) {
           closeSelector();
@@ -239,12 +232,13 @@
 
   /* Widgets */
 
-  FAT_JSON[FAT_JSON.length] = new Widget('http://science.eu5.org/bookmarklets/general_tools/videoModule.js', undefined, 'videoModule');
+  FAT_JSON[FAT_JSON.length] = new Widget('http://science.eu5.org/bookmarklets/general_tools/videoModule.js', 'http://science.eu5.org/bookmarklets/general_tools/videoModule.png', 'videoModule');
 
+  /*
   FAT_JSON.forEach(e => {
     e.load();
   });
-
+  */
 
 
 })();

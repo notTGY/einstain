@@ -13,7 +13,7 @@
     }
   }
   /* external variable */
-  TGY_bookmarklet_thing_load_module = loadModule;
+  TGYBookmarkletThingLoadModule = loadModule;
 
 
 

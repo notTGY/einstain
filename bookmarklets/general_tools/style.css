@@ -16,9 +16,7 @@
   background-color: #0E08;
 }
 
-
-
-.close_button_canvas{
+.closeButtonDiv{
   background-color: #CCC8;
   position: fixed;
   top: 0px;
@@ -26,14 +24,15 @@
   width: 100px;
   height: 100px;
 }
-.close_button_canvas:hover{
+.closeButtonDiv:hover{
   background-color: #F008;
 }
-.close_button_canvas:active{
+.closeButtonDiv:active{
   background-color: #F00F;
 }
 
-#selector_canvas{
+
+#selectorDiv{
   background-color: #EEE8;
   position: fixed;
   top: 0px;
