@@ -1,4 +1,5 @@
 (function (){
+  let loadModule = TGY_bookmarklet_thing_load_module;
   /* magic numbers */
 
   const MAINCANVAS_ID = 'mainCanvas';
