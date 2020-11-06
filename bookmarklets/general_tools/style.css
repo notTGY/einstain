@@ -46,3 +46,10 @@
   top: 0px;
   border: 1px solid yellow;
 }
+
+#overlay_video_module {
+  position: relative;
+  bottom: 0px;
+  left: 0px;
+  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.21) 100%);
+}

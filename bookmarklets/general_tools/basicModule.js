@@ -1,4 +1,12 @@
 (function (){
+  /* prevent double loading */
+
+  if (mainCanvas) {
+    return -1;
+  }
+
+
+
   let loadModule = TGYBookmarkletThingLoadModule;
   /* magic numbers */
 
