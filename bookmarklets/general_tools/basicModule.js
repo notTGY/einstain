@@ -120,6 +120,7 @@
     FAT_JSON.forEach(i => {
       let img = document.createElement('img');
       img.src = i.imagePath;
+      img.id = i.name;
       selectorDiv.appendChild(img);
       img.addEventListener('click', e => {
         console.log(e);
