@@ -8,6 +8,12 @@
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   }
 
+  function wrap (toWrap, wrapper) {
+    wrapper = wrapper || document.createElement('div');
+    toWrap.parentNode.appendChild(wrapper);
+    return wrapper.appendChild(toWrap);
+};
+
 
   function killThisScript() {
     let arr = document.querySelectorAll('script');
@@ -40,10 +46,14 @@
   overlay.height = OVERLAY_HEIGHT;
   overlay.style.height = OVERLAY_HEIGHT + 'px';
 
+  /* creating wrap-around div */
+  let wrapper = wrap(vidElem);
+
   insertAfter(vidElem, overlay);
 
+
   /* closing stuff and fullscreen enter point */
-  vidElem.requestFullscreen();
+  wrapper.requestFullscreen();
   let handler = e => {
     if (e.key == 'Escape') {
       document.exitFullscreen();
