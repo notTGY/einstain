@@ -40,6 +40,7 @@
   let isSelectorCreated = 0;
   let mainCanvasIsDown = 0;
   const closeButtonDiv = document.createElement('div');
+  let selectorDiv;
 
   /* Add id to accept stylesheet */
   mainCanvas.id = MAINCANVAS_ID;
