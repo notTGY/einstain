@@ -2,7 +2,9 @@
   /* prevent double loading */
 
   if (document.querySelector('#mainCanvas')) {
-    return -1;
+    document.querySelector('#mainCanvas').remove();
+    document.querySelector('#closeButtonDiv').remove();
+    document.querySelector('#selectorDiv').remove();
   }
 
 
