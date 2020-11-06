@@ -225,7 +225,7 @@
     }
   });
 
-  /* keydown handler */
+  /* keydown handler 
   document.addEventListener('resize', e=>{
     if (selectorDiv.hidden == false) {
       selectorDiv.style.width = Math.floor(window.visualViewport.width - closeButtonDiv.style.width - selectorDiv.offsetLeft - 2) + 'px';
