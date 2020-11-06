@@ -49,6 +49,8 @@
   /* creating wrap-around div */
   let wrapper = wrap(vidElem);
 
+  vidElem.style.zIndex = '1';
+
   insertAfter(vidElem, overlay);
 
 
