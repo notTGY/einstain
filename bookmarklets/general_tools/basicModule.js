@@ -231,7 +231,7 @@
 
   /* keydown handler */
   document.addEventListener('resize', e=>{
-    if (selectorDiv.hidden == false) {
+    if (selectorDiv.hidden == false && closeButtonDiv.hidden == false) {
       selectorDiv.style.width = Math.floor(window.visualViewport.width - closeButtonDiv.width - selectorDiv.offsetLeft - 2) + 'px';
       selectorDiv.style.height = Math.floor(window.visualViewport.height) - 3 + 'px';
       selectorDiv.width = Math.floor(window.visualViewport.width - closeButtonDiv.width - selectorDiv.offsetLeft - 2);
