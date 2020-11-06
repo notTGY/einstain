@@ -117,10 +117,14 @@
 
 
   function drawWidgets() {
-    FAT_JSON.forEach(e => {
+    FAT_JSON.forEach(i => {
       let img = document.createElement('img');
-      img.src = e.imagePath;
+      img.src = i.imagePath;
       selectorDiv.appendChild(img);
+      img.addEventListener('click', e => {
+        console.log(e);
+        console.log(i);
+      });
     });
   }
 
