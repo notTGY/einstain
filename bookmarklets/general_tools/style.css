@@ -52,4 +52,5 @@
   bottom: 0px;
   left: 0px;
   background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.21) 100%);
+  visibility: visible;
 }
