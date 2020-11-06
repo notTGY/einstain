@@ -123,8 +123,9 @@
       img.id = i.name;
       selectorDiv.appendChild(img);
       img.addEventListener('click', e => {
-        console.log(e);
-        console.log(i);
+        i.load();
+        closeSelector();
+        mainCanvas.hidden = true;
       });
     });
   }
