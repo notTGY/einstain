@@ -4,6 +4,11 @@
   const OVERLAY_HEIGHT = 200;
 
 
+  function insertAfter(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  }
+
+
   function killThisScript() {
     let arr = document.querySelectorAll('script');
     arr.forEach(i => {
@@ -35,7 +40,7 @@
   overlay.height = OVERLAY_HEIGHT;
   overlay.style.height = OVERLAY_HEIGHT + 'px';
 
-  vidElem.appendChild(overlay);
+  insertAfter(vidElem, overlay);
 
   /* closing stuff and fullscreen enter point */
   vidElem.requestFullscreen();
@@ -45,8 +50,8 @@
       let mainCanvas = document.querySelector('#mainCanvas');
       mainCanvas.hidden = false;
       killThisScript();
-      window.removeEventListener('keydown', handler);
+      document.body.removeEventListener('keydown', handler);
     }
   };
-  window.addEventListener('keydown', handler);
+  document.body.addEventListener('keydown', handler);
 })();
