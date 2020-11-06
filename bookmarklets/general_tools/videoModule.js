@@ -3,11 +3,25 @@
   const OVERLAY_ID = 'overlay_video_module';
   const OVERLAY_HEIGHT = 200;
 
+
+  function killThisScript() {
+    let arr = document.querySelectorAll('script');
+    arr.forEach(i => {
+      let src = i.src;
+      if (src.substring(-14,14) == 'videoModule.js') {
+        i.remove();
+      }
+    });
+
+  }
+
+
   /* initialization and testing if there is a video element */
   let vidElem = document.querySelectorAll('video')[0];
   if (vidElem == undefined || vidElem == NaN || vidElem == false) {
     let mainCanvas = document.querySelector('#mainCanvas');
     mainCanvas.hidden = false;
+    killThisScript();
     return -2;
   }
 
@@ -28,6 +42,7 @@
       vidElem.exitFullscreen();
       let mainCanvas = document.querySelector('#mainCanvas');
       mainCanvas.hidden = false;
+      killThisScript();
     }
   });
 })();
