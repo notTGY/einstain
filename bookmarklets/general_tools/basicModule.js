@@ -1,7 +1,7 @@
 (function (){
   /* prevent double loading */
 
-  if (mainCanvas) {
+  if (!document.querySelector('#mainCanvas')) {
     return -1;
   }
 
