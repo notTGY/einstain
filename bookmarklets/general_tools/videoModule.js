@@ -30,8 +30,8 @@
   /* creating overlay */
   let overlay = document.createElement('div');
   overlay.id = OVERLAY_ID;
-  overlay.style.width = Math.floor(window.screen.visualViewport.width) + 'px';
-  overlay.width = Math.floor(window.screen.visualViewport.width);
+  overlay.style.width = Math.floor(window.visualViewport.width) + 'px';
+  overlay.width = Math.floor(window.visualViewport.width);
   overlay.height = OVERLAY_HEIGHT;
   overlay.style.height = OVERLAY_HEIGHT + 'px';
 
