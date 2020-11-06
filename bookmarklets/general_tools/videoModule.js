@@ -20,7 +20,7 @@
 
   /* initialization and testing if there is a video element */
   let vidElem = document.querySelectorAll('video')[0];
-  if (vidElem == undefined || vidElem == NaN || vidElem == false) {
+  if (vidElem == undefined || vidElem == null) {
     let mainCanvas = document.querySelector('#mainCanvas');
     mainCanvas.hidden = false;
     killThisScript();
