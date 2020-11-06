@@ -10,7 +10,7 @@
       let src = i.src;
       let ind = src.indexOf('?');
 
-      if (ind != -1 && src.substring(ind-14,14) == 'videoModule.js') {
+      if (ind != -1 && src.substring(ind-14,ind) == 'videoModule.js') {
         i.remove();
       }
     });
