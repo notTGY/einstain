@@ -4,7 +4,7 @@
     mainCanvas.hidden = false;
   }
   vidElem.requestFullscreen();
-  vidElem.addEventListener('keydown', e => {
+  window.addEventListener('keydown', e => {
     if (e.key == 'Escape') {
       vidElem.exitFullscreen();
       mainCanvas.hidden = false;
