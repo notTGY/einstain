@@ -17,8 +17,8 @@
 
 
 
-  loadModule('http://science.eu5.org/bookmarklets/general_tools/basicModule.js','js');
-  loadModule('http://science.eu5.org/bookmarklets/general_tools/style.css', 'css');
+  loadModule('https://nottgy.github.io/einstain/bookmarklets/general_tools/basicModule.js','js');
+  loadModule('https://nottgy.github.io/einstain/bookmarklets/general_tools/style.css', 'css');
   /* add new modules as you like */
 
 })();
