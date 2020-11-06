@@ -6,6 +6,7 @@
   /* initialization and testing if there is a video element */
   let vidElem = document.querySelectorAll('video')[0];
   if (vidElem == undefined || vidElem == NaN || vidElem == false) {
+    let mainCanvas = document.querySelector('#mainCanvas');
     mainCanvas.hidden = false;
     return -2;
   }
@@ -25,6 +26,7 @@
   window.addEventListener('keydown', e => {
     if (e.key == 'Escape') {
       vidElem.exitFullscreen();
+      let mainCanvas = document.querySelector('#mainCanvas');
       mainCanvas.hidden = false;
     }
   });
