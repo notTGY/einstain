@@ -25,12 +25,8 @@
     this.name = name;
     this.modulePath = modulePath;
     this.imagePath = imagePath;
-    this.loaded = 0;
     this.load = _ => {
-      if(!this.loaded) {
-        loadModule(this.modulePath, 'js');
-        this.loaded = 1;
-      }
+      loadModule(this.modulePath, 'js');
     };
   }
 
