@@ -3,7 +3,7 @@
   /* magic numbers */
 
   const MAINCANVAS_ID = 'mainCanvas';
-  const CLOSE_BUTTON_DIV_CLASS = 'closeButtonDiv';
+  const CLOSE_BUTTON_DIV_ID = 'closeButtonDiv';
   const SELECTOR_DIV_ID = 'selectorDiv';
 
   const SIZE_OF_SMALL_CANVASES = 100;
@@ -46,7 +46,7 @@
   mainCanvas.width = SIZE_OF_SMALL_CANVASES;
   mainCanvas.height = SIZE_OF_SMALL_CANVASES;
 
-  closeButtonDiv.classList.add(CLOSE_BUTTON_DIV_CLASS);
+  closeButtonDiv.id = CLOSE_BUTTON_DIV_ID;
   closeButtonDiv.width = SIZE_OF_SMALL_CANVASES;
   closeButtonDiv.height = SIZE_OF_SMALL_CANVASES;
 
@@ -225,7 +225,7 @@
     }
   });
 
-  /* keydown handler 
+  /* keydown handler */
   document.addEventListener('resize', e=>{
     if (selectorDiv.hidden == false) {
       selectorDiv.style.width = Math.floor(window.visualViewport.width - closeButtonDiv.style.width - selectorDiv.offsetLeft - 2) + 'px';

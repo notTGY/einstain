@@ -16,7 +16,7 @@
   background-color: #0E08;
 }
 
-.closeButtonDiv{
+#closeButtonDiv{
   background-color: #CCC8;
   position: fixed;
   top: 0px;
@@ -27,15 +27,15 @@
   line-height: 100px;
   text-align: center;
 }
-.closeButtonDiv:after{
+#closeButtonDiv:after{
   content: "\D7";
   font-size: 200px;
   font-weight: 100;
 }
-.closeButtonDiv:hover{
+#closeButtonDiv:hover{
   background-color: #F008;
 }
-.closeButtonDiv:active{
+#closeButtonDiv:active{
   background-color: #F00F;
 }
 
