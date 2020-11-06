@@ -47,8 +47,8 @@
   mainCanvas.height = SIZE_OF_SMALL_CANVASES;
 
   closeButtonDiv.id = CLOSE_BUTTON_DIV_ID;
-  closeButtonDiv.width = SIZE_OF_SMALL_CANVASES;
-  closeButtonDiv.height = SIZE_OF_SMALL_CANVASES;
+  closeButtonDiv.style.width = SIZE_OF_SMALL_CANVASES + 'px';
+  closeButtonDiv.style.height = SIZE_OF_SMALL_CANVASES + 'px';
 
 
   document.body.appendChild(mainCanvas);
