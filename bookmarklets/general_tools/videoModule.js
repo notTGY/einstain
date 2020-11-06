@@ -39,12 +39,14 @@
 
   /* closing stuff and fullscreen enter point */
   vidElem.requestFullscreen();
-  window.addEventListener('keydown', e => {
+  let handler = e => {
     if (e.key == 'Escape') {
       document.exitFullscreen();
       let mainCanvas = document.querySelector('#mainCanvas');
       mainCanvas.hidden = false;
       killThisScript();
+      window.removeEventListener('keydown', handler);
     }
-  });
+  };
+  window.addEventListener('keydown', handler);
 })();
