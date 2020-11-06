@@ -132,8 +132,8 @@
 
       selectorDiv.style.left = (mainCanvas.width + mainCanvas.offsetLeft + 3) + 'px';
 
-      selectorDiv.style.width = Math.floor(window.visualViewport.width) - closeButtonDiv.width - selectorDiv.offsetLeft - 2;
-      selectorDiv.style.height = Math.floor(window.visualViewport.height) - 3;
+      selectorDiv.style.width = Math.floor(window.visualViewport.width) - closeButtonDiv.width - selectorDiv.offsetLeft - 2 + 'px';
+      selectorDiv.style.height = Math.floor(window.visualViewport.height) - 3 + 'px';
 
 
 
