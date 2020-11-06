@@ -117,8 +117,11 @@
 
 
   function drawWidgets() {
-
-
+    FAT_JSON.forEach(e => {
+      let img = document.createElement('img');
+      img.src = e.imagePath;
+      selectorDiv.appendChild(img);
+    });
   }
 
   function launchSelector() {
