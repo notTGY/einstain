@@ -8,7 +8,9 @@
     let arr = document.querySelectorAll('script');
     arr.forEach(i => {
       let src = i.src;
-      if (src.substring(-14,14) == 'videoModule.js') {
+      let ind = src.indexOf('?');
+
+      if (ind != -1 && src.substring(ind-14,14) == 'videoModule.js') {
         i.remove();
       }
     });
