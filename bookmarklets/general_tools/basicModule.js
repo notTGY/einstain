@@ -50,6 +50,8 @@
   closeButtonDiv.id = CLOSE_BUTTON_DIV_ID;
   closeButtonDiv.style.width = SIZE_OF_SMALL_CANVASES + 'px';
   closeButtonDiv.style.height = SIZE_OF_SMALL_CANVASES + 'px';
+  closeButtonDiv.width = SIZE_OF_SMALL_CANVASES;
+  closeButtonDiv.height = SIZE_OF_SMALL_CANVASES;
 
 
   document.body.appendChild(mainCanvas);
@@ -133,9 +135,10 @@
 
       selectorDiv.style.left = (mainCanvas.width + mainCanvas.offsetLeft + 3) + 'px';
 
-      selectorDiv.style.width = Math.floor(window.visualViewport.width - closeButtonDiv.style.width - selectorDiv.offsetLeft - 2) + 'px';
+      selectorDiv.style.width = Math.floor(window.visualViewport.width - closeButtonDiv.width - selectorDiv.offsetLeft - 2) + 'px';
       selectorDiv.style.height = Math.floor(window.visualViewport.height) - 3 + 'px';
-
+      selectorDiv.width = Math.floor(window.visualViewport.width - closeButtonDiv.width - selectorDiv.offsetLeft - 2);
+      selectorDiv.height = Math.floor(window.visualViewport.height) - 3;
 
 
       closeButtonDiv.hidden = false;
@@ -229,8 +232,10 @@
   /* keydown handler */
   document.addEventListener('resize', e=>{
     if (selectorDiv.hidden == false) {
-      selectorDiv.style.width = Math.floor(window.visualViewport.width - closeButtonDiv.style.width - selectorDiv.offsetLeft - 2) + 'px';
+      selectorDiv.style.width = Math.floor(window.visualViewport.width - closeButtonDiv.width - selectorDiv.offsetLeft - 2) + 'px';
       selectorDiv.style.height = Math.floor(window.visualViewport.height) - 3 + 'px';
+      selectorDiv.width = Math.floor(window.visualViewport.width - closeButtonDiv.width - selectorDiv.offsetLeft - 2);
+      selectorDiv.height = Math.floor(window.visualViewport.height) - 3;
     }
   });
 
