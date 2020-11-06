@@ -7,6 +7,7 @@
   const SELECTOR_DIV_ID = 'selectorDiv';
 
   const SIZE_OF_SMALL_CANVASES = 100;
+  const WIDGET_IMAGE_SIZE = 100;
   const CLOSING_CANVAS_CROSS_PERCENTAGE = 0.8;
   const ARROW_BUTTONS_COLOR = '#999F';
   const BLOCK_BUTTONS_COLOR = '#FFFF';
@@ -121,6 +122,10 @@
       let img = document.createElement('img');
       img.src = i.imagePath;
       img.id = i.name;
+      img.style.width = WIDGET_IMAGE_SIZE + 'px';
+      img.style.height = WIDGET_IMAGE_SIZE + 'px';
+      img.width = WIDGET_IMAGE_SIZE;
+      img.height = WIDGET_IMAGE_SIZE;
       selectorDiv.appendChild(img);
       img.addEventListener('click', e => {
         i.load();
@@ -139,6 +144,7 @@
         selectorDiv.id = SELECTOR_DIV_ID;
         document.body.appendChild(selectorDiv);
         isSelectorCreated = 1;
+        drawWidgets();
       }
       selectorDiv.hidden = false;
 
@@ -152,7 +158,7 @@
 
       closeButtonDiv.hidden = false;
 
-      drawWidgets();
+
 
       isSelectorLaunched = 1;
     } else {
