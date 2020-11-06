@@ -41,7 +41,7 @@
   vidElem.requestFullscreen();
   window.addEventListener('keydown', e => {
     if (e.key == 'Escape') {
-      vidElem.exitFullscreen();
+      document.exitFullscreen();
       let mainCanvas = document.querySelector('#mainCanvas');
       mainCanvas.hidden = false;
       killThisScript();
