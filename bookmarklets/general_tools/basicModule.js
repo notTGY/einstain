@@ -226,8 +226,11 @@
   });
 
   /* keydown handler */
-  document.addEventListener('keydown', e=>{
-    ;
+  document.addEventListener('resize', e=>{
+    if (selectorDiv.hidden == false) {
+      selectorDiv.style.width = Math.floor(window.visualViewport.width - closeButtonDiv.style.width - selectorDiv.offsetLeft - 2) + 'px';
+      selectorDiv.style.height = Math.floor(window.visualViewport.height) - 3 + 'px';
+    }
   });
 
   /* Widgets */
