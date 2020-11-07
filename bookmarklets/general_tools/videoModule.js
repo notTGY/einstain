@@ -2,6 +2,7 @@
   /* Magic numbers */
   const OVERLAY_ID = 'overlay_video_module';
   const OVERLAY_HEIGHT = 200;
+  const WRAPPER_ID = 'wrapper_video_module';
 
 
   function insertAfter(referenceNode, newNode) {
@@ -50,13 +51,13 @@
   overlay.style.Zindex = '2147483647';
   /* creating wrap-around div */
   let wrapper = wrap(vidElem);
-
-  vidElem.style.zIndex = '1';
-  vidElem.style.position = 'relative';
-  /* */
+  wrapper.id = WRAPPER_ID;
 
   insertAfter(vidElem, overlay);
 
+  /* configuring video element */
+  vidElem.style.zIndex = '1';
+  vidElem.style.position = 'relative';
 
   /* closing stuff and fullscreen enter point */
   wrapper.requestFullscreen();
