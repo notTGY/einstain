@@ -1,8 +1,30 @@
 (function(){
   /* Magic numbers */
   const OVERLAY_ID = 'overlay_video_module';
-  const OVERLAY_HEIGHT = 200;
+  const OVERLAY_HEIGHT = 50;
   const WRAPPER_ID = 'wrapper_video_module';
+
+
+  function ControlElement (fatherElement, imagePath, callback, style) {
+    let elem = document.createElement('img');
+    elem.src  = imagePath;
+    fatherElement.appendChild(elem);
+
+    if (style) {
+      elem.style = style;
+    }
+
+    elem.addEventListener('click', callback);
+
+    this.element = elem;
+    this.callback = callback;
+    this.remove = _ => {
+      this.element.removeEventListener('click', this.callback);
+      this.element.remove();
+    };
+  }
+
+
 
 
   function insertAfter(referenceNode, newNode) {
@@ -14,7 +36,13 @@
     toWrap.parentNode.appendChild(wrapper);
     wrapper.appendChild(toWrap);
     return wrapper;
-};
+  };
+
+  function killOverlay() {
+    if (document.querySelector('#'+OVERLAY_ID)) {
+      document.querySelector('#'+OVERLAY_ID).remove();
+    }
+  }
 
 
   function killThisScript() {
@@ -61,14 +89,31 @@
   /* configuring video element */
   vidElem.style.zIndex = '1';
 
+  /* creating widgets itself */
+
+  let overlayControls = [];
+
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlay,
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule.png',
+    e => {vidElem.play()},
+    {margin: '5px', width: '40px', height:'40px'}
+  );
+
 
   /* closing stuff and fullscreen enter point */
   wrapper.requestFullscreen();
+  vidElem.style.width = '100%';
+  vidElem.style.height = '100%';
+  vidElem.controls = false;
+
   let handler = e => {
     if (e.key == 'Escape') {
       document.exitFullscreen();
       let mainCanvas = document.querySelector('#mainCanvas');
       mainCanvas.hidden = false;
+      killOverlay();
       killThisScript();
       document.body.removeEventListener('keydown', handler);
     }
