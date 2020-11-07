@@ -12,7 +12,8 @@
   function wrap (toWrap, wrapper) {
     wrapper = wrapper || document.createElement('div');
     toWrap.parentNode.appendChild(wrapper);
-    return wrapper.appendChild(toWrap);
+    wrapper.appendChild(toWrap);
+    return wrapper;
 };
 
 
