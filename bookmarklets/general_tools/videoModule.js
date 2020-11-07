@@ -53,11 +53,13 @@
   let wrapper = wrap(vidElem);
   wrapper.id = WRAPPER_ID;
 
+  wrapper.style.position = 'relative';
+
   insertAfter(vidElem, overlay);
 
   /* configuring video element */
   vidElem.style.zIndex = '1';
-  vidElem.style.position = 'relative';
+
 
   /* closing stuff and fullscreen enter point */
   wrapper.requestFullscreen();
