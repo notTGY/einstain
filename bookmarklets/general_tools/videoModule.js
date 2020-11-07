@@ -11,7 +11,9 @@
     fatherElement.appendChild(elem);
 
     if (style) {
-      elem.style = style;
+      Object.keys(style).forEach(e => {
+        elem.style[e] = style[e];
+      });
     }
 
     elem.addEventListener('click', callback);
