@@ -48,7 +48,8 @@
 }
 
 #overlay_video_module {
-  position: fixed;
+  position: absolute;
+  display: block;
   bottom: 0px;
   left: 0px;
   background: linear-gradient(0deg, rgba(255,0,0,1) 0%, rgba(255,0,0,0.21) 100%);
