@@ -45,7 +45,8 @@
   overlay.width = Math.floor(window.visualViewport.width);
   overlay.height = OVERLAY_HEIGHT;
   overlay.style.height = OVERLAY_HEIGHT + 'px';
-
+  overlay.style.visibility = 'visible';
+  overlay.style.Zindex = '2147483647';
   /* creating wrap-around div */
   let wrapper = wrap(vidElem);
 
