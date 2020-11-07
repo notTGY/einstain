@@ -136,6 +136,7 @@
       document.exitFullscreen();
       let mainCanvas = document.querySelector('#mainCanvas');
       mainCanvas.hidden = false;
+      vidElem.controls = true;
       killOverlay();
       killThisScript();
       document.body.removeEventListener('keydown', handler);
