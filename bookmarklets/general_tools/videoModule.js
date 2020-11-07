@@ -103,6 +103,27 @@
     {margin: '5px', width: '40px', height:'40px'}
   );
 
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlay,
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule.png',
+    e => {vidElem.pause()},
+    {margin: '5px', width: '40px', height:'40px'}
+  );
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlay,
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule.png',
+    e => {vidElem.volume -= .1},
+    {margin: '5px', width: '40px', height:'40px'}
+  );
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlay,
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule.png',
+    e => {vidElem.volume += .1},
+    {margin: '5px', width: '40px', height:'40px'}
+  );
+
 
   /* closing stuff and fullscreen enter point */
   wrapper.requestFullscreen();
