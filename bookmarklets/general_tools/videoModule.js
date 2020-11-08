@@ -143,4 +143,43 @@
     }
   };
   document.body.addEventListener('keydown', handler);
+
+  /* continuing widgets */
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlay,
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/escapeButtonVideoModule.png',
+    handler,
+    {margin: '5px', width: '40px', height:'40px', marginRight: '5px'}
+  );
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlay,
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/jumpForwardButtonVideoModule.png',
+    e => {vidElem.currentTime -= 5},
+    {margin: '5px', width: '40px', height:'40px'}
+  );
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlay,
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/jumpBackwardButtonVideoModule.png',
+    e => {vidElem.currentTime += 5},
+    {margin: '5px', width: '40px', height:'40px'}
+  );
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlay,
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/speedDownButtonVideoModule.png',
+    e => {vidElem.playbackRate -= .1},
+    {margin: '5px', width: '40px', height:'40px'}
+  );
+
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlay,
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/speedUpButtonVideoModule.png',
+    e => {vidElem.playbackRate += .1},
+    {margin: '5px', width: '40px', height:'40px'}
+  );
+
 })();
