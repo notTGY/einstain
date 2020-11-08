@@ -137,6 +137,8 @@
       let mainCanvas = document.querySelector('#mainCanvas');
       mainCanvas.hidden = false;
       vidElem.controls = true;
+      vidElem.style.width = '';
+      vidElem.style.height = '';
       killOverlay();
       killThisScript();
       document.body.removeEventListener('keydown', handler);
