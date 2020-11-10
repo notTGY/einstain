@@ -263,6 +263,7 @@
   /* Widgets */
 
   FAT_JSON[FAT_JSON.length] = new Widget('https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/videoModule.js', 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/videoModule.png', 'videoModule');
+  FAT_JSON[FAT_JSON.length] = new Widget('https://nottgy.github.io/einstain/bookmarklets/general_tools/mailSorterModule/mailSorterModule.js', 'https://nottgy.github.io/einstain/bookmarklets/general_tools/mailSorterModule/mailSorterModule.png', 'mailSorterModule');
 
   /*
   FAT_JSON.forEach(e => {
