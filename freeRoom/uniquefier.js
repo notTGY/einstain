@@ -2,7 +2,7 @@ function makeUnique(arr) {
   let res = [];
   arr.forEach(e => {
     if (find(e, res) == -1) {
-      if (e != '') {
+      if (e.length > 2) {
         res[res.length] = e;
       }
     }

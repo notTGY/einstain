@@ -7,7 +7,7 @@ function calculateFreeRooms(taken) {
       res[res.length] = e;
     }
   });
-  console.log(res);
+  printFreeRooms(res);
 }
 function find(elem, arr) {
   let retcode = -1;
