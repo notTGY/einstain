@@ -40,7 +40,6 @@ function processData() {
         } else {
           if (para == currentPara && ttDoW == currentDayOfTheWeek) {
             if (cell.indexOf('ГК') != -1) {
-              console.log(cell);
               taken[taken.length] = convertToRoomNumber(cell);
             }
           }
