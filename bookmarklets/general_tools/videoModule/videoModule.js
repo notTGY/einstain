@@ -98,28 +98,28 @@
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlay,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/playButtonVideoModule.png',
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png',
     e => {vidElem.play()},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlay,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/pauseButtonVideoModule.png',
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/pauseButtonVideoModule.png',
     e => {vidElem.pause()},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlay,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/volumeDownButtonVideoModule.png',
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/volumeDownButtonVideoModule.png',
     e => {vidElem.volume -= .1},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlay,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/volumeUpButtonVideoModule.png',
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/volumeUpButtonVideoModule.png',
     e => {vidElem.volume += .1},
     {margin: '5px', width: '40px', height:'40px'}
   );
@@ -150,28 +150,28 @@
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlay,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/escapeButtonVideoModule.png',
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/escapeButtonVideoModule.png',
     handler,
     {margin: '5px', width: '40px', height:'40px', right: '5px'}
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlay,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/jumpBackwardButtonVideoModule.png',
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/jumpBackwardButtonVideoModule.png',
     e => {vidElem.currentTime -= 5},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlay,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/jumpForwardButtonVideoModule.png',
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/jumpForwardButtonVideoModule.png',
     e => {vidElem.currentTime += 5},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlay,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/speedDownButtonVideoModule.png',
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/speedDownButtonVideoModule.png',
     e => {vidElem.playbackRate -= .1},
     {margin: '5px', width: '40px', height:'40px'}
   );
@@ -179,7 +179,7 @@
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlay,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/speedUpButtonVideoModule.png',
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/speedUpButtonVideoModule.png',
     e => {vidElem.playbackRate += .1},
     {margin: '5px', width: '40px', height:'40px'}
   );
