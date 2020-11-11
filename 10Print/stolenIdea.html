@@ -1,0 +1,12 @@
+<button id=button>
+<script>
+button.onclick=_=>{
+  with(new AudioContext)
+  with(createScriptProcessor(k=8192,t=0,1))
+  connect(destination),
+  onaudioprocess=x=>{
+    for(i=0;i<k;t+=2e-5)
+      x.outputBuffer.getChannelData(0)[i++]='%,IW7:A'.charCodeAt(i%7)*t%.1*(1-t/(9+Math.tan(i%7))%1)
+    }
+  }
+</script>
