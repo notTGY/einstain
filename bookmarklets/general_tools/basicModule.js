@@ -115,7 +115,7 @@
   }
 
   function makeDown(mainCtx,w,h) {
-    mainCanvas.style.top = (Math.floor(window.visualViewport.height) - mainCanvas.height) + 'px';
+    mainCanvas.style.top = (Math.floor(window.visualViewport.height) - mainCanvas.height - 1) + 'px';
     mainCtx.clearRect(0, 0, w, h);
     drawTriangleUp(mainCtx,w/2+w/16,h/16,Math.min(w/2-w/8,h/2-h/8));
     drawBlocks(mainCtx,w/16,h/2+h/16,Math.min(w/2-w/8,h/2-h/8));

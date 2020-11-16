@@ -93,8 +93,8 @@
 
   /* fullscreen enter point and start of media */
   wrapper.requestFullscreen();
-  canvas.width = window.visualViewport.width;
-  canvas.height = window.visualViewport.height;
+  canvas.width = window.screen.width;
+  canvas.height = window.screen.height;
 
   let ctx = canvas.getContext('2d');
   let mainInterval = setInterval(()=>{
