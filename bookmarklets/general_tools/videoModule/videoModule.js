@@ -136,12 +136,11 @@
       ctx.putImageData(imageData, 0, 0);
     }
     /* overlay drawing */
-    if (overlayTimeout < 0 && overlay.hidden == false) {
+    if (overlayTimeout < 0) {
       overlay.hidden = true;
     } else {
       overlayTimeout -= .033;
     }
-    console.log(overlayTimeout);
     /* progress bar updating */
     if (bar) {
       let str = 'linear-gradient(to right, #FFF 0%, #FF0 ';
