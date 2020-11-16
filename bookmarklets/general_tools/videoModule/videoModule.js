@@ -128,6 +128,7 @@
   clockOverlay.style.height = '20px';
   clockOverlay.style.border = '1px solid #FFFE';
   clockOverlay.style.background = 'radial-gradient(#0008, #000C)';
+  clockOverlay.style.textAlign = 'center';
   clockOverlay.style.opacity = 1;
 
   wrapper.appendChild(clockOverlay);
@@ -140,6 +141,7 @@
   clockDropdownOverlay.style.height = '40px';
   clockDropdownOverlay.style.border = '1px solid #FFFE';
   clockDropdownOverlay.style.background = 'radial-gradient(#0008, #000C)';
+  clockDropdownOverlay.style.textAlign = 'center';
   clockDropdownOverlay.style.opacity = 0;
 
   wrapper.appendChild(clockDropdownOverlay);
@@ -158,7 +160,7 @@
 
   inputField.id = CLOCK_INPUT_ID;
   
-
+  clockDropdownOverlay.appendChild(inputField);
   /* clock initializations */  
   const clockOverlayOnclick = e => {
     if (clockDropdownOverlay.style.opacity == 0) {
@@ -304,6 +306,17 @@
   let overlayControls = [];
 
 
+  const hookPlayButton = e => {
+    let element = document.querySelector('#'+PLAY_BUTTON_ID);
+    if (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2) {
+      vidElem.play();
+      element.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/pauseButtonVideoModule.png?'+new Date();
+    } else {
+      vidElem.pause();
+      element.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png?'+new Date();
+    }
+  };
+
   overlayControls[overlayControls.length] = new ControlElement(
     overlayLeft,
     f => {
@@ -313,16 +326,7 @@
       f.appendChild(e);
       return {elem: e , width: 40};
     },
-    hookPlayButton = e => {
-      let element = document.querySelector('#'+PLAY_BUTTON_ID);
-      if (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2) {
-        vidElem.play();
-        element.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/pauseButtonVideoModule.png?'+new Date();
-      } else {
-        vidElem.pause();
-        element.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png?'+new Date();
-      }
-    },
+    hookPlayButton,
     {margin: '5px', width: '40px', height:'40px'}
   );
 
