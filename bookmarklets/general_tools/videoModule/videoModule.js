@@ -141,6 +141,7 @@
     } else {
       overlayTimeout -= .033;
     }
+    console.log(overlayTimeout);
     /* progress bar updating */
     if (bar) {
       let str = 'linear-gradient(to right, #FFF 0%, #FF0 ';
@@ -172,11 +173,9 @@
     if (e.clientY > window.screen.height - OVERLAY_HEIGHT) {
       overlayTimeout = +Infinity;
       overlay.hidden = false;
-      console.log('hi', e.clientY, OVERLAY_HEIGHT, window.screen.height);
     } else {
       overlayTimeout = 5;
       overlay.hidden = false;
-      console.log('hello');
     }
   }
   document.body.addEventListener('mousemove', mousemoveHandler);
