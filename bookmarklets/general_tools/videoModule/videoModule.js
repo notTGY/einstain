@@ -158,6 +158,7 @@
 
   const inputFieldResetButtonOnclick = _ => {
    inputField.value = '';
+   startTime = {hours: undefined, minutes: undefined};
   };
   
   inputField.id = CLOCK_INPUT_ID;
@@ -223,6 +224,10 @@
     let h = t.getHours();
     let m = t.getMinutes();
     let s = t.getSeconds();
+    let time = (h - startTime.hours)*60*60 + (m - startTime.minutes)*60 + s;
+    h = Math.floor(time/(60*60));
+    m = Math.floor((time - 60*60*h)/60);
+    s = Math.floor(time - 60*60*h - 60*m);
     if (h < 10) {
       h = '0' + h;
     }
