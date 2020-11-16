@@ -107,7 +107,7 @@
 
 
 
-  const isGamma = false;
+  let isGamma = false;
 
 
   /* fullscreen enter point and start of media */
@@ -265,10 +265,11 @@
       let e = document.createElement('div');
       e.id = PROGRESS_BAR_ID;
       f.appendChild(e);
+      e.width = Math.floor(window.screen.width)-overlayControls.length*60;
       return e;
     },
     e => {
-      let w = Number(this.elem.style.width.substring(0,-2));
+      let w = this.elem.width;
       let dx = e.clientX - this.elem.offsetLeft;
       vidElem.currentTime = vidElem.duration * (dx / w);
     },
