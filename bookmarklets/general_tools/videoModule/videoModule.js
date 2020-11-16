@@ -100,7 +100,7 @@
   overlay.style.visibility = 'visible';
   overlay.style.zIndex = '2147483647';
   overlay.style.display = 'flex';
-  overlay.style.justifyContent = 'space-between';
+  overlay.style.justifyContent = 'center';
   overlay.style.alignItems = 'center';
   let overlayTimeout = 5;
 
@@ -112,6 +112,7 @@
   /* INIT    creating wrap-around div */
   let wrapper = wrap(canvas);
   wrapper.style.display = 'flex';
+  wrapper.style.justifyContent = 'center';
   wrapper.style.alignItems = 'center';
   wrapper.id = WRAPPER_ID;
   wrapper.style.position = 'relative';
