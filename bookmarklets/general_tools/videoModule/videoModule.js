@@ -22,10 +22,11 @@
       });
     }
 
-    elem.addEventListener('click', callback);
-
-    this.element = elem;
     this.callback = callback;
+
+
+    elem.addEventListener('click', this.callback);
+    this.element = elem;
     this.remove = _ => {
       this.element.removeEventListener('click', this.callback);
       this.element.remove();
@@ -126,7 +127,7 @@
       let h = window.screen.height;
       let imageData = ctx.getImageData(0,0,w,h);
       imageData.data = imageData.data.map(x => {
-        return x + 30;
+        return x + 90;
       });
       ctx.putImageData(imageData, 0, 0);
     }
@@ -272,8 +273,9 @@
       return {elem: e , width: Math.floor(window.screen.width)-overlayControls.length*60};
     },
     e => {
-      let w = this.width;
-      let dx = e.clientX - this.element.offsetLeft;
+      let element = document.querySelector('#'+PROGRESS_BAR_ID);
+      let w = element.width;
+      let dx = e.clientX - element.offsetLeft;
       vidElem.currentTime = vidElem.duration * (dx / w);
     },
     {margin: '5px', width: Math.floor(window.screen.width)-overlayControls.length*60+'px', height:'40px'}
