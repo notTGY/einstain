@@ -111,6 +111,9 @@
 
   /* creating wrap-around div */
   let wrapper = wrap(canvas);
+  wrapper.style.display = 'flex';
+  wrapper.style.justifyContent = 'center';
+  wrapper.style.alignItems = 'center';
   wrapper.id = WRAPPER_ID;
   wrapper.style.position = 'relative';
   insertAfter(canvas, overlay);
@@ -282,11 +285,9 @@
   if (h < w) {
     canvas.height = window.screen.height;
     canvas.width = canvas.height * (w/h);
-    canvas.style.left = Math.floor((window.screen.width - canvas.width)/2) + 'px';
   } else {
     canvas.width = window.screen.width;
     canvas.height = canvas.width * (h/w);
-    canvas.style.top = Math.floor((window.screen.height - canvas.height)/2) + 'px';  
   }
   let ctx = canvas.getContext('2d');
   
