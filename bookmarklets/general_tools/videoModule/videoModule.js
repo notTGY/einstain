@@ -279,7 +279,7 @@
   wrapper.requestFullscreen();
   let w = vidElem.videoWidth;
   let h = vidElem.videoHeight;
-  if (w < h) {
+  if (h < w) {
     canvas.height = window.screen.height;
     canvas.width = canvas.height * (w/h);
     canvas.style.left = Math.floor((window.screen.width - canvas.width)/2) + 'px';
