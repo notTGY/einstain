@@ -317,6 +317,7 @@
   wrapper.appendChild(pauseButton);
 
   const hookPlayButton = e => {
+    console.log('entering', e);
     let element = document.querySelector('#'+PLAY_BUTTON_ID);
     if (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2) {
       vidElem.play();
