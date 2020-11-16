@@ -137,7 +137,7 @@
     }
     /* overlay drawing */
     if (overlayTimeout < 0) {
-      overlay.hidden = true;
+      overlay.style.opacity = 0;
     } else {
       overlayTimeout -= .033;
     }
@@ -171,10 +171,10 @@
   let mousemoveHandler = e => {
     if (e.clientY > window.screen.height - OVERLAY_HEIGHT) {
       overlayTimeout = +Infinity;
-      overlay.hidden = false;
+      overlay.style.opacity = 1;
     } else {
       overlayTimeout = 5;
-      overlay.hidden = false;
+      overlay.style.opacity = 1;
     }
   }
   document.body.addEventListener('mousemove', mousemoveHandler);
