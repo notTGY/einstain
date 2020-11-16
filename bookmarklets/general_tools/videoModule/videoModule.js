@@ -123,7 +123,7 @@
       let w = window.screen.width;
       let h = window.screen.height;
       let imageData = ctx.getImageData(0,0,w,h);
-      imageData.data = imageData.data.map( x => {
+      imageData.data = imageData.data.map(x => {
         return x + 30;
       });
       ctx.putImageData(imageData, 0, 0);
@@ -269,8 +269,8 @@
       return e;
     },
     e => {
-      let w = this.elem.width;
-      let dx = e.clientX - this.elem.offsetLeft;
+      let w = this.element.width;
+      let dx = e.clientX - this.element.offsetLeft;
       vidElem.currentTime = vidElem.duration * (dx / w);
     },
     {margin: '5px', width: Math.floor(window.screen.width)-overlayControls.length*60+'px', height:'40px'}
