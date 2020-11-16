@@ -138,7 +138,7 @@
     }
     /* progress bar updating */
     if (bar) {
-      let str = 'linear-gradient(to left, #FFF, #FF0 ';
+      let str = 'linear-gradient(to right, #FFF 0%, #FF0 ';
       let prog = vidElem.currentTime / vidElem.duration;
       str += Math.floor(100*prog/2) + '%, #FFF ';
       str += Math.floor(100*prog) + '%)';
