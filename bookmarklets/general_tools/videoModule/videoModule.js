@@ -653,7 +653,7 @@
   playbackRateDisplay.style.font = 'monospace';
   playbackRateDisplay.style.fontSize = '16px';
   playbackRateDisplay.style.color = '#FFF';
-  overlayRight.appendChild(playbackRate);
+  overlayRight.appendChild(playbackRateDisplay);
 
 
 
@@ -705,7 +705,7 @@
       let dx = e.clientX - element.offsetLeft;
       vidElem.currentTime = vidElem.duration * (dx / w);
     },
-    {margin: '5px', width: Math.floor(window.screen.width)-overlayControls.length*60+'px', height:'10px'}
+    {margin: '5px', width: Math.floor(window.screen.width)-overlayControls.length*100+'px', height:'10px'}
   );
 
   /* getting pointer to the main bar */
