@@ -112,7 +112,6 @@
   /* INIT    creating wrap-around div */
   let wrapper = wrap(canvas);
   wrapper.style.display = 'flex';
-  wrapper.style.justifyContent = 'center';
   wrapper.style.alignItems = 'center';
   wrapper.id = WRAPPER_ID;
   wrapper.style.position = 'relative';
@@ -705,7 +704,7 @@
       let dx = e.clientX - element.offsetLeft;
       vidElem.currentTime = vidElem.duration * (dx / w);
     },
-    {margin: '5px', width: Math.floor(window.screen.width)-overlayControls.length*100+'px', height:'10px'}
+    {margin: '5px', width: Math.floor(window.screen.width)-600+'px', height:'10px'}
   );
 
   /* getting pointer to the main bar */
