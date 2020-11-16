@@ -469,12 +469,17 @@
   overlayLeft.style.overflow = 'hidden';
   overlayLeft.style.textOverflow = 'ellipsis';
   overlayLeft.style.height = OVERLAY_HEIGHT + 'px';
+  overlayLeft.style.display = 'flex';
+  overlayLeft.style.flexDirection = 'row';
+  overlayLeft.style.width = '300px';
 
   overlayRight.style.whiteSpace = 'nowrap';
   overlayRight.style.overflow = 'hidden';
   overlayRight.style.textOverflow = 'ellipsis';
   overlayRight.style.height = OVERLAY_HEIGHT + 'px';
-
+  overlayRight.style.display = 'flex';
+  overlayRight.style.flexDirection = 'row';
+  overlayRight.style.width = '300px';
 
 
 
