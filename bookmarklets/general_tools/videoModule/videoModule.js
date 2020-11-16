@@ -3,13 +3,17 @@
   const OVERLAY_ID = 'overlay_video_module';
   const OVERLAY_HEIGHT = 50;
   const WRAPPER_ID = 'wrapper_video_module';
-
+  const PROGRESS_BAR_ID = 'progress_bar_video_module';
 
   function ControlElement (fatherElement, imagePath, callback, style) {
-    let elem = document.createElement('img');
-    elem.src  = imagePath;
-    fatherElement.appendChild(elem);
-
+    let elem;
+    if (typeof(imagePath) == 'string') {
+      elem = document.createElement('img');
+      elem.src  = imagePath;
+      fatherElement.appendChild(elem);
+    } else {
+      elem = imagePath(fatherElement);
+    }
     if (style) {
       Object.keys(style).forEach(e => {
         elem.style[e] = style[e];
@@ -80,7 +84,7 @@
   overlay.style.visibility = 'visible';
   overlay.style.zIndex = '2147483647';
   overlay.style.display = 'flex';
-  overlay.style.justifyContent = 'space-between';
+  overlay.style.justifyContent = 'space-around';
   let overlayTimeout = 5;
 
   /* creating canvas to copy the video in*/
@@ -107,6 +111,15 @@
     } else {
       overlayTimeout -= .033;
     }
+
+    if (bar) {
+      let str = 'linear-gradient(#FFF, #FF0 ';
+      let prog = vidElem.currentTime / vidElem.getDuration();
+      str += Math.floor(prog/2) + '%, #FFF';
+      str += Math.floor(prog) + '%)';
+      bar.style.background = str;
+    }
+
   },33);
 
 
@@ -138,61 +151,75 @@
 
 
   /* creating widgets itself */
+  let overlayLeft = document.createElement('div');
+  let overlayRight = document.createElement('div');
+  let overlayCenter = document.createElement('div');
+
+  /* !!!!! order does matter */
+  overlay.appendChild(overlayLeft);
+  overlay.appendChild(overlayCenter);
+  overlay.appendChild(overlayRight);
 
   let overlayControls = [];
 
 
   overlayControls[overlayControls.length] = new ControlElement(
-    overlay,
+    overlayLeft,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png',
     e => {vidElem.play()},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
-    overlay,
+    overlayLeft,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/pauseButtonVideoModule.png',
     e => {vidElem.pause()},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
-    overlay,
+    overlayLeft,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/volumeDownButtonVideoModule.png',
     e => {vidElem.volume -= .1},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
-    overlay,
+    overlayLeft,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/volumeUpButtonVideoModule.png',
     e => {vidElem.volume += .1},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
-  overlayControls[overlayControls.length] = new ControlElement(
-    overlay,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/escapeButtonVideoModule.png',
-    e=>{handler({key:'q'})},
-    {margin: '5px', width: '40px', height:'40px', right: '5px'}
-  );
 
   overlayControls[overlayControls.length] = new ControlElement(
-    overlay,
+    overlayLeft,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/jumpBackwardButtonVideoModule.png',
     e => {vidElem.currentTime -= 5},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
-    overlay,
+    overlayCenter,
+    f => {
+      let e = document.createElement('div');
+      e.id = PROGRESS_BAR_ID;
+      f.appendChild(e);
+      return e;
+    },
+    e => {},
+    {margin: '5px', width: '40px', height:'40px'}
+  );
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlayRight,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/jumpForwardButtonVideoModule.png',
     e => {vidElem.currentTime += 5},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
-    overlay,
+    overlayRight,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/speedDownButtonVideoModule.png',
     e => {vidElem.playbackRate -= .1},
     {margin: '5px', width: '40px', height:'40px'}
@@ -200,10 +227,19 @@
 
 
   overlayControls[overlayControls.length] = new ControlElement(
-    overlay,
+    overlayRight,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/speedUpButtonVideoModule.png',
     e => {vidElem.playbackRate += .1},
     {margin: '5px', width: '40px', height:'40px'}
   );
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlayRight,
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/escapeButtonVideoModule.png',
+    e=>{handler({key:'q'})},
+    {margin: '5px', width: '40px', height:'40px', right: '5px'}
+  );
+
+  const bar = document.querySelector('#'+PROGRESS_BAR_ID);
 
 })();
