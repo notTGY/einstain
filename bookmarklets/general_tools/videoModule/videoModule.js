@@ -276,8 +276,8 @@
   document.body.addEventListener('keydown', handler);
 
   let mousemoveHandler = e => {
-    let inDownOverlay = (e.clientY > window.screen.height - OVERLAY_HEIGHT);
-    let isClockOverlay = (e.clientY > 10 && e.clientY < 310 && e.clientX < 210 && e.clientX > 10);
+    let inDownOverlay = (e.clientY > (window.screen.height - OVERLAY_HEIGHT)?1:0);
+    let isClockOverlay = (e.clientY > 10 && e.clientY < 310 && e.clientX < 210 && e.clientX > 10)?1:0;
     if (isDownOverlay || isClockOverlay) {
       overlayTimeout = +Infinity;
       overlay.style.opacity = 1;
