@@ -274,7 +274,7 @@
     str += Math.floor(100*prog/2) + '%, #FFF ';
     str += Math.floor(100*prog) + '%, #FFF0 '
     str += Math.floor(100*prog) + 1 + '%, #FFF0 100%)';
-    betterProgressBar.background = str;
+    betterProgressBar.style.background = str;
   }
 
 
@@ -298,8 +298,8 @@
 
     /* Gamma drawing */
     if (isGamma) {
-      let w = window.screen.width;
-      let h = window.screen.height;
+      let w = canvas.width;
+      let h = canvas.height;
       let imageData = ctx.getImageData(0,0,w,h);
       console.log(imageData);
       imageData.data = imageData.data.map(x => {
