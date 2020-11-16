@@ -288,7 +288,7 @@
     if (startTime.hours != undefined && startTime.minutes != undefined) {
       let isPlaying = (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2);
       let logic = (startTime.hours*60+startTime.minutes > hours*60+minutes);
-      if (logic) {
+      if (!logic) {
         if (!isPlaying) {
           countdownOverlay.style.opacity = 0;
           hookPlayButton(); 
