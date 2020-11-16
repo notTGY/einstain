@@ -4,6 +4,10 @@
   const OVERLAY_HEIGHT = 50;
   const WRAPPER_ID = 'wrapper_video_module';
   const PROGRESS_BAR_ID = 'progress_bar_video_module';
+  const PLAY_BUTTON_ID = 'play_button_video_module';
+  const OTHER_OVERLAY_CLASS = 'other_overlay_class_video_module';
+  const CLOCK_INPUT_ID = 'clock_input_video_module';
+
 
   function ControlElement (fatherElement, imagePath, callback, style) {
     let elem;
@@ -59,6 +63,7 @@
   function killOverlay() {
     if (document.querySelector('#'+OVERLAY_ID)) {
       document.querySelector('#'+OVERLAY_ID).remove();
+      document.querySelectorAll('.'+OTHER_OVERLAY_CLASS).forEach(e=>e.remove());
     }
   }
 
@@ -111,9 +116,76 @@
   insertAfter(canvas, overlay);
 
 
-
+  /* gamma setting variable */
   let isGamma = false;
 
+  /* defining clock overlay */
+  let clockOverlay = document.createElement('div');
+  clockOverlay.classList.add(OTHER_OVERLAY_CLASS);
+  clockOverlay.style.top = '10px';
+  clockOverlay.style.left = '10px';
+  clockOverlay.style.width = '200px';
+  clockOverlay.style.height = '50px';
+  clockOverlay.style.border = '1px solid #FFFE';
+  clockOverlay.style.background = 'radial-gradient(#0008, #FFFC)';
+  clockOverlay.hidden = false;
+
+  wrapper.appendChild(clockOverlay);
+
+  let clockDropdownOverlay = document.createElement('div');
+  clockDropdownOverlay.classList.add(OTHER_OVERLAY_CLASS);
+  clockDropdownOverlay.style.top = '60px';
+  clockDropdownOverlay.style.left = '10px';
+  clockDropdownOverlay.style.width = '200px';
+  clockDropdownOverlay.style.height = '200px';
+  clockDropdownOverlay.style.border = '1px solid #FFFE';
+  clockDropdownOverlay.style.background = 'radial-gradient(#0008, #FFFC)';
+  clockDropdownOverlay.hidden = true;
+
+  wrapper.appendChild(clockDropdownOverlay);
+
+
+  let inputField = document.createElement('input');
+  inputField.type = 'time';
+  
+  let hours = (new Date()).getHours();
+  let minutes = (new Date()).getMinutes();
+  let seconds = (new Date()).getSeconds();
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+  inputField.placeholder = '' + hours + ':' + minutes;
+
+  inputField.id = CLOCK_INPUT_ID;
+  
+
+  /* clock initializations */  
+  const clockOverlayOnclick = e => {
+    if (clockDropdownOverlay.hidden) {
+      clockDropdownOverlay.hidden = false;
+      inputField.hidden = false;
+    } else {
+      clockDropdownOverlay.hidden = true;
+      inputField.hidden = true;
+    }
+  };
+
+  
+  clockOverlay.addEventListener('click', clockOverlayOnclick);
+
+
+
+  /* Dual-watch and timer watch settings initialization */
+  let startTime = {hours: undefined, minutes: undefined};
+
+  const inputFieldOnchange = e => {
+    let value = inputField.value;
+    startTime.hours = value.substring(0,2);
+    startTime.minutes = value.substring(3,5);
+  };
+
+
+  inputField.addEventListener('change', inputFieldOnchange);
 
   /* fullscreen enter point and start of media */
   wrapper.requestFullscreen();
@@ -121,8 +193,12 @@
   canvas.height = window.screen.height;
 
   let ctx = canvas.getContext('2d');
-  let mainInterval = setInterval(()=>{
+  
+  let mainInterval = 1;
+  
+  const mainIntervalFunction = ()=>{
     ctx.drawImage(vidElem, 0, 0, canvas.width, canvas.height);
+
     /* Gamma drawing */
     if (isGamma) {
       let w = window.screen.width;
@@ -138,8 +214,32 @@
     /* overlay drawing */
     if (overlayTimeout < 0) {
       overlay.style.opacity = 0;
+      clockDropdownOverlay.hidden = true;
+      clockOverlay.hidden = true;
+      inputField.hidden = true;
     } else {
       overlayTimeout -= .033;
+    }
+    /* clock updater */
+    let hours = (new Date()).getHours();
+    let minutes = (new Date()).getMinutes();
+    let seconds = (new Date()).getSeconds();
+    if (minutes < 10) {
+      minutes = '0' + minutes;
+    }
+    clockOverlay.innerHTML = '' + hours + ':' + minutes;
+    /* Timing start function */
+    if (startTime.hours != undefined && startTime.minutes != undefined) {
+      let isPlaying = (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2);
+      if (startTime.hours*60+startTime.minutes >= hours*60+minutes) {
+        if (!isPlaying) {
+          hookPlayButton(); 
+        }     
+      } else {
+        if (isPlaying) {
+          hookPlayButton();
+        }
+      }
     }
     /* progress bar updating */
     if (bar) {
@@ -150,7 +250,13 @@
       str += Math.floor(100*prog) + 1 + '%, #FFF0 100%)';
       bar.style.background = str;
     }
-  },33);
+    if (mainInterval) {
+      requestAnimationFrame(mainIntervalFunction);
+    }
+  };
+
+
+  mainIntervalFunction();
 
 
   let handler = e => {
@@ -158,23 +264,29 @@
       document.exitFullscreen();
       let mainCanvas = document.querySelector('#mainCanvas');
       mainCanvas.hidden = false;
-      clearInterval(mainInterval);
-      killOverlay();
-      killThisScript();
-      canvas.remove();
+      mainInterval = 0;
       document.body.removeEventListener('keydown', handler);
       document.body.removeEventListener('mousemove', mousemoveHandler);
+      clockOverlay.removeEventListener('click', clockOverlayOnclick);
+      inputField.removeEventListener('change', inputFieldOnchange);
+      canvas.remove();
+      killOverlay();
+      killThisScript();
     }
   };
   document.body.addEventListener('keydown', handler);
 
   let mousemoveHandler = e => {
-    if (e.clientY > window.screen.height - OVERLAY_HEIGHT) {
+    let inDownOverlay = (e.clientY > window.screen.height - OVERLAY_HEIGHT);
+    let isClockOverlay = (e.clientY > 10 && e.clientY < 310 && e.clientX < 210 && e.clientX > 10);
+    if (isDownOverlay || isClockOverlay) {
       overlayTimeout = +Infinity;
       overlay.style.opacity = 1;
+      clockOverlay.hidden = false;
     } else {
       overlayTimeout = 5;
       overlay.style.opacity = 1;
+      clockOverlay.hidden = false;
     }
   }
   document.body.addEventListener('mousemove', mousemoveHandler);
@@ -195,15 +307,23 @@
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlayLeft,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png',
-    e => {vidElem.play()},
-    {margin: '5px', width: '40px', height:'40px'}
-  );
-
-  overlayControls[overlayControls.length] = new ControlElement(
-    overlayLeft,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/pauseButtonVideoModule.png',
-    e => {vidElem.pause()},
+    f => {
+      let e = document.createElement('img');
+      e.id = PLAY_BUTTON_ID;
+      e.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png';
+      f.appendChild(e);
+      return {elem: e , width: 40};
+    },
+    hookPlayButton = e => {
+      let element = document.querySelector('#'+PLAY_BUTTON_ID);
+      if (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2) {
+        vidElem.play();
+        element.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/pauseButtonVideoModule.png?'+new Date();
+      } else {
+        vidElem.pause();
+        element.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png?'+new Date();
+      }
+    },
     {margin: '5px', width: '40px', height:'40px'}
   );
 

@@ -61,3 +61,10 @@
   border: 1px solid #FFF;
   background: linear-gradient() 
 }
+
+.other_overlay_class_video_module {
+  position: absolute;
+  display: block;
+  visibility: visible;
+  z-index: 2147483647;
+}
