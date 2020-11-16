@@ -319,7 +319,7 @@
   const hookPlayButton = e => {
     console.log('entering', e);
     let element = document.querySelector('#'+PLAY_BUTTON_ID);
-    if (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2) {
+    if (!(vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2)) {
       vidElem.play();
       element.height = element.width = 40;
       element.getContext('2d').drawImage(pauseButton, 0, 0, 40, 40);
