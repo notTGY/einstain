@@ -262,7 +262,7 @@
   betterProgressBar.classList.add(OTHER_OVERLAY_CLASS);
   betterProgressBar.style.opacity = 0;
   betterProgressBar.style.width = Math.floor(window.screen.width) + 'px';
-  betterProgressBar.style.height = '10px';
+  betterProgressBar.style.height = '4px';
   betterProgressBar.style.left = '0px';
   betterProgressBar.style.bottom = '0px';
 
@@ -271,9 +271,9 @@
   function drawBetterProgressBar() {
     let str = 'linear-gradient(to right, #FFF 0%, #FF0 ';
     let prog = vidElem.currentTime / vidElem.duration;
-    str += Math.floor(100*prog/2) + '%, #FFF ';
-    str += Math.floor(100*prog) + '%, #FFF0 '
-    str += Math.floor(100*prog) + 1 + '%, #FFF0 100%)';
+    str += Math.floor(1000*prog/2)/10 + '%, #FFF ';
+    str += Math.floor(1000*prog)/10 + '%, #FFF0 '
+    str += Math.floor(1000*prog)/10 + 1 + '%, #FFF0 100%)';
     betterProgressBar.style.background = str;
   }
 
@@ -351,9 +351,9 @@
     if (bar) {
       let str = 'linear-gradient(to right, #FFF 0%, #FF0 ';
       let prog = vidElem.currentTime / vidElem.duration;
-      str += Math.floor(100*prog/2) + '%, #FFF ';
-      str += Math.floor(100*prog) + '%, #FFF0 '
-      str += Math.floor(100*prog) + 1 + '%, #FFF0 100%)';
+      str += Math.floor(1000*prog/2)/10 + '%, #FFF ';
+      str += Math.floor(1000*prog)/10 + '%, #FFF0 '
+      str += Math.floor(1000*prog)/10 + 1 + '%, #FFF0 100%)';
       bar.style.background = str;
     }
     if (mainInterval) {
