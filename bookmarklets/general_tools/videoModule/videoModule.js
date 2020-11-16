@@ -100,7 +100,6 @@
   overlay.style.visibility = 'visible';
   overlay.style.zIndex = '2147483647';
   overlay.style.display = 'flex';
-  overlay.style.justifyContent = 'center';
   overlay.style.alignItems = 'center';
   let overlayTimeout = 5;
 
@@ -464,6 +463,16 @@
   let overlayLeft = document.createElement('div');
   let overlayRight = document.createElement('div');
   let overlayCenter = document.createElement('div');
+
+  overlayLeft.style.whiteSpace = 'nowrap';
+  overlayLeft.style.overflow = 'hidden';
+  overlayLeft.style.textOverflow = 'ellipsis';
+  overlayRight.style.whiteSpace = 'nowrap';
+  overlayRight.style.overflow = 'hidden';
+  overlayRight.style.textOverflow = 'ellipsis';
+
+
+
 
   /* !!!!! order does matter */
   overlay.appendChild(overlayLeft);
