@@ -128,9 +128,11 @@
       let w = window.screen.width;
       let h = window.screen.height;
       let imageData = ctx.getImageData(0,0,w,h);
+      console.log(imageData);
       imageData.data = imageData.data.map(x => {
         return x + 90;
       });
+      console.log('second',imageData);
       ctx.putImageData(imageData, 0, 0);
     }
     /* overlay drawing */
