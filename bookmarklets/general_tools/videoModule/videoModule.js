@@ -138,8 +138,8 @@
     if (bar) {
       let str = 'linear-gradient(#FFF, #FF0 ';
       let prog = vidElem.currentTime / vidElem.duration;
-      str += Math.floor(prog/2) + '%, #FFF';
-      str += Math.floor(prog) + '%)';
+      str += Math.floor(100*prog/2) + '%, #FFF';
+      str += Math.floor(100*prog) + '%)';
       bar.style.background = str;
     }
   },33);
@@ -268,7 +268,7 @@
       return e;
     },
     e => {
-      let w = this.elem.width;
+      let w = Number(this.elem.style.width.substring(0,-2));
       let dx = e.clientX - this.elem.offsetLeft;
       vidElem.currentTime = vidElem.duration * (dx / w);
     },
