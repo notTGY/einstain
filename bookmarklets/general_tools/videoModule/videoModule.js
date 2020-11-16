@@ -73,13 +73,16 @@
   /* creating overlay */
   let overlay = document.createElement('div');
   overlay.id = OVERLAY_ID;
-  overlay.style.width = Math.floor(window.visualViewport.width) + 'px';
-  overlay.width = Math.floor(window.visualViewport.width);
+  overlay.style.width = Math.floor(window.screen.width) + 'px';
+  overlay.width = Math.floor(window.screen.width);
   overlay.height = OVERLAY_HEIGHT;
   overlay.style.height = OVERLAY_HEIGHT + 'px';
   overlay.style.visibility = 'visible';
-  overlay.style.Zindex = '2147483647';
-  
+  overlay.style.zIndex = '2147483647';
+  overlay.style.display = 'flex';
+  overlay.style.justifyContent = 'space-between';
+  let overlayTimeout = 5;
+
   /* creating canvas to copy the video in*/
   let canvas = document.createElement('canvas');
   canvas.style.zIndex = '1';
@@ -99,6 +102,11 @@
   let ctx = canvas.getContext('2d');
   let mainInterval = setInterval(()=>{
     ctx.drawImage(vidElem, 0, 0, canvas.width, canvas.height);
+    if (overlayTimeout < 0 && overlay.hidden == false) {
+      overlay.hidden = true;
+    } else {
+      overlayTimeout -= .033;
+    }
   },33);
 
 
@@ -112,9 +120,22 @@
       killThisScript();
       canvas.remove();
       document.body.removeEventListener('keydown', handler);
+      document.body.removeEventListener('mousemove', mousemoveHandler);
     }
   };
   document.body.addEventListener('keydown', handler);
+
+  let mousemoveHandler = e => {
+    if (e.clientY > window.screen.height - OVERLAY_HEIGHT) {
+      overlayTimeout = +Infinity;
+      overlay.hidden = false;
+    } else {
+      overlayTimeout = 5;
+      overlay.hidden = false;
+    }
+  }
+  document.body.addEventListener('mousemove', mousemoveHandler);
+
 
   /* creating widgets itself */
 
