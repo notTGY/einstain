@@ -223,7 +223,7 @@
   countdownOverlay.style.left = Math.floor(window.screen.width/2 - 150)+'px';
   countdownOverlay.style.color = '#FFF';
   countdownOverlay.style.font = 'monospace';
-  countdownOverlay.style.fontSize = '20px';
+  countdownOverlay.style.fontSize = '70px';
 
   wrapper.appendChild(countdownOverlay);
   countdownOverlay.style.opacity = 0;
