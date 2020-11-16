@@ -124,7 +124,7 @@
   clockOverlay.classList.add(OTHER_OVERLAY_CLASS);
   clockOverlay.style.top = '10px';
   clockOverlay.style.left = '10px';
-  clockOverlay.style.width = '60px';
+  clockOverlay.style.width = '90px';
   clockOverlay.style.height = '20px';
   clockOverlay.style.border = '1px solid #FFFE';
   clockOverlay.style.background = 'radial-gradient(#0008, #000C)';
@@ -137,11 +137,13 @@
   clockDropdownOverlay.classList.add(OTHER_OVERLAY_CLASS);
   clockDropdownOverlay.style.top = '30px';
   clockDropdownOverlay.style.left = '10px';
-  clockDropdownOverlay.style.width = '60px';
+  clockDropdownOverlay.style.width = '90px';
   clockDropdownOverlay.style.height = '40px';
   clockDropdownOverlay.style.border = '1px solid #FFFE';
   clockDropdownOverlay.style.background = 'radial-gradient(#0008, #000C)';
-  clockDropdownOverlay.style.textAlign = 'center';
+  clockDropdownOverlay.style.display = 'flex';
+  clockDropdownOverlay.style.alignItems = 'center';
+  clockDropdownOverlay.style.justifyContent = 'center';
   clockDropdownOverlay.style.opacity = 0;
 
   wrapper.appendChild(clockDropdownOverlay);
@@ -305,21 +307,25 @@
 
   let overlayControls = [];
 
+  let playButton = document.createElement('img');
+  let pauseButton = document.createElement('img');
+  playButton.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png';
+  pauseButton.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/pauseButtonVideoModule.png';
+  playButton.hidden = true;
+  pauseButton.hidden = true;
+  wrapper.appendChild(playButton);
+  wrapper.appendChild(pauseButton);
 
   const hookPlayButton = e => {
     let element = document.querySelector('#'+PLAY_BUTTON_ID);
     if (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2) {
       vidElem.play();
-      let img = document.createElement('img');
-      img.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/pauseButtonVideoModule.png?'+new Date();
       element.height = element.width = 40;
-      element.getContext('2d').drawImage(img, 0, 0, 40, 40);
+      element.getContext('2d').drawImage(pauseButton, 0, 0, 40, 40);
     } else {
       vidElem.pause();
-      let img = document.createElement('img');
-      img.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png?'+new Date();
       element.height = element.width = 40;
-      element.getContext('2d').drawImage(img, 0, 0, 40, 40);
+      element.getContext('2d').drawImage(playButton, 0, 0, 40, 40);
     }
   };
 
@@ -328,10 +334,8 @@
     f => {
       let e = document.createElement('canvas');
       e.id = PLAY_BUTTON_ID;
-      let img = document.createElement('img');
-      img.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png';
       e.height = e.width = 40;
-      e.getContext('2d').drawImage(img, 0, 0, 40, 40);
+      e.getContext('2d').drawImage(playButton, 0, 0, 40, 40);
       f.appendChild(e);
       return {elem: e , width: 40};
     },
