@@ -101,6 +101,7 @@
   overlay.style.zIndex = '2147483647';
   overlay.style.display = 'flex';
   overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'space-between';
   let overlayTimeout = 5;
 
   /* INITIALIZATION   creating canvas to copy the video in*/
@@ -467,9 +468,12 @@
   overlayLeft.style.whiteSpace = 'nowrap';
   overlayLeft.style.overflow = 'hidden';
   overlayLeft.style.textOverflow = 'ellipsis';
+  overlayLeft.style.height = OVERLAY_HEIGHT + 'px';
+
   overlayRight.style.whiteSpace = 'nowrap';
   overlayRight.style.overflow = 'hidden';
   overlayRight.style.textOverflow = 'ellipsis';
+  overlayRight.style.height = OVERLAY_HEIGHT + 'px';
 
 
 
@@ -683,7 +687,7 @@
     overlayRight,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/gammaButtonVideoModule.png',
     e=>{toggleGamma()},
-    {margin: '5px', width: '40px', height:'40px', right: '5px'}
+    {margin: '5px', width: '40px', height:'40px'}
   );
 
 
@@ -693,7 +697,7 @@
     overlayRight,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/escapeButtonVideoModule.png',
     e=>{handler({key:'q'})},
-    {margin: '5px', width: '40px', height:'40px', right: '5px'}
+    {margin: '5px', width: '40px', height:'40px'}
   );
 
 
@@ -714,7 +718,7 @@
       let dx = e.clientX - element.offsetLeft;
       vidElem.currentTime = vidElem.duration * (dx / w);
     },
-    {margin: '5px', width: Math.floor(window.screen.width)-600+'px', height:'10px'}
+    {margin: '5px', width: Math.floor(window.screen.width)-800+'px', height:'10px'}
   );
 
   /* getting pointer to the main bar */
