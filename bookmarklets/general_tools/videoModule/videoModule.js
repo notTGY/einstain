@@ -15,6 +15,7 @@
       let tmp = imagePath(fatherElement);
       elem = tmp.elem;
       this.width = tmp.width;
+      elem.width = tmp.width;
     }
     if (style) {
       Object.keys(style).forEach(e => {
