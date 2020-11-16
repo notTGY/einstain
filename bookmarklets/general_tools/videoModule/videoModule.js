@@ -318,16 +318,28 @@
 
   const hookPlayButton = e => {
     console.log('entering', e);
+    let element = document.querySelector('#'+PLAY_BUTTON_ID);
     if (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2) {
       vidElem.play();
+      element.height = element.width = 40;
+      element.getContext('2d').drawImage(pauseButton, 0, 0, 40, 40);
     } else {
       vidElem.pause();
+      element.height = element.width = 40;
+      element.getContext('2d').drawImage(playButton, 0, 0, 40, 40);
     }
   };
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlayLeft,
-    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png',
+    f => {
+      let e = document.createElement('canvas');
+      e.id = PLAY_BUTTON_ID;
+      e.height = e.width = 40;
+      e.getContext('2d').drawImage(playButton, 0, 0, 40, 40);
+      f.appendChild(e);
+      return {elem: e , width: 40};
+    },
     e=>{hookPlayButton(e)},
     {margin: '5px', width: '40px', height:'40px'}
   );
