@@ -310,23 +310,32 @@
     let element = document.querySelector('#'+PLAY_BUTTON_ID);
     if (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2) {
       vidElem.play();
-      element.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/pauseButtonVideoModule.png?'+new Date();
+      let img = document.createElement('img');
+      img.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/pauseButtonVideoModule.png?'+new Date();
+      element.height = element.width = 40;
+      element.getContext('2d').drawImage(img, 0, 0, 40, 40);
     } else {
       vidElem.pause();
-      element.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png?'+new Date();
+      let img = document.createElement('img');
+      img.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png?'+new Date();
+      element.height = element.width = 40;
+      element.getContext('2d').drawImage(img, 0, 0, 40, 40);
     }
   };
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlayLeft,
     f => {
-      let e = document.createElement('img');
+      let e = document.createElement('canvas');
       e.id = PLAY_BUTTON_ID;
-      e.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png';
+      let img = document.createElement('img');
+      img.src = 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/playButtonVideoModule.png';
+      e.height = e.width = 40;
+      e.getContext('2d').drawImage(img, 0, 0, 40, 40);
       f.appendChild(e);
       return {elem: e , width: 40};
     },
-    hookPlayButton,
+    e=>{hookPlayButton(e)},
     {margin: '5px', width: '40px', height:'40px'}
   );
 
