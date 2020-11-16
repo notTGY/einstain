@@ -53,13 +53,14 @@
   mainCanvas.id = MAINCANVAS_ID;
   mainCanvas.width = SIZE_OF_SMALL_CANVASES;
   mainCanvas.height = SIZE_OF_SMALL_CANVASES;
+  mainCanvas.style.zIndex = '10000';
 
   closeButtonDiv.id = CLOSE_BUTTON_DIV_ID;
   closeButtonDiv.style.width = SIZE_OF_SMALL_CANVASES + 'px';
   closeButtonDiv.style.height = SIZE_OF_SMALL_CANVASES + 'px';
   closeButtonDiv.width = SIZE_OF_SMALL_CANVASES;
   closeButtonDiv.height = SIZE_OF_SMALL_CANVASES;
-
+  closeButtonDiv.style.zIndex = '10000';
 
   document.body.appendChild(mainCanvas);
   document.body.appendChild(closeButtonDiv);
@@ -133,6 +134,7 @@
       img.width = WIDGET_IMAGE_SIZE;
       img.height = WIDGET_IMAGE_SIZE;
       selectorDiv.appendChild(img);
+      img.style.zIndex = '10001';
       img.addEventListener('click', e => {
         i.load();
         closeSelector();
@@ -150,6 +152,7 @@
         selectorDiv.id = SELECTOR_DIV_ID;
         document.body.appendChild(selectorDiv);
         isSelectorCreated = 1;
+        selectorDiv.style.zIndex = '10000';
         drawWidgets();
       }
       selectorDiv.hidden = false;
@@ -183,15 +186,9 @@
 
   }
 
-  function initClosingDiv() {
-    ;
-  }
-
 
   /* init pictures */
   makeUp(mainCtx,mainCanvas.width,mainCanvas.height);
-
-  initClosingDiv();
 
 
   /* Click handler */
@@ -264,12 +261,5 @@
 
   FAT_JSON[FAT_JSON.length] = new Widget('https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/videoModule.js', 'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/videoModule.png', 'videoModule');
   FAT_JSON[FAT_JSON.length] = new Widget('https://nottgy.github.io/einstain/bookmarklets/general_tools/mailSorterModule/mailSorterModule.js', 'https://nottgy.github.io/einstain/bookmarklets/general_tools/mailSorterModule/mailSorterModule.png', 'mailSorterModule');
-
-  /*
-  FAT_JSON.forEach(e => {
-    e.load();
-  });
-  */
-
 
 })();

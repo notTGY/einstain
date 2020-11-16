@@ -82,8 +82,6 @@
   
   /* creating canvas to copy the video in*/
   let canvas = document.createElement('canvas');
-  canvas.width = window.visualViewport.width;
-  canvas.height = window.visualViewport.height;
   canvas.style.zIndex = '1';
   document.body.appendChild(canvas);
 
@@ -95,6 +93,8 @@
 
   /* fullscreen enter point and start of media */
   wrapper.requestFullscreen();
+  canvas.width = window.visualViewport.width;
+  canvas.height = window.visualViewport.height;
 
   let ctx = canvas.getContext('2d');
   let mainInterval = setInterval(()=>{
@@ -103,7 +103,7 @@
 
 
   let handler = e => {
-    if (e.key == 'Escape') {
+    if (e.key == 'q') {
       document.exitFullscreen();
       let mainCanvas = document.querySelector('#mainCanvas');
       mainCanvas.hidden = false;
@@ -152,7 +152,7 @@
   overlayControls[overlayControls.length] = new ControlElement(
     overlay,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/escapeButtonVideoModule.png',
-    handler,
+    e=>{handler({key:'q'})},
     {margin: '5px', width: '40px', height:'40px', right: '5px'}
   );
 
