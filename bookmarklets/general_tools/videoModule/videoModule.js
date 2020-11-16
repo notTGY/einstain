@@ -84,7 +84,7 @@
   overlay.style.visibility = 'visible';
   overlay.style.zIndex = '2147483647';
   overlay.style.display = 'flex';
-  overlay.style.justifyContent = 'space-around';
+  overlay.style.justifyContent = 'space-between';
   let overlayTimeout = 5;
 
   /* creating canvas to copy the video in*/
@@ -200,18 +200,6 @@
   );
 
   overlayControls[overlayControls.length] = new ControlElement(
-    overlayCenter,
-    f => {
-      let e = document.createElement('div');
-      e.id = PROGRESS_BAR_ID;
-      f.appendChild(e);
-      return e;
-    },
-    e => {},
-    {margin: '5px', width: '40px', height:'40px'}
-  );
-
-  overlayControls[overlayControls.length] = new ControlElement(
     overlayRight,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/jumpForwardButtonVideoModule.png',
     e => {vidElem.currentTime += 5},
@@ -239,6 +227,23 @@
     e=>{handler({key:'q'})},
     {margin: '5px', width: '40px', height:'40px', right: '5px'}
   );
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlayCenter,
+    f => {
+      let e = document.createElement('div');
+      e.id = PROGRESS_BAR_ID;
+      f.appendChild(e);
+      return e;
+    },
+    e => {
+      let w = this.elem.width;
+      let dx = e.clientX - this.elem.offsetLeft;
+      vidElem.currentTime = vidElem.getDuration() * (dx / w);
+    },
+    {margin: '5px', width: Math.floor(window.screen.width)-overlayControls.length*50+'px', height:'40px'}
+  );
+
 
   const bar = document.querySelector('#'+PROGRESS_BAR_ID);
 
