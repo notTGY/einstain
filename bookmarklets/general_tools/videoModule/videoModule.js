@@ -96,6 +96,7 @@
   overlay.style.zIndex = '2147483647';
   overlay.style.display = 'flex';
   overlay.style.justifyContent = 'space-between';
+  overlay.style.alignItems = 'center';
   let overlayTimeout = 5;
 
   /* creating canvas to copy the video in*/
@@ -145,7 +146,6 @@
       str += Math.floor(100*prog/2) + '%, #FFF ';
       str += Math.floor(100*prog) + '%, #FFF0 '
       str += Math.floor(100*prog) + 1 + '%, #FFF0 100%)';
-      console.log(str);
       bar.style.background = str;
     }
   },33);
@@ -279,7 +279,7 @@
       let dx = e.clientX - element.offsetLeft;
       vidElem.currentTime = vidElem.duration * (dx / w);
     },
-    {margin: '5px', width: Math.floor(window.screen.width)-overlayControls.length*60+'px', height:'40px'}
+    {margin: '5px', width: Math.floor(window.screen.width)-overlayControls.length*60+'px', height:'10px'}
   );
 
 
