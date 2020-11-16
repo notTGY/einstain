@@ -140,7 +140,7 @@
     if (bar) {
       let str = 'linear-gradient(to left, #FFF, #FF0 ';
       let prog = vidElem.currentTime / vidElem.duration;
-      str += Math.floor(100*prog/2) + '%, #FFF';
+      str += Math.floor(100*prog/2) + '%, #FFF ';
       str += Math.floor(100*prog) + '%)';
       console.log(str);
       bar.style.background = str;
