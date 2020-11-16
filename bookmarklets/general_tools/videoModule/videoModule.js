@@ -248,7 +248,8 @@
     /* Timing start function */
     if (startTime.hours != undefined && startTime.minutes != undefined) {
       let isPlaying = (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2);
-      if (startTime.hours*60+startTime.minutes >= hours*60+minutes) {
+      let logic = (startTime.hours*60+startTime.minutes >= hours*60+minutes);
+      if (!logic) {
         if (!isPlaying) {
           console.log('starting video');
           hookPlayButton(); 
@@ -340,7 +341,8 @@
 
   const hookPlayButton = e => {
     let element = document.querySelector('#'+PLAY_BUTTON_ID);
-    if (!(vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2)) {
+    let isPlaying = (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2);
+    if (!isPlaying) {
       vidElem.play();
       element.height = element.width = 40;
       element.getContext('2d').drawImage(pauseButton, 0, 0, 40, 40);
