@@ -256,6 +256,7 @@
   /* better progress bar */
 
   let betterProgressBar = document.createElement('div');
+  betterProgressBar.classList.add(OTHER_OVERLAY_CLASS);
   betterProgressBar.style.opacity = 0;
   betterProgressBar.style.width = Math.floor(window.screen.width) + 'px';
   betterProgressBar.style.height = '10px';
