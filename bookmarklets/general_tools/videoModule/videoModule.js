@@ -157,13 +157,7 @@
   inputFieldResetButton.style.height = '5px';
 
   const inputFieldResetButtonOnclick = _ => {
-    let hours = (new Date()).getHours();
-    let minutes = (new Date()).getMinutes();
-    let seconds = (new Date()).getSeconds();
-    if (minutes < 10) {
-      minutes = '0' + minutes;
-    }
-   inputField.placeholder = '' + hours + ':' + minutes;
+   inputField.value = '';
   };
   
   inputField.id = CLOCK_INPUT_ID;
@@ -201,6 +195,51 @@
   inputField.addEventListener('change', inputFieldOnchange);
 
   inputFieldResetButton.addEventListener('click', inputFieldResetButtonOnclick);
+
+
+
+  /* countdown overlay initialization */
+
+  let countdownOverlay = document.createElement('div');
+  countdownOverlay.classList.add(OTHER_OVERLAY_CLASS);
+  countdownOverlay.style.width = '300px';
+  countdownOverlay.style.height = '100px';
+  countdownOverlay.style.border = '1px solid #FFFE';
+  countdownOverlay.style.background = 'radial-gradient(#0008, #000C)';
+  countdownOverlay.style.display = 'flex';
+  countdownOverlay.style.justifyContent = 'center';
+  countdownOverlay.style.alignItems = 'center';
+  countdownOverlay.style.textAlign = 'center';
+  countdownOverlay.style.top = Math.floor(window.screen.height/2 - 50)+'px';
+  countdownOverlay.style.left = Math.floor(window.screen.width/2 - 150)+'px';
+
+
+  wrapper.appendChild(countdownOverlay);
+  countdownOverlay.style.opacity = 0;
+
+  function displayTimeLeft() {
+    let str = '-';
+    let t = new Date();
+    let h = t.getHours();
+    let m = t.getMinutes();
+    let s = t.getSeconds();
+    if (h < 10) {
+      h = '0' + h;
+    }
+    str += h;
+    str += ':';
+    if (m < 10) {
+      m = '0' + m;
+    }
+    if (s < 10) {
+      s = '0' + s;
+    }
+    str += m;
+    str += ':';
+    str += s;
+    countdownOverlay.style.opacity = 1;
+    countdownOverlay.innerHTML = str;
+  }
 
   /* fullscreen enter point and start of media */
   wrapper.requestFullscreen();
@@ -251,13 +290,13 @@
       let logic = (startTime.hours*60+startTime.minutes > hours*60+minutes);
       if (logic) {
         if (!isPlaying) {
-          console.log('starting video');
+          countdownOverlay.style.opacity = 0;
           hookPlayButton(); 
         }     
       } else {
         if (isPlaying) {
-          console.log('pausing the video');
           hookPlayButton();
+          displayTimeLeft();
         }
       }
     }
