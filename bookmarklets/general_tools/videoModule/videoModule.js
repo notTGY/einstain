@@ -130,6 +130,7 @@
   clockOverlay.style.background = 'radial-gradient(#0008, #000C)';
   clockOverlay.style.textAlign = 'center';
   clockOverlay.style.opacity = 1;
+  clockOverlay.style.color = '#FFF';
 
   wrapper.appendChild(clockOverlay);
 
@@ -155,6 +156,9 @@
   let inputFieldResetButton = document.createElement('button');
   inputFieldResetButton.style.width = '5px';
   inputFieldResetButton.style.height = '5px';
+  inputFieldResetButton.width = 5;
+  inputFieldResetButton.height = 5;
+
 
   const inputFieldResetButtonOnclick = _ => {
    inputField.value = '';
@@ -213,7 +217,7 @@
   countdownOverlay.style.textAlign = 'center';
   countdownOverlay.style.top = Math.floor(window.screen.height/2 - 50)+'px';
   countdownOverlay.style.left = Math.floor(window.screen.width/2 - 150)+'px';
-
+  countdownOverlay.style.color = '#FFF';
 
   wrapper.appendChild(countdownOverlay);
   countdownOverlay.style.opacity = 0;
@@ -225,6 +229,7 @@
     let m = t.getMinutes();
     let s = t.getSeconds();
     let time = (h - startTime.hours)*60*60 + (m - startTime.minutes)*60 + s;
+    time = -time;
     h = Math.floor(time/(60*60));
     m = Math.floor((time - 60*60*h)/60);
     s = Math.floor(time - 60*60*h - 60*m);
@@ -299,9 +304,9 @@
           hookPlayButton(); 
         }     
       } else {
+        displayTimeLeft();
         if (isPlaying) {
           hookPlayButton();
-          displayTimeLeft();
         }
       }
     }
