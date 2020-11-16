@@ -152,25 +152,34 @@
   let inputField = document.createElement('input');
   inputField.type = 'time';
   
-  let hours = (new Date()).getHours();
-  let minutes = (new Date()).getMinutes();
-  let seconds = (new Date()).getSeconds();
-  if (minutes < 10) {
-    minutes = '0' + minutes;
-  }
-  inputField.placeholder = '' + hours + ':' + minutes;
+  let inputFieldResetButton = document.createElement('button');
+  inputFieldResetButton.style.width = '5px';
+  inputFieldResetButton.style.height = '5px';
 
+  const inputFieldResetButtonOnclick = _ => {
+    let hours = (new Date()).getHours();
+    let minutes = (new Date()).getMinutes();
+    let seconds = (new Date()).getSeconds();
+    if (minutes < 10) {
+      minutes = '0' + minutes;
+    }
+   inputField.placeholder = '' + hours + ':' + minutes;
+  };
+  
   inputField.id = CLOCK_INPUT_ID;
   
   clockDropdownOverlay.appendChild(inputField);
+  clockDropdownOverlay.appendChild(inputFieldResetButton);
   /* clock initializations */  
   const clockOverlayOnclick = e => {
     if (clockDropdownOverlay.style.opacity == 0) {
       clockDropdownOverlay.style.opacity = 1;
       inputField.style.opacity = 1;
+      inputFieldResetButton.style.opacity = 1;
     } else {
       clockDropdownOverlay.style.opacity = 0;
       inputField.style.opacity = 0;
+      inputFieldResetButton.style.opacity = 0;
     }
   };
 
@@ -190,6 +199,8 @@
 
 
   inputField.addEventListener('change', inputFieldOnchange);
+
+  inputFieldResetButton.addEventListener('click', inputFieldResetButtonOnclick);
 
   /* fullscreen enter point and start of media */
   wrapper.requestFullscreen();
@@ -221,6 +232,7 @@
       clockDropdownOverlay.style.opacity = 0;
       clockOverlay.style.opacity = 0;
       inputField.style.opacity = 0;
+      inputFieldResetButton.style.opacity = 0;
     } else {
       overlayTimeout -= .033;
     }
@@ -238,10 +250,12 @@
       let isPlaying = (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2);
       if (startTime.hours*60+startTime.minutes >= hours*60+minutes) {
         if (!isPlaying) {
+          console.log('starting video');
           hookPlayButton(); 
         }     
       } else {
         if (isPlaying) {
+          console.log('pausing the video');
           hookPlayButton();
         }
       }
@@ -273,6 +287,7 @@
       document.body.removeEventListener('mousemove', mousemoveHandler);
       clockOverlay.removeEventListener('click', clockOverlayOnclick);
       inputField.removeEventListener('change', inputFieldOnchange);
+      inputFieldResetButton.removeEventListener('click', inputFieldResetButtonOnclick);
       canvas.remove();
       killOverlay();
       killThisScript();
