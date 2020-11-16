@@ -148,7 +148,7 @@
 
   wrapper.appendChild(clockDropdownOverlay);
 
-
+  /* time input field*/
   let inputField = document.createElement('input');
   inputField.type = 'time';
   
@@ -184,8 +184,8 @@
 
   const inputFieldOnchange = e => {
     let value = inputField.value;
-    startTime.hours = value.substring(0,2);
-    startTime.minutes = value.substring(3,5);
+    startTime.hours = Number(value.substring(0,2));
+    startTime.minutes = Number(value.substring(3,5));
   };
 
 
@@ -228,10 +228,11 @@
     let hours = (new Date()).getHours();
     let minutes = (new Date()).getMinutes();
     let seconds = (new Date()).getSeconds();
+    let tmp_minutes = minutes;
     if (minutes < 10) {
-      minutes = '0' + minutes;
+      tmp_minutes = '0' + minutes;
     }
-    clockOverlay.innerHTML = '' + hours + ':' + minutes;
+    clockOverlay.innerHTML = '' + hours + ':' + tmp_minutes;
     /* Timing start function */
     if (startTime.hours != undefined && startTime.minutes != undefined) {
       let isPlaying = (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2);
