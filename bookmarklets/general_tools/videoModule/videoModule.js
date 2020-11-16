@@ -316,8 +316,13 @@
   wrapper.appendChild(playButton);
   wrapper.appendChild(pauseButton);
 
+  playButton.onload = _=>{
+    let element = document.querySelector('#'+PLAY_BUTTON_ID);
+    element.height = element.width = 40;
+    element.getContext('2d').drawImage(playButton, 0, 0, 40, 40);
+  }
+
   const hookPlayButton = e => {
-    console.log('entering', e);
     let element = document.querySelector('#'+PLAY_BUTTON_ID);
     if (!(vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2)) {
       vidElem.play();
