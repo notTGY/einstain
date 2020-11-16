@@ -137,7 +137,7 @@
     /* progress bar updating */
     if (bar) {
       let str = 'linear-gradient(#FFF, #FF0 ';
-      let prog = vidElem.currentTime / vidElem.getDuration();
+      let prog = vidElem.currentTime / vidElem.duration;
       str += Math.floor(prog/2) + '%, #FFF';
       str += Math.floor(prog) + '%)';
       bar.style.background = str;
@@ -270,7 +270,7 @@
     e => {
       let w = this.elem.width;
       let dx = e.clientX - this.elem.offsetLeft;
-      vidElem.currentTime = vidElem.getDuration() * (dx / w);
+      vidElem.currentTime = vidElem.duration * (dx / w);
     },
     {margin: '5px', width: Math.floor(window.screen.width)-overlayControls.length*60+'px', height:'40px'}
   );
