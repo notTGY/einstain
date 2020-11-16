@@ -30,6 +30,14 @@
     };
   }
 
+  function toggleGamma() {
+    if (isGamma) {
+      isGamma = false;
+    } else {
+      isGamma = true;
+    }
+  }
+
 
 
 
@@ -60,7 +68,6 @@
         i.remove();
       }
     });
-
   }
 
 
@@ -98,6 +105,11 @@
   wrapper.style.position = 'relative';
   insertAfter(canvas, overlay);
 
+
+
+  const isGamma = false;
+
+
   /* fullscreen enter point and start of media */
   wrapper.requestFullscreen();
   canvas.width = window.screen.width;
@@ -106,12 +118,23 @@
   let ctx = canvas.getContext('2d');
   let mainInterval = setInterval(()=>{
     ctx.drawImage(vidElem, 0, 0, canvas.width, canvas.height);
+    /* Gamma drawing */
+    if (isGamma) {
+      let w = window.screen.width;
+      let h = window.screen.height;
+      let imageData = ctx.getImageData(0,0,w,h);
+      imageData.data = imageData.data.map( x => {
+        return x + 30;
+      });
+      ctx.putImageData(imageData, 0, 0);
+    }
+    /* overlay drawing */
     if (overlayTimeout < 0 && overlay.hidden == false) {
       overlay.hidden = true;
     } else {
       overlayTimeout -= .033;
     }
-
+    /* progress bar updating */
     if (bar) {
       let str = 'linear-gradient(#FFF, #FF0 ';
       let prog = vidElem.currentTime / vidElem.getDuration();
@@ -119,7 +142,6 @@
       str += Math.floor(prog) + '%)';
       bar.style.background = str;
     }
-
   },33);
 
 
@@ -223,6 +245,15 @@
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlayRight,
+    'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/gammaButtonVideoModule.png',
+    e=>{toggleGamma()},
+    {margin: '5px', width: '40px', height:'40px', right: '5px'}
+  );
+
+
+
+  overlayControls[overlayControls.length] = new ControlElement(
+    overlayRight,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/escapeButtonVideoModule.png',
     e=>{handler({key:'q'})},
     {margin: '5px', width: '40px', height:'40px', right: '5px'}
@@ -241,7 +272,7 @@
       let dx = e.clientX - this.elem.offsetLeft;
       vidElem.currentTime = vidElem.getDuration() * (dx / w);
     },
-    {margin: '5px', width: Math.floor(window.screen.width)-overlayControls.length*50+'px', height:'40px'}
+    {margin: '5px', width: Math.floor(window.screen.width)-overlayControls.length*60+'px', height:'40px'}
   );
 
 
