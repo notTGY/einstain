@@ -52,7 +52,6 @@
     arr.forEach(i => {
       let src = i.src;
       let ind = src.indexOf('?');
-
       if (ind != -1 && src.substring(ind-14,ind) == 'videoModule.js') {
         i.remove();
       }
@@ -80,16 +79,42 @@
   overlay.style.height = OVERLAY_HEIGHT + 'px';
   overlay.style.visibility = 'visible';
   overlay.style.Zindex = '2147483647';
+  
+  /* creating canvas to copy the video in*/
+  let canvas = document.createElement('canvas');
+  canvas.width = window.visualViewport.width;
+  canvas.height = window.visualViewport.height;
+  canvas.style.zIndex = '1';
+  document.body.appendChild(canvas);
+
   /* creating wrap-around div */
-  let wrapper = wrap(vidElem);
+  let wrapper = wrap(canvas);
   wrapper.id = WRAPPER_ID;
-
   wrapper.style.position = 'relative';
+  insertAfter(canvas, overlay);
 
-  insertAfter(vidElem, overlay);
+  /* fullscreen enter point and start of media */
+  wrapper.requestFullscreen();
 
-  /* configuring video element */
-  vidElem.style.zIndex = '1';
+  let ctx = canvas.getContext('2d');
+  let mainInterval = setInterval(()=>{
+    ctx.drawImage(vidElem, 0, 0, canvas.width, canvas.height);
+  },33);
+
+
+  let handler = e => {
+    if (e.key == 'Escape') {
+      document.exitFullscreen();
+      let mainCanvas = document.querySelector('#mainCanvas');
+      mainCanvas.hidden = false;
+      clearInterval(mainInterval);
+      killOverlay();
+      killThisScript();
+      canvas.remove();
+      document.body.removeEventListener('keydown', handler);
+    }
+  };
+  document.body.addEventListener('keydown', handler);
 
   /* creating widgets itself */
 
@@ -123,30 +148,6 @@
     e => {vidElem.volume += .1},
     {margin: '5px', width: '40px', height:'40px'}
   );
-
-
-  /* closing stuff and fullscreen enter point */
-  wrapper.requestFullscreen();
-  vidElem.style.width = '100%';
-  vidElem.style.height = '100%';
-  vidElem.controls = false;
-
-  let handler = e => {
-    if (e.key == 'Escape') {
-      document.exitFullscreen();
-      let mainCanvas = document.querySelector('#mainCanvas');
-      mainCanvas.hidden = false;
-      vidElem.controls = true;
-      vidElem.style.width = '';
-      vidElem.style.height = '';
-      killOverlay();
-      killThisScript();
-      document.body.removeEventListener('keydown', handler);
-    }
-  };
-  document.body.addEventListener('keydown', handler);
-
-  /* continuing widgets */
 
   overlayControls[overlayControls.length] = new ControlElement(
     overlay,
