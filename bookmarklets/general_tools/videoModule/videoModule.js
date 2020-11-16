@@ -9,7 +9,7 @@
     let elem;
     if (typeof(imagePath) == 'string') {
       elem = document.createElement('img');
-      elem.src  = imagePath;
+      elem.src  = imagePath + '?' + new Date();
       fatherElement.appendChild(elem);
     } else {
       let tmp = imagePath(fatherElement);
