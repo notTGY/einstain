@@ -256,8 +256,7 @@
   };
 
 
-  mainIntervalFunction();
-
+  
 
   let handler = e => {
     if (e.key == 'q') {
@@ -407,4 +406,5 @@
 
   const bar = document.querySelector('#'+PROGRESS_BAR_ID);
 
+  mainIntervalFunction();
 })();
