@@ -161,8 +161,9 @@
 
 
   const inputFieldResetButtonOnclick = _ => {
-   inputField.value = '';
-   startTime = {hours: undefined, minutes: undefined};
+    inputField.value = '';
+    startTime = {hours: undefined, minutes: undefined};
+    countdownOverlay.style.opacity = 0;
   };
   
   inputField.id = CLOCK_INPUT_ID;
@@ -251,11 +252,41 @@
     countdownOverlay.innerHTML = str;
   }
 
+
+  /* better progress bar */
+
+  let betterProgressBar = document.createElement('div');
+  betterProgressBar.style.opacity = 0;
+  betterProgressBar.style.width = Math.floor(window.screen.width) + 'px';
+  betterProgressBar.style.height = '10px';
+  betterProgressBar.style.left = '0px';
+  betterProgressBar.style.bottom = '0px';
+
+  wrapper.appendChild(betterProgressBar);
+
+  function drawBetterProgressBar() {
+    let str = 'linear-gradient(to right, #FFF 0%, #FF0 ';
+    let prog = vidElem.currentTime / vidElem.duration;
+    str += Math.floor(100*prog/2) + '%, #FFF ';
+    str += Math.floor(100*prog) + '%, #FFF0 '
+    str += Math.floor(100*prog) + 1 + '%, #FFF0 100%)';
+    betterProgressBar.background = str;
+  }
+
+
   /* fullscreen enter point and start of media */
   wrapper.requestFullscreen();
-  canvas.width = window.screen.width;
-  canvas.height = window.screen.height;
-
+  let w = vidElem.videoWidth;
+  let h = vidElem.videoHeight;
+  if (w < h) {
+    canvas.height = window.screen.height;
+    canvas.width = canvas.height * (w/h);
+    canvas.style.left = Math.floor((window.screen.width - canvas.width)/2) + 'px';
+  } else {
+    canvas.width = window.screen.width;
+    canvas.height = canvas.width * (h/w);
+    canvas.style.top = Math.floor((window.screen.height - canvas.height)/2) + 'px';  
+  }
   let ctx = canvas.getContext('2d');
   
   let mainInterval = 1;
@@ -284,6 +315,10 @@
       inputFieldResetButton.style.opacity = 0;
     } else {
       overlayTimeout -= .033;
+    }
+    /* better progress bar drawer */
+    if (betterProgressBar.style.opacity == 1) {
+      drawBetterProgressBar();
     }
     /* clock updater */
     let hours = (new Date()).getHours();
@@ -328,7 +363,7 @@
   
 
   let handler = e => {
-    if (e.key == 'q') {
+    if (e.key == 'q' || e.key == 'й') {
       document.exitFullscreen();
       let mainCanvas = document.querySelector('#mainCanvas');
       mainCanvas.hidden = false;
@@ -341,22 +376,53 @@
       canvas.remove();
       killOverlay();
       killThisScript();
+    } else if (e.key == 'ArrowLeft') {
+      vidElem.currentTime -= 5;
+    } else if (e.key == 'ArrowRight') {
+      vidElem.currentTime += 5;
+    } else if (e.key == 'ArrowUp') {
+      vidElem.volume += .1;
+    } else if (e.key == 'ArrowDown') {
+      vidElem.volume -= .1;
+    } else if (e.key == '>' || e.key == '.' || e.key == 'ю') {
+      vidElem.playbackRate += .1
+    } else if (e.key == '<' || e.key == ',' || e.key == 'б') {
+      vidElem.playbackRate -= .1
+    } else if (e.key == ' ') {
+      hookPlayButton();
+    } else if (e.key == 't' || e.key == 'е') {
+      if(betterProgressBar.style.opacity == 1) {
+        betterProgressBar.style.opacity = 0;
+      } else {
+        betterProgressBar.style.opacity = 1;
+      }
     }
+
   };
   document.body.addEventListener('keydown', handler);
 
+  let prevX = 0;
+  let prevY = 0;
+
   let mousemoveHandler = e => {
-    let isDownOverlay = (e.clientY > (window.screen.height - OVERLAY_HEIGHT)?1:0);
-    let isClockOverlay = (e.clientY > 10 && e.clientY < 310 && e.clientX < 210 && e.clientX > 10)?1:0;
-    if (isDownOverlay || isClockOverlay) {
-      overlayTimeout = +Infinity;
-      overlay.style.opacity = 1;
-      clockOverlay.style.opacity = 1;
-    } else {
-      overlayTimeout = 5;
-      overlay.style.opacity = 1;
-      clockOverlay.style.opacity = 1;
+    let dx = e.clientX - prevX;
+    let dy = e.clientY - prevY;
+    let dl = dx*dx + dy*dy;
+    if (dl > 5) {
+      let isDownOverlay = (e.clientY > (window.screen.height - OVERLAY_HEIGHT)?1:0);
+      let isClockOverlay = (e.clientY > 10 && e.clientY < 310 && e.clientX < 210 && e.clientX > 10)?1:0;
+      if (isDownOverlay || isClockOverlay) {
+        overlayTimeout = +Infinity;
+        overlay.style.opacity = 1;
+        clockOverlay.style.opacity = 1;
+      } else {
+        overlayTimeout = 5;
+        overlay.style.opacity = 1;
+        clockOverlay.style.opacity = 1;
+      }
     }
+    prevX = e.clientX;
+    prevY = e.clientY;
   }
   document.body.addEventListener('mousemove', mousemoveHandler);
 
