@@ -12,7 +12,9 @@
       elem.src  = imagePath;
       fatherElement.appendChild(elem);
     } else {
-      {elem, this.width} = imagePath(fatherElement);
+      let tmp = imagePath(fatherElement);
+      elem = tmp.elem;
+      this.width = tmp.width;
     }
     if (style) {
       Object.keys(style).forEach(e => {
