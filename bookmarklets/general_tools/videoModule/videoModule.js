@@ -124,23 +124,23 @@
   clockOverlay.classList.add(OTHER_OVERLAY_CLASS);
   clockOverlay.style.top = '10px';
   clockOverlay.style.left = '10px';
-  clockOverlay.style.width = '200px';
-  clockOverlay.style.height = '50px';
+  clockOverlay.style.width = '60px';
+  clockOverlay.style.height = '20px';
   clockOverlay.style.border = '1px solid #FFFE';
-  clockOverlay.style.background = 'radial-gradient(#0008, #FFFC)';
-  clockOverlay.hidden = false;
+  clockOverlay.style.background = 'radial-gradient(#0008, #000C)';
+  clockOverlay.style.opacity = 1;
 
   wrapper.appendChild(clockOverlay);
 
   let clockDropdownOverlay = document.createElement('div');
   clockDropdownOverlay.classList.add(OTHER_OVERLAY_CLASS);
-  clockDropdownOverlay.style.top = '60px';
+  clockDropdownOverlay.style.top = '30px';
   clockDropdownOverlay.style.left = '10px';
-  clockDropdownOverlay.style.width = '200px';
-  clockDropdownOverlay.style.height = '200px';
+  clockDropdownOverlay.style.width = '60px';
+  clockDropdownOverlay.style.height = '40px';
   clockDropdownOverlay.style.border = '1px solid #FFFE';
-  clockDropdownOverlay.style.background = 'radial-gradient(#0008, #FFFC)';
-  clockDropdownOverlay.hidden = true;
+  clockDropdownOverlay.style.background = 'radial-gradient(#0008, #000C)';
+  clockDropdownOverlay.style.opacity = 0;
 
   wrapper.appendChild(clockDropdownOverlay);
 
@@ -161,12 +161,12 @@
 
   /* clock initializations */  
   const clockOverlayOnclick = e => {
-    if (clockDropdownOverlay.hidden) {
-      clockDropdownOverlay.hidden = false;
-      inputField.hidden = false;
+    if (clockDropdownOverlay.style.opacity == 0) {
+      clockDropdownOverlay.style.opacity = 1;
+      inputField.style.opacity = 1;
     } else {
-      clockDropdownOverlay.hidden = true;
-      inputField.hidden = true;
+      clockDropdownOverlay.style.opacity = 0;
+      inputField.style.opacity = 0;
     }
   };
 
@@ -214,9 +214,9 @@
     /* overlay drawing */
     if (overlayTimeout < 0) {
       overlay.style.opacity = 0;
-      clockDropdownOverlay.hidden = true;
-      clockOverlay.hidden = true;
-      inputField.hidden = true;
+      clockDropdownOverlay.style.opacity = 0;
+      clockOverlay.style.opacity = 0;
+      inputField.style.opacity = 0;
     } else {
       overlayTimeout -= .033;
     }
@@ -281,11 +281,11 @@
     if (isDownOverlay || isClockOverlay) {
       overlayTimeout = +Infinity;
       overlay.style.opacity = 1;
-      clockOverlay.hidden = false;
+      clockOverlay.style.opacity = 1;
     } else {
       overlayTimeout = 5;
       overlay.style.opacity = 1;
-      clockOverlay.hidden = false;
+      clockOverlay.style.opacity = 1;
     }
   }
   document.body.addEventListener('mousemove', mousemoveHandler);
