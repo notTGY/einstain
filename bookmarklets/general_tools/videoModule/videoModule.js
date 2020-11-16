@@ -12,7 +12,7 @@
       elem.src  = imagePath;
       fatherElement.appendChild(elem);
     } else {
-      elem = imagePath(fatherElement);
+      {elem, this.width} = imagePath(fatherElement);
     }
     if (style) {
       Object.keys(style).forEach(e => {
@@ -136,10 +136,11 @@
     }
     /* progress bar updating */
     if (bar) {
-      let str = 'linear-gradient(#FFF, #FF0 ';
+      let str = 'linear-gradient(to left, #FFF, #FF0 ';
       let prog = vidElem.currentTime / vidElem.duration;
       str += Math.floor(100*prog/2) + '%, #FFF';
       str += Math.floor(100*prog) + '%)';
+      console.log(str);
       bar.style.background = str;
     }
   },33);
@@ -265,11 +266,10 @@
       let e = document.createElement('div');
       e.id = PROGRESS_BAR_ID;
       f.appendChild(e);
-      e.width = Math.floor(window.screen.width)-overlayControls.length*60;
-      return e;
+      return {elem: e , width: Math.floor(window.screen.width)-overlayControls.length*60};
     },
     e => {
-      let w = this.element.width;
+      let w = this.width;
       let dx = e.clientX - this.element.offsetLeft;
       vidElem.currentTime = vidElem.duration * (dx / w);
     },
