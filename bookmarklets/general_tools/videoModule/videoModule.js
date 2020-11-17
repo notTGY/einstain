@@ -428,12 +428,28 @@
       vidElem.currentTime += 5;
     } else if (e.key == 'ArrowUp') {
       vidElem.volume += .1;
+      volumeDisplay.innerHTML = '' + Math.floor(100*vidElem.volume) + '%';
+      if (vidElem.volume == 1) {
+        volumeDisplay.innerHTML = '';
+      }
     } else if (e.key == 'ArrowDown') {
       vidElem.volume -= .1;
+      volumeDisplay.innerHTML = '' + Math.floor(100*vidElem.volume) + '%';
+      if (vidElem.volume == 1) {
+        volumeDisplay.innerHTML = '';
+      }
     } else if (e.key == '>' || e.key == '.' || e.key == 'ю') {
-      vidElem.playbackRate += .1
+      vidElem.playbackRate += .1;
+      playbackRateDisplay.innerHTML = 'x' + Math.floor(vidElem.playbackRate*10)/10;
+      if (vidElem.playbackRate == 1) {
+        playbackRateDisplay.innerHTML = '';
+      }
     } else if (e.key == '<' || e.key == ',' || e.key == 'б') {
-      vidElem.playbackRate -= .1
+      vidElem.playbackRate -= .1;
+      playbackRateDisplay.innerHTML = 'x' + Math.floor(vidElem.playbackRate*10)/10;
+      if (vidElem.playbackRate == 1) {
+        playbackRateDisplay.innerHTML = '';
+      }
     } else if (e.key == ' ') {
       hookPlayButton();
     } else if (e.key == 'b' || e.key == 'и') {
