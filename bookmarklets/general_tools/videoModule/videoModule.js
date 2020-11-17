@@ -129,6 +129,8 @@
   let isGamma = false;
 
   /* INIT     defining clock overlay */
+  let clockOverlayShown = 0; // HACK: this is not obligitory
+
   let clockOverlay = document.createElement('div');
   clockOverlay.classList.add(OTHER_OVERLAY_CLASS);
   clockOverlay.style.top = '10px';
@@ -341,7 +343,9 @@
     if (overlayTimeout < 0) {
       overlay.style.opacity = 0;
       clockDropdownOverlay.style.opacity = 0;
-      clockOverlay.style.opacity = 0;
+      if (!clockOverlayShown) {
+        clockOverlay.style.opacity = 0;
+      }
       inputField.style.opacity = 0;
       inputFieldResetButton.style.opacity = 0;
     } else {
@@ -442,9 +446,11 @@
       if (clockOverlay.style.opacity == 0) {
         clockOverlay.style.opacity = 1;
         clockOverlay.hidden = false;
+        clockOverlayShown = 1;
       } else {
         clockOverlay.style.opacity = 0;
         clockOverlay.hidden = true;
+        clockOverlayShown = 0;
       }
     } else if (e.key == 't' || e.key == 'е') {
       if (isDarkTheme) {
@@ -516,6 +522,8 @@
   overlayCenter.style.textOverflow = 'ellipsis';
   overlayCenter.style.height = OVERLAY_HEIGHT + 'px';
   overlayCenter.style.display = 'flex';
+  overlayCenter.style.justifyContent = 'center';
+  overlayCenter.style.alignItems == 'center';
   overlayCenter.style.flexDirection = 'row';
 
 
