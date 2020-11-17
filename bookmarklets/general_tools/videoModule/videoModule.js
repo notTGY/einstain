@@ -523,7 +523,7 @@
   overlayCenter.style.height = OVERLAY_HEIGHT + 'px';
   overlayCenter.style.display = 'flex';
   overlayCenter.style.justifyContent = 'center';
-  overlayCenter.style.alignItems == 'center';
+  overlayCenter.style.alignItems = 'center';
   overlayCenter.style.flexDirection = 'row';
 
 
