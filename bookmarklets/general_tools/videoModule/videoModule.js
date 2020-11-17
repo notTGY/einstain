@@ -441,8 +441,10 @@
     } else if (e.key == 'c' || e.key == 'с') {
       if (clockOverlay.style.opacity == 0) {
         clockOverlay.style.opacity = 1;
+        clockOverlay.hidden = false;
       } else {
         clockOverlay.style.opacity = 0;
+        clockOverlay.hidden = true;
       }
     } else if (e.key == 't' || e.key == 'е') {
       if (isDarkTheme) {
@@ -508,6 +510,13 @@
   overlayRight.style.display = 'flex';
   overlayRight.style.flexDirection = 'row';
   overlayRight.style.width = '300px';
+
+  overlayCenter.style.whiteSpace = 'nowrap';
+  overlayCenter.style.overflow = 'hidden';
+  overlayCenter.style.textOverflow = 'ellipsis';
+  overlayCenter.style.height = OVERLAY_HEIGHT + 'px';
+  overlayCenter.style.display = 'flex';
+  overlayCenter.style.flexDirection = 'row';
 
 
 
@@ -582,9 +591,13 @@
     overlayLeft,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/volumeDownButtonVideoModule.png',
     e => {
-      if (vidElem.volume > .1)
-        vidElem.volume -= .1
+      if (vidElem.volume > .1) {
+        vidElem.volume -= .1;
+      }
       volumeDisplay.innerHTML = '' + Math.floor(100*vidElem.volume) + '%';
+      if (vidElem.volume == 1) {
+        volumeDisplay.innerHTML = '';
+      }
     },
     {margin: '5px', width: '40px', height:'40px'}
   );
@@ -607,9 +620,13 @@
     overlayLeft,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/volumeUpButtonVideoModule.png',
     e => {
-      if (vidElem.volume < 1)
-        vidElem.volume += .1
+      if (vidElem.volume < 1) {
+        vidElem.volume += .1;
+      }
       volumeDisplay.innerHTML = '' + Math.floor(100*vidElem.volume) + '%';
+      if (vidElem.volume == 1) {
+        volumeDisplay.innerHTML = '';
+      }
     },
     {margin: '5px', width: '40px', height:'40px'}
   );
@@ -646,9 +663,13 @@
     overlayRight,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/speedDownButtonVideoModule.png',
     e => {
-      if (vidElem.playbackRate > .2)
+      if (vidElem.playbackRate > .2) {
         vidElem.playbackRate -= .1; 
+      }
       playbackRateDisplay.innerHTML = 'x' + Math.floor(vidElem.playbackRate*10)/10;
+      if (vidElem.playbackRate == 1) {
+        playbackRateDisplay.innerHTML = '';
+      }
     },
     {margin: '5px', width: '40px', height:'40px'}
   );
@@ -673,6 +694,9 @@
     e => {
       vidElem.playbackRate += .1
       playbackRateDisplay.innerHTML = 'x' + Math.floor(vidElem.playbackRate*10)/10;
+      if (vidElem.playbackRate == 1) {
+        playbackRateDisplay.innerHTML = '';
+      }
     },
     {margin: '5px', width: '40px', height:'40px'}
   );
@@ -715,11 +739,20 @@
     if (dur < 3600) {
       let minutes = Math.floor(dur/60);
       let seconds = dur - 60*minutes;
+      if (seconds < 10) {
+        seconds = '0' + seconds;
+      }
       displayCurrentDuration.innerHTML = ''+ minutes + ':' + seconds;
     } else {
       let hours = Math.floor(dur/3600);
       let minutes = Math.floor((dur - hours*60)/60);
       let seconds = dur - hours*3600 - minutes*60;
+      if (minutes < 10) {
+        minutes = '0' + minutes;
+      }
+      if (seconds < 10) {
+        seconds = '0' + seconds;
+      }
       displayCurrentDuration.innerHTML = '' + hours + ':' + minutes + ':' + seconds;
     }  
   }
