@@ -26,7 +26,23 @@
 
   /* Magic numbers */
   const OVERLAY_ID = 'overlay_video_module';
-  const OVERLAY_HEIGHT = 50;
+  const TESTED_WIDTH = 1536;
+  const THIS_WIDTH = Math.floor(window.screen.width);
+  const QUALIFIER = THIS_WIDTH/TESTED_WIDTH;
+  const OVERLAY_HEIGHT = 50 * QUALIFIER;
+  const WIDGET_SIZE = 40 * QUALIFIER;
+  const WIDGET_MARGIN = 5 * QUALIFIER;
+  const BAR_HEIGHT = 10 * QUALIFIER;
+  const BETTER_BAR_HEIGHT = 4 * QUALIFIER;
+  const CLOCK_OFFSET = 10 * QUALIFIER;
+  const CLOCK_WIDTH = 90 * QUALIFIER;
+  const CLOCK_HEIGHT = 20 * QUALIFIER;
+  const COUNTDOWN_WIDTH = 300 * QUALIFIER;
+  const COUNTDOWN_HEIGHT = 100 * QUALIFIER;
+  const COUNTDOWN_FONT_SIZE = 70 * QUALIFIER;
+  const FONT_SIZE = 16 * QUALIFIER;
+  const BAR_WIDTH = (THIS_WIDTH-700) * QUALIFIER;
+  const OVERLAY_TIMEOUT_SECONDS = 5;
   const WRAPPER_ID = 'wrapper_video_module';
   const PROGRESS_BAR_ID = 'progress_bar_video_module';
   const PLAY_BUTTON_ID = 'play_button_video_module';
@@ -103,7 +119,7 @@
   overlay.style.display = 'flex';
   overlay.style.alignItems = 'center';
   overlay.style.justifyContent = 'space-between';
-  let overlayTimeout = 5;
+  let overlayTimeout = OVERLAY_TIMEOUT_SECONDS;
 
   /* INITIALIZATION   creating canvas to copy the video in*/
   let canvas = document.createElement('canvas');
@@ -133,18 +149,22 @@
 
   let clockOverlay = document.createElement('div');
   clockOverlay.classList.add(OTHER_OVERLAY_CLASS);
-  clockOverlay.style.top = '10px';
-  clockOverlay.style.left = '10px';
-  clockOverlay.style.width = '90px';
+  clockOverlay.style.top = CLOCK_OFFSET + 'px';
+  clockOverlay.style.left = CLOCK_OFFSET + 'px';
+  clockOverlay.style.width = CLOCK_WIDTH + 'px';
   clockOverlay.style.textAlign = 'center';
   clockOverlay.style.opacity = 1;
   clockOverlay.style.font = 'monospace';
-  clockOverlay.style.fontSize = '16px';
-  clockOverlay.style.height = '20px';
+  clockOverlay.style.fontSize = FONT_SIZE + 'px';
+  clockOverlay.style.height = CLOCK_HEIGHT + 'px';
   if (isDarkTheme) {
     clockOverlay.style.border = '1px solid #FFFE';
     clockOverlay.style.background = 'radial-gradient(#0008, #000C)';
     clockOverlay.style.color = '#FFF';
+  } else {
+    clockOverlay.style.border = '1px solid #000E';
+    clockOverlay.style.background = 'radial-gradient(#FFF8, #FFFC)';
+    clockOverlay.style.color = '#000';
   }
 
   wrapper.appendChild(clockOverlay);
@@ -153,17 +173,20 @@
   /* INIT   dropdown from clock to select time */
   let clockDropdownOverlay = document.createElement('div');
   clockDropdownOverlay.classList.add(OTHER_OVERLAY_CLASS);
-  clockDropdownOverlay.style.top = '30px';
-  clockDropdownOverlay.style.left = '10px';
-  clockDropdownOverlay.style.width = '90px';
+  clockDropdownOverlay.style.top = CLOCK_OFFSET + CLOCK_HEIGHT + 'px';
+  clockDropdownOverlay.style.left = CLOCK_OFFSET + 'px';
+  clockDropdownOverlay.style.width = CLOCK_WIDTH + 'px';
   clockDropdownOverlay.style.display = 'flex';
   clockDropdownOverlay.style.alignItems = 'center';
   clockDropdownOverlay.style.justifyContent = 'center';
   clockDropdownOverlay.style.opacity = 0;
-  clockDropdownOverlay.style.height = '40px';
+  clockDropdownOverlay.style.height = 2*CLOCK_HEIGHT + 'px';
   if (isDarkTheme) {
     clockDropdownOverlay.style.border = '1px solid #FFFE';
     clockDropdownOverlay.style.background = 'radial-gradient(#0008, #000C)';
+  } else {
+    clockDropdownOverlay.style.border = '1px solid #000E';
+    clockDropdownOverlay.style.background = 'radial-gradient(#FFF8, #FFFC)';
   }
   
   wrapper.appendChild(clockDropdownOverlay);
@@ -173,11 +196,7 @@
   inputField.type = 'time';
   
   let inputFieldResetButton = document.createElement('button');
-  inputFieldResetButton.style.width = '5px';
-  inputFieldResetButton.style.height = '5px';
-  inputFieldResetButton.width = 5;
-  inputFieldResetButton.height = 5;
-  inputFieldResetButton.innerHTML = "\D7";
+  
 
 
   const inputFieldResetButtonOnclick = _ => {
@@ -190,6 +209,7 @@
   
   clockDropdownOverlay.appendChild(inputField);
   clockDropdownOverlay.appendChild(inputFieldResetButton);
+  inputFieldResetButton.innerHTML = '\D7';
   
 
 
@@ -231,8 +251,8 @@
   /* INIT     countdown overlay initialization */
   let countdownOverlay = document.createElement('div');
   countdownOverlay.classList.add(OTHER_OVERLAY_CLASS);
-  countdownOverlay.style.width = '300px';
-  countdownOverlay.style.height = '100px';
+  countdownOverlay.style.width = COUNTDOWN_WIDTH + 'px';
+  countdownOverlay.style.height = COUNTDOWN_HEIGHT + 'px';
   countdownOverlay.style.justifyContent = 'center';
   countdownOverlay.style.alignItems = 'center';
   countdownOverlay.style.textAlign = 'center';
@@ -240,11 +260,15 @@
   countdownOverlay.style.left = Math.floor(window.screen.width/2 - 150)+'px';
   countdownOverlay.style.font = 'monospace';
   countdownOverlay.style.display = 'flex';
-  countdownOverlay.style.fontSize = '70px';
+  countdownOverlay.style.fontSize = COUNTDOWN_FONT_SIZE + 'px';
   if (isDarkTheme) {
     countdownOverlay.style.color = '#FFF';
     countdownOverlay.style.border = '1px solid #FFFE';
     countdownOverlay.style.background = 'radial-gradient(#0008, #000C)';
+  } else {
+    countdownOverlay.style.color = '#000';
+    countdownOverlay.style.border = '1px solid #000E';
+    countdownOverlay.style.background = 'radial-gradient(#FFF8, #FFFC)';
   }
   wrapper.appendChild(countdownOverlay);
   countdownOverlay.style.opacity = 0;
@@ -287,21 +311,19 @@
   betterProgressBar.classList.add(OTHER_OVERLAY_CLASS);
   betterProgressBar.style.opacity = 0;
   betterProgressBar.style.width = Math.floor(window.screen.width) + 'px';
-  betterProgressBar.style.height = '4px';
+  betterProgressBar.style.height = BETTER_BAR_HEIGHT + 'px';
   betterProgressBar.style.left = '0px';
   betterProgressBar.style.bottom = '0px';
 
   wrapper.appendChild(betterProgressBar);
 
   function drawBetterProgressBar() {
-    if (isDarkTheme) {
-      let str = 'linear-gradient(to right, #FFF 0%, #FF0 ';
-      let prog = vidElem.currentTime / vidElem.duration;
-      str += Math.floor(10000*prog/2)/100 + '%, #FFF ';
-      str += Math.floor(10000*prog)/100 + '%, #FFF0 '
-      str += Math.floor(10000*prog)/100 + 1 + '%, #FFF0 100%)';
-      betterProgressBar.style.background = str;
-    }
+    let str = 'linear-gradient(to right, #FF7 0%, #FF0 ';
+    let prog = vidElem.currentTime / vidElem.duration;
+    str += Math.floor(10000*prog/2)/100 + '%, #FF7 ';
+    str += Math.floor(10000*prog)/100 + '%, #FF70 '
+    str += Math.floor(10000*prog)/100 + 1 + '%, #FF70 100%)';
+    betterProgressBar.style.background = str;
   }
 
 
@@ -320,10 +342,11 @@
   let ctx = canvas.getContext('2d');
   
   let mainInterval = 1;
-  
+  let prevTimeInSeconds = (new Date()).parse();
 
   /* main interval definition */
   const mainIntervalFunction = ()=>{
+    let dt = (new Date()).parse() - prevTimeInSeconds;
     ctx.drawImage(vidElem, 0, 0, canvas.width, canvas.height);
 
     /* Gamma drawing */
@@ -349,7 +372,7 @@
       inputField.style.opacity = 0;
       inputFieldResetButton.style.opacity = 0;
     } else {
-      overlayTimeout -= .033;
+      overlayTimeout -= dt;
     }
     
     /* better progress bar drawer */
@@ -386,20 +409,19 @@
     
     /* progress bar updating */
     if (bar) {
-      if (isDarkTheme) {
-        let str = 'linear-gradient(to right, #FFF 0%, #FF0 ';
-        let prog = vidElem.currentTime / vidElem.duration;
-        str += Math.floor(10000*prog/2)/100 + '%, #FFF ';
-        str += Math.floor(10000*prog)/100 + '%, #FFF0 '
-        str += Math.floor(10000*prog)/100 + 1 + '%, #FFF0 100%)';
-        bar.style.background = str;
-      }
+      let str = 'linear-gradient(to right, #FF7 0%, #FF0 ';
+      let prog = vidElem.currentTime / vidElem.duration;
+      str += Math.floor(10000*prog/2)/100 + '%, #FF7 ';
+      str += Math.floor(10000*prog)/100 + '%, #FF70 '
+      str += Math.floor(10000*prog)/100 + 1 + '%, #FF70 100%)';
+      bar.style.background = str;
     }
     
     /* updating current progress in numbers */
     reevaluateCurrentDuration();
     
     /* next step */
+    prevTimeInSeconds = (new Date()).parse();
     if (mainInterval) {
       requestAnimationFrame(mainIntervalFunction);
     }
@@ -497,7 +519,7 @@
         overlay.style.opacity = 1;
         clockOverlay.style.opacity = 1;
       } else {
-        overlayTimeout = 5;
+        overlayTimeout = OVERLAY_TIMEOUT_SECONDS;
         overlay.style.opacity = 1;
         clockOverlay.style.opacity = 1;
       }
@@ -567,8 +589,8 @@
 
   playButton.onload = _=>{
     let element = document.querySelector('#'+PLAY_BUTTON_ID);
-    element.height = element.width = 40;
-    element.getContext('2d').drawImage(playButton, 0, 0, 40, 40);
+    element.height = element.width = WIDGET_SIZE;
+    element.getContext('2d').drawImage(playButton, 0, 0, WIDGET_SIZE, WIDGET_SIZE);
   }
 
 
@@ -578,12 +600,12 @@
     let isPlaying = (vidElem.currentTime > 0 && !vidElem.paused && !vidElem.ended && vidElem.readyState > 2);
     if (!isPlaying) {
       vidElem.play();
-      element.height = element.width = 40;
-      element.getContext('2d').drawImage(pauseButton, 0, 0, 40, 40);
+      element.height = element.width = WIDGET_SIZE;
+      element.getContext('2d').drawImage(pauseButton, 0, 0, WIDGET_SIZE, WIDGET_SIZE);
     } else {
       vidElem.pause();
-      element.height = element.width = 40;
-      element.getContext('2d').drawImage(playButton, 0, 0, 40, 40);
+      element.height = element.width = WIDGET_SIZE;
+      element.getContext('2d').drawImage(playButton, 0, 0, WIDGET_SIZE, WIDGET_SIZE);
     }
   };
 
@@ -595,13 +617,17 @@
     f => {
       let e = document.createElement('canvas');
       e.id = PLAY_BUTTON_ID;
-      e.height = e.width = 40;
-      e.getContext('2d').drawImage(playButton, 0, 0, 40, 40);
+      e.height = e.width = WIDGET_SIZE;
+      e.getContext('2d').drawImage(playButton, 0, 0, WIDGET_SIZE, WIDGET_SIZE);
       f.appendChild(e);
-      return {elem: e , width: 40};
+      return {elem: e , width: WIDGET_SIZE};
     },
     e=>{hookPlayButton(e)},
-    {margin: '5px', width: '40px', height:'40px'}
+    {
+      margin: WIDGET_MARGIN + 'px', 
+      width: WIDGET_SIZE + 'px', 
+      height: WIDGET_SIZE + 'px'
+    }
   );
 
 
@@ -623,17 +649,21 @@
         volumeDisplay.innerHTML = '';
       }
     },
-    {margin: '5px', width: '40px', height:'40px'}
+    {
+      margin: WIDGET_MARGIN + 'px', 
+      width: WIDGET_SIZE + 'px', 
+      height: WIDGET_SIZE + 'px'
+    }
   );
 
 
   /* volume display initialization */
   volumeDisplay = document.createElement('div');
   volumeDisplay.style.font = 'monospace';
-  volumeDisplay.style.fontSize = '16px';
+  volumeDisplay.style.fontSize = FONT_SIZE + 'px';
   volumeDisplay.style.display = 'flex';
   volumeDisplay.style.alignItems = 'center';
-  volumeDisplay.style.height = '40px';
+  volumeDisplay.style.height = WIDGET_SIZE + 'px';
   overlayLeft.appendChild(volumeDisplay);
   if (isDarkTheme) {
     volumeDisplay.style.color = '#FFF';
@@ -652,7 +682,11 @@
         volumeDisplay.innerHTML = '';
       }
     },
-    {margin: '5px', width: '40px', height:'40px'}
+    {
+      margin: WIDGET_MARGIN + 'px', 
+      width: WIDGET_SIZE + 'px', 
+      height: WIDGET_SIZE + 'px'
+    }
   );
 
 
@@ -664,7 +698,11 @@
     overlayLeft,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/jumpBackwardButtonVideoModule.png',
     e => {vidElem.currentTime -= 5},
-    {margin: '5px', width: '40px', height:'40px'}
+    {
+      margin: WIDGET_MARGIN + 'px', 
+      width: WIDGET_SIZE + 'px', 
+      height: WIDGET_SIZE + 'px'
+    }
   );
 
   
@@ -676,7 +714,11 @@
     overlayRight,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/jumpForwardButtonVideoModule.png',
     e => {vidElem.currentTime += 5},
-    {margin: '5px', width: '40px', height:'40px'}
+    {
+      margin: WIDGET_MARGIN + 'px', 
+      width: WIDGET_SIZE + 'px', 
+      height: WIDGET_SIZE + 'px'
+    }
   );
 
 
@@ -695,20 +737,26 @@
         playbackRateDisplay.innerHTML = '';
       }
     },
-    {margin: '5px', width: '40px', height:'40px'}
+    {
+      margin: WIDGET_MARGIN + 'px', 
+      width: WIDGET_SIZE + 'px', 
+      height: WIDGET_SIZE + 'px'
+    }
   );
 
 
   /* playbackrate info-box appending and styles */
   playbackRateDisplay = document.createElement('div');
   playbackRateDisplay.style.font = 'monospace';
-  playbackRateDisplay.style.fontSize = '16px';
+  playbackRateDisplay.style.fontSize = FONT_SIZE + 'px';
   playbackRateDisplay.style.display = 'flex';
   playbackRateDisplay.style.alignItems = 'center';
-  playbackRateDisplay.style.height = '40px';
+  playbackRateDisplay.style.height = WIDGET_SIZE + 'px';
   overlayRight.appendChild(playbackRateDisplay);
   if (isDarkTheme) {
     playbackRateDisplay.style.color = '#FFF';
+  } else {
+    playbackRateDisplay.style.color = '#000';
   }
 
 
@@ -722,7 +770,11 @@
         playbackRateDisplay.innerHTML = '';
       }
     },
-    {margin: '5px', width: '40px', height:'40px'}
+    {
+      margin: WIDGET_MARGIN + 'px', 
+      width: WIDGET_SIZE + 'px', 
+      height: WIDGET_SIZE + 'px'
+    }
   );
 
 
@@ -731,7 +783,11 @@
     overlayRight,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/gammaButtonVideoModule.png',
     e=>{toggleGamma()},
-    {margin: '5px', width: '40px', height:'40px'}
+    {
+      margin: WIDGET_MARGIN + 'px', 
+      width: WIDGET_SIZE + 'px', 
+      height: WIDGET_SIZE + 'px'
+    }
   );
 
 
@@ -741,20 +797,26 @@
     overlayRight,
     'https://nottgy.github.io/einstain/bookmarklets/general_tools/videoModule/escapeButtonVideoModule.png',
     e=>{handler({key:'q'})},
-    {margin: '5px', width: '40px', height:'40px'}
+    {
+      margin: WIDGET_MARGIN + 'px', 
+      width: WIDGET_SIZE + 'px', 
+      height: WIDGET_SIZE + 'px'
+    }
   );
 
 
   /* current duration display */
   let displayCurrentDuration = document.createElement('div');
   displayCurrentDuration.style.font = 'monospace';
-  displayCurrentDuration.style.fontSize = '16px';
+  displayCurrentDuration.style.fontSize = FONT_SIZE + 'px';
   displayCurrentDuration.style.display = 'flex';
   displayCurrentDuration.style.alignItems = 'center';
-  displayCurrentDuration.style.height = '40px';
+  displayCurrentDuration.style.height = WIDGET_SIZE + 'px';
   overlayCenter.appendChild(displayCurrentDuration);
   if (isDarkTheme) {
     displayCurrentDuration.style.color = '#FFF';
+  } else {
+    displayCurrentDuration.style.color = '#000';
   }
 
   /* callback function to update current state */
@@ -790,7 +852,7 @@
       let e = document.createElement('div');
       e.id = PROGRESS_BAR_ID;
       f.appendChild(e);
-      return {elem: e , width: Math.floor(window.screen.width)-700};
+      return {elem: e , width: BAR_WIDTH };
     },
     e => {
       let element = document.querySelector('#'+PROGRESS_BAR_ID);
@@ -798,18 +860,23 @@
       let dx = e.clientX - element.offsetLeft;
       vidElem.currentTime = vidElem.duration * (dx / w);
     },
-    {margin: '5px', width: Math.floor(window.screen.width)-700+'px', height:'10px'}
+    {
+      margin: WIDGET_MARGIN + 'px', 
+      width: BAR_WIDTH+'px', 
+      height: BAR_HEIGHT + 'px'}
   );
 
   /* displaying total duration of the video */
   let displayTotalDuration = document.createElement('div');
   displayTotalDuration.style.font = 'monospace';
-  displayTotalDuration.style.fontSize = '16px';
-  displayTotalDuration.style.height = '40px';
+  displayTotalDuration.style.fontSize = FONT_SIZE + 'px';
+  displayTotalDuration.style.height = WIDGET_SIZE + 'px';
   displayTotalDuration.style.display = 'flex';
   displayTotalDuration.style.alignItems = 'center';
   if (isDarkTheme) {
     displayTotalDuration.style.color = '#FFF';
+  } else {
+    displayTotalDuration.style.color = '#000';
   }
   
   
