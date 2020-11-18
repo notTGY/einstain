@@ -1,5 +1,10 @@
 (function (){
+  alert('go to nottgy.github.io/JSt/index.html to get the latest version of the JSt');
+  return;
+
+
   /* prevent double loading */
+
 
   if (document.querySelector('#mainCanvas')) {
     document.querySelector('#mainCanvas').remove();
