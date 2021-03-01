@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>FLEX</title>
+    <style media="screen">
+      #gradient {
+       width: 512px;
+       height: 512px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       overflow: hidden;
+       white-space: nowrap;
+      }
+
+      .outer-rect{
+        position: relative;
+        border: 56px solid #fff;
+        width: 400px;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .outer-circle{
+        position: relative;
+        border-radius: 50%;
+        border: 100px solid #fff;
+        width: 400px;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        -webkit-background-clip: content-box;
+      }
+
+      .inner-circle{
+        position: relative;
+        border-radius: 50%;
+        width: 390px;
+        height: 390px;
+        margin: 5px!important;
+        background: #fff;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+      }
+
+      #text-container{
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+         "Segoe UI Symbol", "Noto Color Emoji";
+        font-size: 120px;
+        font-weight: bold;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        cursor: pointer;
+        padding-bottom: 20px;
+      }
+      #text-container::selection{
+        background: transparent;
+      }
+      body{
+        margin: 0 auto;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="gradient">
+      <div class="outer-rect">
+        <div class="outer-circle">
+          <div class="inner-circle">
+            <div id="text-container">
+              FLEX
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    const elem = document.getElementById('gradient')
+    const elem2 = document.getElementById('text-container')
+
+    let x = 0;
+    const fn = ()=>{
+      elem.style.backgroundImage = `linear-gradient(${x}deg, #ff4e00 0%, #ec9f05 74%)`;
+      elem2.style.backgroundImage = `linear-gradient(${x}deg, #ff4e00 0%, #ec9f05 74%)`;
+      let t = (x/180) *Math.PI;
+      let s = 33 * Math.sin(t);
+      elem2.style.transform = `skewX(${s}deg)`;
+      x += 8;
+      x %= 360;
+      requestAnimationFrame(fn);
+    }
+
+    fn();
+  </script>
+</html>

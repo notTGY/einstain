@@ -1,0 +1,114 @@
+<html>
+<body style="display: flex; margin: 0;">
+  <canvas id='c' width="700" height="700" style="border: 1px solid #ccc;"></canvas>
+  <div style="border: 1px solid #ccc; display:flex; flex-direction: column; background: #ddd;">
+    <input placeholder="a = 10" id="ai" style="margin: 1rem;"></input>
+    <input placeholder="r = 28" id="bi" style="margin: 1rem;"></input>
+    <input placeholder="b = 2.666" id="ci" style="margin: 1rem;"></input>
+    <input placeholder="dt = 0.01" id="dti" style="margin: 1rem;"></input>
+
+
+    <select value="3d" style="margin: 1rem;" id="mi">
+      <option value="3d">3d</option>
+      <option value="xz">xz</option>
+      <option value="xy">xy</option>
+      <option value="yz">yz</option>
+      <option value="smart 3d">smart 3d</option>
+    </select>
+  </div>
+  <script>
+        const canvas = document.getElementById('c')
+        const ctx = canvas.getContext('2d')
+
+        let x = 3.051522
+        let y = 1.582542
+        let z = 15.62388
+
+        let mode = '3d'
+
+        let dt = 0.01;
+        let a = 10, r = 28, c = 2.666;
+
+        const h = canvas.height;
+        const w = canvas.width;
+
+        f()
+
+
+
+        function f() {
+                const x1 = x + a*(-x+y)*dt
+                const y1 = y + (r*x-y-z*x)*dt
+                const z1 = z + (-c*z+x*y)*dt
+                x = x1
+                y = y1
+                z = z1
+                const brightness = Math.floor(255 * ((160 + y) / 250))
+                if (brightness < 100 || brightness > 255) {
+                  console.log(brightness);
+                }
+                ctx.fillStyle = '#33f'
+                if (mode == '3d') {
+                  ctx.fillRect(Math.round(9*(y - x*0.292893) + w/2), Math.round(-5*(z + x*0.292893) + 3*h/4), 1, 1)
+                } else if (mode == 'xz') {
+                  ctx.fillRect(6*x + w/2, -6*z + h/2, 1, 1)
+                } else if (mode == 'xy') {
+                  ctx.fillRect(6*x + w/2, 6*y + h/2, 1 ,1)
+                } else if (mode == 'yz') {
+                  ctx.fillRect(6*y + w/2, -6*z+h/2, 1, 1)
+                } else if (mode == 'smart 3d') {
+                  ctx.fillStyle = `#2f2f${brightness.toString(16)}`
+                  ctx.fillRect(6*x + w/2, -6*z + h/2, 1, 1)
+                }
+                setTimeout(f, 0)
+        }
+
+        const ai = document.getElementById('ai')
+        const bi = document.getElementById('bi')
+        const ci = document.getElementById('ci')
+        const dti = document.getElementById('dti')
+        const mi = document.getElementById('mi')
+
+        ai.onchange = e => {
+          a = ai.value
+          x = 3.051522
+          y = 1.582542
+          z = 15.62388
+          ctx.clearRect(0, 0, w, h)
+        }
+
+        bi.onchange = e => {
+          r = bi.value
+          x = 3.051522
+          y = 1.582542
+          z = 15.62388
+          ctx.clearRect(0, 0, w, h)
+        }
+
+        ci.onchange = e => {
+          c = ci.value
+          x = 3.051522
+          y = 1.582542
+          z = 15.62388
+          ctx.clearRect(0, 0, w, h)
+        }
+
+        dti.onchange = e => {
+          dt = dti.value
+          x = 3.051522
+          y = 1.582542
+          z = 15.62388
+          ctx.clearRect(0, 0, w, h)
+        }
+
+        mi.onchange = e => {
+          mode = mi.value
+          x = 3.051522
+          y = 1.582542
+          z = 15.62388
+          ctx.clearRect(0, 0, w, h)
+        }
+
+  </script>
+</body>
+</html>
