@@ -3,18 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>vim-tris</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.6.1/randomColor.min.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body style="font-family: 'Segoe UI'">
   <h1>Welcome to vim-tris</h1>
-  <p>
+  <h5>
     Basically the idea behind this game is pretty straight-forward.
     The controls are not. Use "h" to move left, "l" to move right,
     "j" to speed up falling, "k" to pause up falling.
 
-    Good luck!
-  </p>
+  <span onclick="isRobotPlaying=1">Good luck!</span>
+  </h5>
 
-  <canvas id="c" style="border: 1px solid #ccc"></canvas>
+  <h6>
+    In vim hero mode you need to constantly escape from --INSERT-- (whenever new piece summons). You can do so by
+    pressing "ESC".
+  </h6>
+
+  <div style="display: flex; align-items:center; flex-direction: column; margin-top: 2rem; width:100%">
+    <button onclick="muted=!muted">toggle sound</button>
+    <button onclick="heart=!heart">toggle heartbeat</button>
+
+    <div><label for="difficulty">difficulty: </label><select name="difficulty" id="difficulty">
+      <option value="easy">easy</option>
+      <option value="normal" selected>normal</option>
+      <option value="vim hero">vim hero</option>
+    </select></div>
+  </div>
+
+
+
+  <div style="display: flex; justify-items: center; align-items: center; flex-direction: column; margin-top: 2rem;">
+    <canvas id="c" style="border: 1px solid #ccc"></canvas>
+    <span id="counter" style="margin-top: 0.5rem;">0</span>
+  </div>
   <script src="./index.js"></script>
 </body>
 </html>
