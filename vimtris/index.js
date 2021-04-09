@@ -75,10 +75,11 @@ for (let i = 0; i < c.height / size; i++) {
 
 update()
 
-
-const A = new AudioContext()
+let A = 0
+if (AudioContext)  A = new AudioContext()
 
 function click() {
+  if (!A) return 0
   if (muted) return 0
   const G = A.createGain()
   const O = A.createOscillator()
