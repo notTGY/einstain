@@ -90,3 +90,28 @@ function draw() {
   updateTime()
 }
 draw();
+
+
+
+window.addEventListener('load', async e => {
+  const tabs = new Promise(resolve => {
+    chrome.tabs.query({}, resolve)
+  })
+  if ((await tabs).length > 1) return
+  let text = ''
+  const hours = new Date().getHours()
+  if (hours > 6) text = 'good morning, sir'
+  if (hours > 12) text = 'good afternoon, sir'
+  if (hours > 21) text = 'good night, sir'
+
+  const synth = window.speechSynthesis
+  let utter = new SpeechSynthesisUtterance(text)
+  synth.getVoices()
+  setTimeout(e => {
+    const voices = synth.getVoices()
+    console.log(voices)
+    const voice = voices[6]
+    utter.voice = voice
+    synth.speak(utter)
+  }, 100)
+})
