@@ -35,5 +35,48 @@ restart.addEventListener('mouseup', _ => {
 })
 
 
+startButton.addEventListener('mouseup', _ => {
+  startGame()
+  startingButtonsHolder.style.display = 'none'
+})
+prepareStartingScreen()
+function prepareStartingScreen() {
+  ctx.scale(c.width/1000, c.width/1000)
+  const t = Math.sqrt(2)
+  ctx.fillStyle = '#000'
+  ctx.fillRect(0,0,c.width, c.height)
 
-startGame()
+  ctx.translate(150,35)
+
+  ctx.fillStyle = '#0606'
+
+  ctx.translate(275, 125)
+  ctx.rotate(Math.PI/4)
+  ctx.fillRect(-80*t, -50, 160*t, 100)
+  ctx.rotate(-Math.PI/4)
+  ctx.translate(-275, -125)
+
+  ctx.translate(185, 125)
+  ctx.rotate(-Math.PI/4)
+  ctx.fillRect(-220*t, -50, 300*t, 100)
+  ctx.rotate(Math.PI/4)
+  ctx.translate(-185, -125)
+
+  ctx.translate(-85, 225)
+  ctx.rotate(Math.PI/4)
+  ctx.fillRect(-100*t, -50, 220*t, 100)
+  ctx.rotate(-Math.PI/4)
+  ctx.translate(85, -225)
+
+  ctx.fillStyle = '#060'
+  ctx.strokeStyle = '#3f3'
+  ctx.lineWidth = 10
+  rotatedRect(350, 200, 100, 1)
+
+  ctx.translate(-150,-35)
+  ctx.scale(1000/c.width, 1000/c.width)
+  ctx.fillStyle = '#3f3'
+
+  ctx.font = '3cm"'
+  ctx.fillText('Zig-a-Zig ah', c.width/2+400, c.height/2)
+}

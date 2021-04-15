@@ -41,3 +41,41 @@ body{
 #restart::selection{
   background: transparent;
 }
+
+
+#start{
+  padding: 15px;
+  align-items: center;
+  justify-content: center;
+  color: #cccccc;
+  width: 100px;
+  height: 100px;
+  background: lime;
+  border-radius: 100%;
+  border: 1px solid #fff;
+  outline: none;
+  transition: 0.5s;
+}
+#start:hover{
+  width: 120px;
+  height: 120px;
+}
+#start:active{
+  width: 150px;
+  height: 150px;
+}
+#start::selection{
+  background: transparent;
+}
+
+#starting-buttons-holder{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
