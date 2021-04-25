@@ -1,0 +1,41 @@
+<html>
+<head>
+  <title>pigeon with css</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link href="./styles.css" rel="stylesheet">
+</head>
+<body>
+  <div 
+    id="start" 
+    class="w-screen h-screen flex items-center justify-center bg-blue-100"
+  >
+    <input 
+      id="name" 
+      class="border rounded border-blue-700 mr-5 p-2 placeholder-blue-100 bg-gray-400"
+      placeholder="Enter your name..."
+    >
+    </input>
+    <button 
+      id="submit" 
+      class="border rounded border-blue-700 ml-5 p-2 bg-blue-400 text-blue-100 hover:bg-blue-500 active:bg-blue-700"
+    >
+      submit
+    </button>
+  </div>
+  <div 
+    id="final" 
+    class="w-screen h-screen flex items-center justify-center fixed top-0 left-0 bg-red-100 text-red-700"
+    style="visibility: hidden;"
+  >
+    <div class="flex items-center justify-center">
+      <pre 
+        id="text" 
+        class="w-32 h-24 text-bg-gray-500 mr-16 relative -top-16 -left-12" 
+        style="visibility: hidden;"
+      >
+      </pre>
+    </div>
+  </div>
+</body>
+  <script src="./index.js"></script>
+</html>
