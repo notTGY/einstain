@@ -1,3 +1,5 @@
+const baseInput = document.getElementById('base')
+const polynomInput = document.getElementById('polynom')
 let primePolynoms = []
 primePolynoms[0] = []
 primePolynoms[1] = allPolynomsOfDegree(1).filter(e => e[1] !== 0)
