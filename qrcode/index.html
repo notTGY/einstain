@@ -1,0 +1,14 @@
+<script src="./qrcode.min.js"></script>
+<div style="background: linear-gradient(45deg, #ff4e00 0%, #ec9f05 74%); width: fit-content">
+<div id=qrcode></div>
+</div>
+<script>
+let qrcode = new QRCode(document.getElementById("qrcode"), {
+  text: "https://flex-hq.com",
+  width: 128,
+  height: 128,
+  colorDark: "transparent",
+  colorLight: "#fff",
+  correctLevel: QRCode.CorrectLevel.Q
+})
+</script>
