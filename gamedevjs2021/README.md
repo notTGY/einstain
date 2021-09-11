@@ -1,4 +1,4 @@
-# [Zig-a-Zig ah](https://nottgy.github.io/gamedevjs2021)
+# [Zig-a-Zig ah](https://nottgy.github.io/einstain/gamedevjs2021)
 This is a shitty game (graphics are pretty good though).
 As this is pretty recent project, this is quite well made, however I may change my opinion on it.
 About game: 
