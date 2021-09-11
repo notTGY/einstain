@@ -1,4 +1,4 @@
-#[Simple Music System](https://nottgy.github.io/einstain/SiMuS/index.html)
+# [Simple Music System](https://nottgy.github.io/einstain/SiMuS/index.html)
 
 This is pretty cool idea of mine.
 This tool helps to generate WebAudio API music.

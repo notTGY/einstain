@@ -1,4 +1,4 @@
-#font test
+# font test
 is a prototype of my other project [bujo](https://github.com/notTGY/bujo-web).
 Basically it consists of two parts:
 * [font testing stuff](https://nottgy.github.io/einstain/font-test/book.html)

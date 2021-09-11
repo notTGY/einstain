@@ -3,5 +3,5 @@ is a famous BASIC program, that prints random maze.
 It consists of a single line
 
 And this demo is my try (69 bytes) to recreate it with modern js.
-##hint
+## hint
 Click the page to generate maze.

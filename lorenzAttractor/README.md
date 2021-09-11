@@ -1,4 +1,4 @@
-#[Lorenz attractor](https://nottgy.github.io/einstain/lorenzAttractor)
+# [Lorenz attractor](https://nottgy.github.io/einstain/lorenzAttractor)
 
 This is a demo of strange Lorenz Attractor.
 This stuff simulates fluid dynamics or something...

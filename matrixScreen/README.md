@@ -1,4 +1,4 @@
-#[matrix screen](https://nottgy.github.io/einstain/matrixScreen)
+# [matrix screen](https://nottgy.github.io/einstain/matrixScreen)
 
 this has two versions:
 * [old](https://nottgy.github.io/einstain/matrixScreen)

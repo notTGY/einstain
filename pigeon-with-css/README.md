@@ -1,4 +1,4 @@
-#[pigeon with css](https://nottgy.github.io/einstain/pigeon-with-css)
+# [pigeon with css](https://nottgy.github.io/einstain/pigeon-with-css)
 
 This is quick demo of my css skill + [tailwind.css](https://tailwindcss.com) usage.
 Idea is not mine, but I feel sorry to reveal who is behind this, so I won't, just make sure

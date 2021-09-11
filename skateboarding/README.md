@@ -1,4 +1,4 @@
-#[skateboarding](https://nottgy.github.io/einstain/skateboarding/skateboarding.html)
+# [skateboarding](https://nottgy.github.io/einstain/skateboarding/skateboarding.html)
 
 This is my second big project. This is a game about skateboarding ;)
 

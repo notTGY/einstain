@@ -1,4 +1,4 @@
-#[tailwind demo](https://nottgy.github.io/tailwindcss/1)
+# [tailwind demo](https://nottgy.github.io/tailwindcss/1)
 
 This is my first experience with both [tailwind](https://tailwindcss.com) and adaptive web design.
 As you can see, this was made through [the scrimba course](https://scrimba.com/learn/tailwind).

@@ -1,4 +1,4 @@
-#[vimtris](https://nottgy.github.io/einstain/vimtris)
+# [vimtris](https://nottgy.github.io/einstain/vimtris)
 
 Finally some helpful stuff.
 You can learn vim movements through playing tetris. Very helpful (this actually helped me roll in the vim).
