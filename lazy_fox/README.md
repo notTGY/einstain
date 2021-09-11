@@ -1,0 +1,3 @@
+#[lazy fox](https://nottgy.github.io/einstain/lazy_fox)
+This the demo based on the simple thought: "sentences containing all english alphabet letters are beautiful".
+If only there is a way to test if the sentence has this characteristic...

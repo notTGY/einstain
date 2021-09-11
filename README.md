@@ -1,1 +1,38 @@
 # einstain
+
+Here are some projects this repo consists:
+
+* [10Print](https://github.com/notTGY/einstain/tree/master/10Print)
+* [BF](https://github.com/notTGY/einstain/tree/master/BF)
+* [SiMuS](https://github.com/notTGY/einstain/tree/master/SiMuS)
+* [bookmarklets](https://github.com/notTGY/einstain/tree/master/bookmarklets/general_tools)
+* [clock](https://github.com/notTGY/einstain/tree/master/clock)
+* [compressor](https://github.com/notTGY/einstain/tree/master/compressor)
+* [3d experiment](https://github.com/notTGY/einstain/tree/master/d3/firstExperiment)
+* [demo for js1024.fun in 2020](https://github.com/notTGY/einstain/tree/master/demo4js1024.fun)
+* [flex image compression](https://github.com/notTGY/einstain/tree/master/flex-image-compression)
+* [font-test](https://github.com/notTGY/einstain/tree/master/font-test)
+* [freeRoom](https://github.com/notTGY/einstain/tree/master/freeRoom)
+* [gameOfLife](https://github.com/notTGY/einstain/tree/master/gameOfLife)
+* [gamedevjs2021 demo](https://github.com/notTGY/einstain/tree/master/gamedevjs2021)
+* [gradient](https://github.com/notTGY/einstain/tree/master/gradient)
+* [lazy_fox](https://github.com/notTGY/einstain/tree/master/lazy_fox)
+* [Lorenz Attractor](https://github.com/notTGY/einstain/tree/master/lorenzAttractor)
+* [matrix exstension](https://github.com/notTGY/einstain/tree/master/matrixExstension)
+* [matrix screen](https://github.com/notTGY/einstain/tree/master/matrixScreen)
+* [matrixes scientific stuff](https://github.com/notTGY/einstain/tree/master/matrixesScientificStuff)
+* [metrics](https://github.com/notTGY/einstain/tree/master/metrics)
+* [microCSV](https://github.com/notTGY/einstain/tree/master/microCSV)
+* [microML](https://github.com/notTGY/einstain/tree/master/microML)
+* [pigeon with css](https://github.com/notTGY/einstain/tree/master/pigeon-with-css)
+* [pretty animation](https://github.com/notTGY/einstain/tree/master/prettyAnimation)
+* [prime polynoms](https://github.com/notTGY/einstain/tree/master/primePolynoms)
+* [qrcode](https://github.com/notTGY/einstain/tree/master/qrcode)
+* [skateboarding](https://github.com/notTGY/einstain/tree/master/skateboarding)
+* [snake](https://github.com/notTGY/einstain/tree/master/snake)
+* [tailwindcss demo](https://github.com/notTGY/einstain/tree/master/tailwindcss)
+* [three bit paint](https://github.com/notTGY/einstain/tree/master/threeBitPaint)
+* [vimtris](https://github.com/notTGY/einstain/tree/master/vimtris)
+* [wolfeinstain3D demo](https://github.com/notTGY/einstain/tree/master/wolfeinstain3D/microThing)
+
+Amazing how little work one human can do in such a big time............
