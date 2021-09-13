@@ -1,17 +1,55 @@
 const MAX = 255
 
+function Model(layerStructure) {
+  const self = this
+  this.layerStructure = layerStructure
 
-/**
- * input consists input params of the model (n1 numbers between 0 and 255)
- * layerStructure consists of n, where n is number of nodes in each layer 
- * ( [ n1, n2, ... nlast ] )
- * model is flat array of biases 
- * ( n2 for the first node + n2 for the second ... + n2 for n1,
- * then n3 for n1+1 ... n3 for n1+n2, then ... ,
- * then nlast for n1 + n2 + ... + nlast-1 + 1 and so on )
- * 
- * function outputs array with length nlast numbers (the res)
- */
+  const weightsNum = this.layerStructure.reduce(
+    (prev, e, i, arr) => i === 0 ? prev : (arr[i-1] + 1)*arr[i]
+  )
+
+  this.model = Array(weightsNum).fill(0)
+
+  this.calcOutput = calcModelWithInput
+
+  this.step = (index, step) => {
+    const idx = index < self.model.length ? index : index - self.model.length
+
+    const weight = self.model[idx]
+
+    const modifiedWeight = index < self.model.length
+      ? Math.min(MAX, weight + step)
+      : Math.max(0, weight - step)
+
+    return self.model.map(
+      (e, i) => i === idx ? modifiedWeight : e
+    )
+  }
+
+  this.train = (listOfInputs, listOfExpectedOutputs, step) => {
+    for (
+      let i = minIdx = 0, minScore = +Infinity; i < self.model.length * 2; i++
+    ) {
+      const modifiedModel = self.step(i, step)
+
+      const score = listOfInputs.reduce((prev, input, index) => prev
+        + getDeviation(
+          calcModelWithInput(input, self.layerStructure, modifiedModel),
+          listOfExpectedOutputs[index]
+        )
+      )
+
+      if (score < minScore) {
+        minScore = score
+        minIdx = i
+      }
+    }
+
+    self.model = self.step(minIdx, step)
+  }
+
+}
+
 function calcModelWithInput(input, layerStructure, model) {
   if (input.length !== layerStructure[0]) throw new Error(`wrong params`)
   if (layerStructure.length === 1) return input
@@ -57,63 +95,10 @@ function calcModelWithInput(input, layerStructure, model) {
   )
 }
 
-/**
- * Get deviation between n-dimensional vectors
- * (Pythagoras theorem)
- */
 function getDeviation(vec1, vec2) {
   if (vec1.length !== vec2.length)
     throw new Error(`comparing vectors from different spaces`)
-  return vec1.reduce((prev, e, i) => prev + (e-vec2[i])**2, 0)
-}
-
-/**
- * Steps model at index = index % model.lenght
- * if index > model.length, step in negative direction
- * else in positive
- */
-function stepModel(model, index, step) {
-  const idx = index < model.length
-    ? index
-    : index - model.length
-  const weight = model[idx]
-  const modifiedWeight = index < model.length
-    ? Math.min(MAX, weight + step)
-    : Math.max(0, weight - step)
-  return model.map(
-    (e, i) => i === idx ? modifiedWeight : e
-  )
-}
-
-/**
- * returns slightly modified version of model to better match expected results
- */
-function train(model, listOfInputs, listOfExpectedOutputs, step) {
-  for (let i = minIdx = 0, minScore = +Infinity; i < model.length * 2; i++) {
-    const modifiedModel = stepModel(model, i, step)
-
-    const score = listOfInputs.reduce((prev, input, index) => {
-      const res = calcModelWithInput(input, layerStructure, modifiedModel)
-      const deviation = getDeviation(res, listOfExpectedOutputs[index])
-      return prev + deviation
-    })
-    if (score < minScore) {
-      minScore = score
-      minIdx = i
-    }
-  }
-
-  return stepModel(model, minIdx, step)
-}
-
-/**
- * Generate model with all 0 weights to match given layer structure
- */
-function modelForLayerStructure(layerStructure) {
-  let neyronsNum = 0
-  for (let i = 1; i < layerStructure.length; i++)
-    neyronsNum += (layerStructure[i-1]+1)*layerStructure[i]
-  return Array(neyronsNum).fill(0)
+  return vec1.reduce((prev, e, i) => prev + (e - vec2[i])**2, 0)
 }
 
 const layerStructure = [ 2, 1 ]
@@ -128,18 +113,18 @@ const out3 = [ MAX ]
 const out4 = [ MAX ]
 
 function start() {
-  let model = modelForLayerStructure(layerStructure)
+  let model = new Model(layerStructure)
 
   let listOfInputs = [in1, in2, in3, in4]
   let listOfExpectedOutputs = [out1, out2, out3, out4]
 
-  getCurResultsForNetwork(model, listOfInputs)
+  getCurResultsForNetwork(model.model, listOfInputs)
   for (let i = 0; i < 1e3; i++) {
     const step = Math.max(1, Math.floor(MAX / (i+1)))
-    model = train(model, listOfInputs, listOfExpectedOutputs, step)
+    model.train(listOfInputs, listOfExpectedOutputs, step)
   }
-  getCurResultsForNetwork(model, listOfInputs, listOfExpectedOutputs)
-  console.log(model)
+  getCurResultsForNetwork(model.model, listOfInputs, listOfExpectedOutputs)
+  console.log(model.model)
 }
 
 start()
