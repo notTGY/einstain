@@ -5,15 +5,19 @@ const MAX = 255
  * input consists input params of the model (n1 numbers between 0 and 255)
  * layerStructure consists of n, where n is number of nodes in each layer 
  * ( [ n1, n2, ... nlast ] )
- * model is flat array of biases 
+ * model is flat array of weights
  * ( n2 for the first node + n2 for the second ... + n2 for n1,
- * then n3 for n1+1 ... n3 for n1+n2, then ... ,
- * then nlast for n1 + n2 + ... + nlast-1 + 1 and so on )
+ * n2 for bias, then n3 for n1+1 ... n3 for n1+n2, n3 for second bias,
+ * then ... , then nlast for n1 + n2 + ... + nlast-1 + 1 and so on )
  * 
  * function outputs array with length nlast numbers (the res)
  */
 function calcModelWithInput(input, layerStructure, model) {
-  if (input.length !== layerStructure[0]) throw new Error(`wrong params`)
+  if (input.length !== layerStructure[0])
+    throw new Error(`layer structure and input params do not match`)
+  /**
+   * 1-layer neural network
+   */
   if (layerStructure.length === 1) return input
 
   const [
@@ -21,16 +25,25 @@ function calcModelWithInput(input, layerStructure, model) {
     outputNeyronsNum,
     ...restLayerStructure
   ] = layerStructure
-  if (model.length < (inputNeyronsNum+1)*outputNeyronsNum)
+
+  if (model.length < (inputNeyronsNum + 1)*outputNeyronsNum)
     throw new Error(`not enough model params`)
+
   if (layerStructure.length === 2 &&
-    model.length > (inputNeyronsNum+1)*outputNeyronsNum)
+    model.length > (inputNeyronsNum + 1)*outputNeyronsNum)
     throw new Error(`too much model params`)
   
-  const nextLayerRes = []
 
-  const getWeight = (inNode, outNode) =>
-    model[inNode*outputNeyronsNum + outNode]
+  /**
+   * Function that matches weight between inNeyron and outNeyron
+   */
+  const getWeight = (inNeyron, outNeyron) =>
+    model[inNeyron*outputNeyronsNum + outNeyron]
+
+  /**
+   * Calculate each neyron value in the next layer
+   */
+  const nextLayerRes = []
 
   for (let i = 0; i < outputNeyronsNum; i++) {
     let sum = 0;
@@ -39,6 +52,7 @@ function calcModelWithInput(input, layerStructure, model) {
       sum += weight
     }
     sum += getWeight(inputNeyronsNum, i)
+
     let outputForNeyron = 0;
     if (sum !== 0) {
       for (let j = 0; j < inputNeyronsNum; j++) {
@@ -50,6 +64,9 @@ function calcModelWithInput(input, layerStructure, model) {
 
     nextLayerRes[i] = Math.floor(MAX * outputForNeyron)
   }
+  /**
+   * Recursively call as if NN is 1 layer less and current output is an input
+   */
   return calcModelWithInput(
     nextLayerRes,
     [outputNeyronsNum, ...restLayerStructure],
@@ -61,9 +78,9 @@ function calcModelWithInput(input, layerStructure, model) {
  * Get deviation between n-dimensional vectors
  * (Pythagoras theorem)
  */
-function getDeviation(vec1, vec2) {
+function getDistance(vec1, vec2) {
   if (vec1.length !== vec2.length)
-    throw new Error(`comparing vectors from different spaces`)
+    throw new Error(`getting distance between vectors from different spaces`)
   return vec1.reduce((prev, e, i) => prev + (e-vec2[i])**2, 0)
 }
 
@@ -94,8 +111,8 @@ function train(model, listOfInputs, listOfExpectedOutputs, step) {
 
     const score = listOfInputs.reduce((prev, input, index) => {
       const res = calcModelWithInput(input, layerStructure, modifiedModel)
-      const deviation = getDeviation(res, listOfExpectedOutputs[index])
-      return prev + deviation
+      const distance = getDistance(res, listOfExpectedOutputs[index])
+      return prev + distance
     })
     if (score < minScore) {
       minScore = score
@@ -144,19 +161,21 @@ function start() {
 
 start()
 
+/**
+ * Fancy logging function
+ */
 function getCurResultsForNetwork(model, listOfInputs, expectedOutputs) {
   listOfInputs.forEach(
     (input, index) => {
       const res = calcModelWithInput(input, layerStructure, model)
       if (expectedOutputs) {
         const expected = expectedOutputs[index]
-        const deviation = getDeviation(res, expected)
+        const distance = getDistance(res, expected)
         document.body.innerHTML +=
-          `got: ${res.join(' ')}, expected: ${expected.join(' ')}, deviation: ${deviation}<br>`
+          `got: ${res.join(' ')}, expected: ${expected.join(' ')}, distance: ${distance}<br>`
         return
       }
-      document.body.innerHTML +=
-        `got: ${res.join(' ')}<br>`
+      document.body.innerHTML += `got: ${res.join(' ')}<br>`
     }
   )
   document.body.innerHTML +='<br>'
