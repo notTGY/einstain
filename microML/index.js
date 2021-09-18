@@ -1,3 +1,32 @@
+const c = document.getElementById('c')
+c.width = c.height = 20
+const ctx = c.getContext('2d')
+
+const sleep = e => new Promise(r => setTimeout(r, e))
+
+async function generateMNIST() {
+  let MNISTinput = [[]]
+  let MNISToutput = [[]]
+  for (let i = 9; i >= 0; i--) {
+    MNISToutput[i] = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+    MNISToutput[i][i] = MAX
+
+    ctx.clearRect(0, 0, c.width, c.height)
+    ctx.fillText(i, 2, 9)
+    const frame = ctx.getImageData(0, 0, c.width, c.height)
+    await sleep(300)
+    const data = frame.data
+
+    let pixelData = []
+    for (let j = 0; j < data.length / 4; j++) {
+      const o = data[4*j + 3]
+      pixelData[j] = o
+    }
+    MNISTinput[i] = pixelData
+  }
+  return { input: MNISTinput, output: MNISToutput }
+}
+
 const MAX = 255
 
 
@@ -12,7 +41,7 @@ const MAX = 255
  * 
  * function outputs array with length nlast numbers (the res)
  */
-function calcModelWithInput(input, layerStructure, model) {
+async function calcModelWithInput(input, layerStructure, model) {
   if (input.length !== layerStructure[0])
     throw new Error(`layer structure and input params do not match`)
   /**
@@ -67,7 +96,7 @@ function calcModelWithInput(input, layerStructure, model) {
   /**
    * Recursively call as if NN is 1 layer less and current output is an input
    */
-  return calcModelWithInput(
+  return await calcModelWithInput(
     nextLayerRes,
     [outputNeyronsNum, ...restLayerStructure],
     model.slice((inputNeyronsNum+1)*outputNeyronsNum)
@@ -89,7 +118,7 @@ function getDistance(vec1, vec2) {
  * if index > model.length, step in negative direction
  * else in positive
  */
-function stepModel(model, index, step) {
+async function stepModel(model, index, step) {
   const idx = index < model.length
     ? index
     : index - model.length
@@ -105,12 +134,12 @@ function stepModel(model, index, step) {
 /**
  * returns slightly modified version of model to better match expected results
  */
-function train(model, listOfInputs, listOfExpectedOutputs, step) {
+async function train(model, listOfInputs, listOfExpectedOutputs, step) {
   for (let i = minIdx = 0, minScore = +Infinity; i < model.length * 2; i++) {
-    const modifiedModel = stepModel(model, i, step)
+    const modifiedModel = await stepModel(model, i, step)
 
-    const score = listOfInputs.reduce((prev, input, index) => {
-      const res = calcModelWithInput(input, layerStructure, modifiedModel)
+    const score = listOfInputs.reduce(async (prev, input, index) => {
+      const res = await calcModelWithInput(input, layerStructure, modifiedModel)
       const distance = getDistance(res, listOfExpectedOutputs[index])
       return prev + distance
     })
@@ -120,7 +149,7 @@ function train(model, listOfInputs, listOfExpectedOutputs, step) {
     }
   }
 
-  return stepModel(model, minIdx, step)
+  return await stepModel(model, minIdx, step)
 }
 
 /**
@@ -130,30 +159,21 @@ function modelForLayerStructure(layerStructure) {
   let neyronsNum = 0
   for (let i = 1; i < layerStructure.length; i++)
     neyronsNum += (layerStructure[i-1]+1)*layerStructure[i]
-  return Array(neyronsNum).fill(0)
+  return Array(neyronsNum).fill(MAX)
 }
 
-const layerStructure = [ 2, 1 ]
+const layerStructure = [ 400, 10 ]
 
-const in1 = [ 0, 0 ]
-const in2 = [ 0, MAX ]
-const in3 = [ MAX, 0 ]
-const in4 = [ MAX, MAX ]
-const out1 = [ 0 ]
-const out2 = [ MAX ]
-const out3 = [ MAX ]
-const out4 = [ MAX ]
-
-function start() {
+async function start() {
   let model = modelForLayerStructure(layerStructure)
 
-  let listOfInputs = [in1, in2, in3, in4]
-  let listOfExpectedOutputs = [out1, out2, out3, out4]
+  const { input: listOfInputs, output: listOfExpectedOutputs } = await generateMNIST()
 
   getCurResultsForNetwork(model, listOfInputs)
-  for (let i = 0; i < 1e3; i++) {
+  for (let i = 0; i < 9; i++) {
     const step = Math.max(1, Math.floor(MAX / (i+1)))
-    model = train(model, listOfInputs, listOfExpectedOutputs, step)
+    model = await train(model, listOfInputs, listOfExpectedOutputs, step)
+    getCurResultsForNetwork(model, listOfInputs, listOfExpectedOutputs)
   }
   getCurResultsForNetwork(model, listOfInputs, listOfExpectedOutputs)
   console.log(model)
@@ -166,8 +186,8 @@ start()
  */
 function getCurResultsForNetwork(model, listOfInputs, expectedOutputs) {
   listOfInputs.forEach(
-    (input, index) => {
-      const res = calcModelWithInput(input, layerStructure, model)
+    async (input, index) => {
+      const res = await calcModelWithInput(input, layerStructure, model)
       if (expectedOutputs) {
         const expected = expectedOutputs[index]
         const distance = getDistance(res, expected)
