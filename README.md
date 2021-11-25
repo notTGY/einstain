@@ -13,6 +13,7 @@ Here are some projects this repo consists:
 * [flex image compression](https://github.com/notTGY/einstain/tree/master/flex-image-compression)
 * [font-test](https://github.com/notTGY/einstain/tree/master/font-test)
 * [freeRoom](https://github.com/notTGY/einstain/tree/master/freeRoom)
+* [fancyCSSDemo](https://github.com/notTGY/einstain/tree/master/fancyCSSDemo)
 * [gameOfLife](https://github.com/notTGY/einstain/tree/master/gameOfLife)
 * [gamedevjs2021 demo](https://github.com/notTGY/einstain/tree/master/gamedevjs2021)
 * [gradient](https://github.com/notTGY/einstain/tree/master/gradient)

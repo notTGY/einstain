@@ -1,0 +1,147 @@
+html {
+  color: #211;
+}
+
+body {
+  background: linear-gradient(66deg, salmon, pink);
+  margin: 0;
+}
+
+header {
+  height: 4.5rem;
+  width: 100%;
+  background: #33397fc0;
+  border-bottom: 2px solid #33396fc0;
+  border-radius: 0 0 5px 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+h1 {
+  font-family: Comic Sans MS;
+  margin: 0.5rem;
+  font-size: 1.1rem;
+}
+
+@media(min-width: 360px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media(min-width: 420px) {
+  h1 {
+    font-size: 2rem;
+  }
+}
+
+#burger{
+  background: #ccc1;
+  border: 1px solid #ccc2;
+  border-radius: 10px;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: 0.5s;
+}
+
+#burger>*{
+  width: 2.75rem;
+  height: 0.5rem;
+  border-radius: 1rem;
+  background: pink;
+  transition: 0.5s;
+}
+
+#burger>.bottom,#burger>.middle{
+  margin-top: 0.5rem;
+}
+
+#burger:hover {
+  box-shadow: 0px 0px 10px #ccc8;
+}
+
+#burger:hover>* {
+  background: salmon;
+}
+
+footer {
+  background: linear-gradient(#3331, #3336);
+  border-top: 1px solid #3332;
+  width: calc(100% - 1rem);
+  height: 2rem;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+nav {
+  display: flex;
+  background: #3133;
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 4rem);
+  max-width: 400px;
+  height: calc(98px - 2rem - 2px);
+  border-radius: 0.5rem;
+  border: 1px solid #ccc4;
+  transition: 0.5s;
+}
+
+nav>a {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  color: #a44200!important;
+}
+
+nav>a:hover {
+  color: #69140e!important;
+}
+
+nav>a:active {
+  color: #3C1518!important;
+}
+
+@media (min-width: 320px) {
+  nav {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  }
+}
+
+#nav-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  top: -0.5rem;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  margin-bottom: -98px;
+  z-index: 3;
+}
+
+a {
+  font-weight: 600;
+  color: #aaaaff;
+  transition: 0.5s;
+}
+
+a:hover {
+  color: #8888dd;
+}
+
+a:active {
+  color: #6666bb;
+}
+
