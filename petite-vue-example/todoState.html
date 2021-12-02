@@ -1,0 +1,73 @@
+<title>Petite Vue todo</title>
+
+<body>
+  <script type="module">
+    import { createApp, nextTick, reactive } from "https://unpkg.com/petite-vue?module"
+
+    const store = reactive({
+      allTodos: [],
+    })
+
+    function Todo(props) {
+      return {
+        $template: "#TodoTemplate",
+        text: props.todo.text,
+        id: 'todo-' + props.i,
+        checked: false,
+        onCheck(e) {
+          const globalTodo = store.allTodos
+            .find(item => item.id === props.i)
+
+          globalTodo.checked = e.target.checked
+        },
+      }
+    }
+
+    function App() {
+      return {
+        $template: "#AppTemplate",
+        model: { input: '' },
+        addTodo() {
+          const newTodo = this.model.input
+          if (!newTodo) return
+          this.store.allTodos.push({
+            text: newTodo,
+            id: this.store.allTodos.length,
+            checked: 0,
+          })
+          this.model.input = ''
+        },
+      }
+    }
+
+    createApp({ Todo, App, store }).mount()
+  </script>
+
+  <template id="TodoTemplate">
+      <input
+        v-model="checked"
+        type="checkbox"
+        @input="onCheck"
+        :id="id"
+      ></input>
+      <label
+        :for="id"
+        :style="checked && `text-decoration: line-through`"
+      >{{ text }}</label>
+  </template>
+
+  <template id="AppTemplate">
+    <input v-model="model.input"/>
+    <button @click="addTodo">Add Todo</button>
+    <template v-for="(todo, i) of store.allTodos" :key="i">
+      <div v-scope="Todo({ todo, i })"></div>
+    </template>
+    <div v-if="store.allTodos.reduce((a, b) => a + b.checked, 0) === store.allTodos.length">
+      All Completed!
+    </div>
+
+  </template>
+
+  <div v-scope="App()"></div>
+</body>
+

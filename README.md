@@ -25,6 +25,7 @@ Here are some projects this repo consists:
 * [metrics](https://github.com/notTGY/einstain/tree/master/metrics)
 * [microCSV](https://github.com/notTGY/einstain/tree/master/microCSV)
 * [microML](https://github.com/notTGY/einstain/tree/master/microML)
+* [petite vue example](https://github.com/notTGY/einstain/tree/master/petite-vue-example)
 * [pigeon with css](https://github.com/notTGY/einstain/tree/master/pigeon-with-css)
 * [pretty animation](https://github.com/notTGY/einstain/tree/master/prettyAnimation)
 * [prime polynoms](https://github.com/notTGY/einstain/tree/master/primePolynoms)

@@ -1,0 +1,47 @@
+<script src="https://unpkg.com/petite-vue" defer init></script>
+<title>Petite Vue todo</title>
+
+<body>
+  <div v-scope="App()"></div>
+
+  <template id="TodoTemplate">
+      <input v-model="checked" type="checkbox"></input>
+      <span
+        :style="checked && `text-decoration: line-through`"
+      >{{ text }}</span>
+  </template>
+  <script>
+    function Todo(props) {
+      return {
+        $template: "#TodoTemplate",
+        text: props,
+        checked: false,
+      }
+    }
+  </script>
+  <style></style>
+
+  <template id="AppTemplate">
+    <input v-model="model.input"/>
+    <button @click="addTodo">Add Todo</button>
+    <template v-for="todo of todos">
+      <div v-scope="Todo(todo)"></div>
+    </template>
+  </template>
+  <script>
+    function App() {
+      return {
+        $template: "#AppTemplate",
+        todos: [],
+        model: { input: '' },
+        addTodo() {
+          this.todos.push(this.model.input)
+          this.model.input = ''
+        },
+      }
+    }
+  </script>
+  <style></style>
+
+</body>
+

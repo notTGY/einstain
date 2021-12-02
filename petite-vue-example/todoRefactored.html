@@ -1,0 +1,28 @@
+<script src="https://unpkg.com/petite-vue" defer init></script>
+<title>Petite Vue todo</title>
+
+<script>
+  function generateConfig() {
+    return {
+      todos: [],
+      model: { input: '' },
+      addTodo() {
+        this.todos.push(this.model.input)
+        this.model.input = ''
+      },
+    }
+  }
+</script>
+<body v-scope="generateConfig()">
+  <input v-model="model.input"/>
+  <button @click="addTodo">Add Todo</button>
+  <template v-for="todo of todos">
+    <div>
+      {{ todo }}
+    </div>
+  </template>
+
+
+
+</body>
+
