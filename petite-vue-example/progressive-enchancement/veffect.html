@@ -1,0 +1,41 @@
+<title> Petite Vue Progressive Enchancement </title>
+<style>
+  [v-cloak] {display:none}
+  body { background: #fff!important }
+</style>
+
+<script src="https://unpkg.com/petite-vue" defer init></script>
+<script>
+  const SCRIPTS = [
+    "https://ahfarmer.github.io/calculator/static/js/main.b319222a.js",
+  ]
+  const CSS = [
+    "https://ahfarmer.github.io/calculator/static/css/main.b51b4a8b.css",
+  ]
+
+  function embedScript(mount, src) {
+    const tag = document.createElement("script")
+    tag.src = src
+    return mount.appendChild(tag)
+  }
+  function embedCSS(mount, src) {
+    const tag = document.createElement("link")
+    tag.rel = "stylesheet"
+    tag.href = src
+    return mount.appendChild(tag)
+  }
+  function tryToLoadSPA() {
+    setTimeout(loadSPA, 1000)
+  }
+  function loadSPA() {
+    const mount = document.getElementsByTagName("head")[0]
+    SCRIPTS.map(src => embedScript(mount, src))
+    CSS.map(src => embedCSS(mount, src))
+  }
+</script>
+
+<body>
+  <div id="root" v-scope="{num: 0}" v-cloak v-effect="tryToLoadSPA()" @mounted="console.log('hi')">
+    {{ num }} <button @click="num++">+</button>
+  </div>
+</body>

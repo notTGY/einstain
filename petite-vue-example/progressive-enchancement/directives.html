@@ -1,0 +1,54 @@
+<title> Petite Vue Progressive Enchancement </title>
+<style>
+  [v-cloak] {display:none}
+  body { background: #fff!important }
+</style>
+
+<script type="module">
+  import { createApp } from "https://unpkg.com/petite-vue?module"
+
+  const SCRIPTS = [
+    "https://ahfarmer.github.io/calculator/static/js/main.b319222a.js",
+  ]
+  const CSS = [
+    "https://ahfarmer.github.io/calculator/static/css/main.b51b4a8b.css",
+  ]
+
+  function embedScript(mount, src) {
+    const tag = document.createElement("script")
+    tag.src = src
+    return mount.appendChild(tag)
+  }
+  function embedCSS(mount, src) {
+    const tag = document.createElement("link")
+    tag.href = src
+    tag.rel = "stylesheet"
+    return mount.appendChild(tag)
+  }
+  function tryToLoadSPA() {
+    setTimeout(loadSPA, 1000)
+  }
+  function loadSPA() {
+    const mount = document.getElementsByTagName("head")[0]
+    SCRIPTS.map(src => embedScript(mount, src))
+    CSS.map(src => embedCSS(mount, src))
+  }
+
+  function App() {
+    return { num: 0 }
+  }
+
+  const progressiveDirective = (ctx) => {
+    tryToLoadSPA()
+  }
+
+  createApp({ App, tryToLoadSPA })
+    .directive('progressive', progressiveDirective)
+    .mount()
+</script>
+
+<body>
+  <div id="root" v-scope="App()" v-cloak v-progressive>
+    {{ num }} <button @click="num++">+</button>
+  </div>
+</body>
