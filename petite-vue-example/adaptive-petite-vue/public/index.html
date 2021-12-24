@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title> <%= title %> </title>
+    <style>
+      [v-cloak] { display: none }
+      html,body,#app{
+        margin: 0;
+        min-height: 100%;
+        display: flex;
+        justify-content: center;
+        background: #ccc;
+      }
+      .task {
+        max-width: 640px;
+        min-height: 100%;
+        background: #404040;
+        padding: 1.5rem;
+        border: 1px solid #444444;
+      }
+      @media(max-width: 480px) {
+        .task{
+          padding: 0.5rem;
+        }
+        .task-title {
+          flex-direction: column;
+        }
+      }
+      .task-title{
+        display: flex;
+        align-items: center;
+      }
+      .task-title-title{
+        font-family: Comic Sans MS;
+        font-size: 2rem;
+        line-height: 2.5rem;
+        color: #ff3;
+      }
+      .task-title-status{
+        background: #ccc;
+        border: 1px solid #eee;
+        border-radius: 20px;
+        padding: 5px;
+        margin-left: 1rem;
+      }
+      .task-buttons{
+        padding: 1rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+      .task-buttons-button{
+        background: #ccc;
+        border: 1px solid #eee;
+        border-radius: 20px;
+        padding: 5px;
+        color: #003;
+        transition: 0.3s;
+      }
+      .task-buttons-button:focus,.task-buttons-button:hover{
+        padding: 4px;
+        margin: 1px;
+      }
+      .task-buttons-button:active{
+        padding: 2px;
+        margin: 3px;
+        background: #eee;
+      }
+      .description {
+        background: #333333;
+        padding: 1rem;
+        border-radius: 15px;
+      }
+      .description-text{
+        color: #fff;
+        font-size: 18px;
+      }
+      .comments{
+        background: #333333;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border-radius: 15px;
+        margin-top: 1rem;
+        padding-top: 0.8rem;
+        padding-bottom: 0.8rem;
+      }
+      .comments-comment-text{
+        color: #fff;
+        background: #444444;
+        padding: 0.4rem;
+        border-radius: 15px;
+        width: auto;
+        margin-block-start: 0.5rem;
+        margin-block-end: 0.5rem;
+      }
+      .comment-box{
+        margin-top: 1rem;
+        background: #333333;
+        padding: 0.4rem;
+        border-radius: 15px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .comment-box-input{ width: 100% }
+      .comment-box-input,.comment-box-submit{
+        background: #444444;
+        color: #fff;
+        border: 1px solid #444444;
+        font-size: 18px;
+        margin: 0.2rem;
+        padding: 3px;
+        transition: 0.3s;
+      }
+      .comment-box-input:hover,.comment-box-submit:hover{
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <script><!--COMMON--></script>
+    <script><!--PETITEVUETGY--></script>
+
+    <div id="app">
+      <div v-scope="{$el: '#app-template'}"></div>
+    </div>
+
+    <template id="app-template">
+      <main class="task" v-scope="App()" v-cloak v-progressive>
+        <div class="upper-part">
+          <div v-scope="new TaskTitle(title)"></div>
+          <div v-scope="TaskButtons(buttonsFns)"></div>
+        </div>
+        <div class="Description" v-scope="Description(description)"></div>
+        <div class="Comments" v-scope="Comments()"></div>
+        <div class="CommentBox" v-scope="CommentBox()"></div>
+      </main>
+    </template>
+
+    <template id="task-title">
+      <div class="task-title">
+        <span class="task-title-title">
+          {{ title }}
+        </span>
+        <span class="task-title-status">
+          {{ mappedStatus() }}
+        </span> 
+
+      </div>
+    </template>
+
+    <template id="task-buttons">
+      <div class="task-buttons">
+        <button
+          class="task-buttons-button"
+          @click="toNotStarted"
+        >
+          to "not started"
+        </button>
+        <button
+          class="task-buttons-button"
+          @click="toInProgress"
+        >
+          to "in progress"
+        </button>
+        <button
+          class="task-buttons-button"
+          @click="toDone"
+        >
+          to "done"
+        </button>
+      </div>
+    </template>
+
+    <template id="description">
+      <section class="description">
+        <p
+          class="description-text"
+          v-for="p in description.text.split('\n')"
+        >
+          {{ p }}
+        </p>
+      </section>
+    </template>
+
+    <template id="comments">
+      <section class="comments">
+        <blockquote
+          class="comments-comment-text"
+          v-for="(comment, i) of comments"
+          :key="i"
+          v-effect="$el.innerHTML = comment.text"
+        ></blockquote>
+      </section>
+    </template>
+
+    <template id="comment-box">
+      <form class="comment-box">
+        <input class="comment-box-input" type="text"></input>
+        <button class="comment-box-submit" type="submit"> send </button>
+      </form>
+    </template>
+
+  </body>
+</html>
+
