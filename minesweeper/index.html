@@ -1,0 +1,67 @@
+<table border id=t oncontextmenu="return false">
+<script>
+// size of field
+const N = 24
+
+// approx num of bombs
+const Bs = 99
+
+// array of bombs ( b[i] is true if i is a bomb )
+b = []
+
+// array of checked tiles
+c = []
+
+// fill field with tiles, after each row insert </tr>
+// s is a string for generating innerHTML of table
+for (s = i = N; i--; s += '</tr>') {
+    
+  // after filling each tile calculate if it is a bomb
+  for (j = N; j--; b[id] = Math.random() * N * N < Bs)
+    s += `
+<td
+  id=t${id = i*N + j}
+  onmousedown=f(${id},event)
+  style="width: 20; height: 20"
+>`
+}
+t.innerHTML = s
+
+f = (id,v) => {
+  // if tile out of bounds or checked skip
+  if (c[id] || id < 0 || id > N*N) return
+  // find current tile
+  l = eval(`t`+id)
+
+  // shortcut for setting tile color
+  g = e => l.style.background = e
+
+  // check right click
+  if (v && v.button == 2) return g`teal`
+
+  // set tile as checked
+  c[id] = 1
+
+  // paint into checked color
+  g`tan`
+
+  r = 0
+  s = []
+  // count r - num of bombs around
+  // remember tile numbers in s
+  for (i = 3; i--;)
+    for (j = 3; j--;) {
+      n = id + (j - 1) + N*(i - 1)
+      s.push(n)
+      r += !!b[n]
+    }
+
+  // case bomb
+  b[id] ? g`red`
+  // case bomb around
+  : r ? l.innerHTML = r
+  // case no bomb around
+  : s.map(f)
+}
+</script>
+
