@@ -1,0 +1,37 @@
+<script src=https://xem.github.io/W/w.min.full.js></script>
+<canvas id=c width=500 height=500>
+<script>
+W.reset(c)
+
+keys = {u:0, l:0, r:0, d:0};
+W.camera({z:2});
+W.light({z:-.5});
+W.cube({n:"cube", b:"5af"});
+t = new DOMMatrix();
+
+b = document.body
+h = false
+b.addEventListener('mousedown', e => {
+  h = true
+})
+b.addEventListener('mouseup', e => {
+  h = false
+})
+b.addEventListener('mousemove', e => {
+  if (!h) return
+  rx = e.movementY / 6
+  ry = e.movementX / 6
+
+  let axis = new DOMPoint(
+    rx,
+    ry,
+    0
+  );
+  let newAxis = axis.matrixTransform((new DOMMatrix(t)).invertSelf());
+    t.rotateAxisAngleSelf(
+    newAxis.x, newAxis.y, newAxis.z, Math.hypot(rx, ry) * 2
+  );
+  W.move({n:"cube", M: t});
+})
+
+</script>
