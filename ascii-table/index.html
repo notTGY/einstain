@@ -1,0 +1,51 @@
+<body>
+<pre></pre>
+</body>
+<script>
+const body = document.body
+const pre = document.querySelector('pre')
+
+
+let X, Y
+body.addEventListener('mousedown', e => {
+  const { x, y } = e
+  X = x
+  Y = y
+})
+
+body.addEventListener('mouseup', e => {
+  const { x, y } = e
+
+  const [ a, b ] = [x, X].sort((a,b) => a - b)
+  const [ c, d ] = [y, Y].sort((a,b) => a - b)
+
+  const f = e => Math.floor(e)
+
+  const rough = [ a / 30, c / 70, b / 30, d / 70 ]
+  const exact = rough.map(f)
+
+  insertTable(exact)
+})
+
+function insertTable(coords) {
+  let text = '+'
+  for (let i = coords[0]; i < coords[2]; i++) text += '-'
+  text += '+\n'
+
+  for (let j = coords[1]; j < coords[3]; j++) {
+    text += '|'
+    for (let i = coords[0]; i < coords[2]; i++) text += ' '
+    text += '|\n'
+  }
+
+  text += '+'
+  for (let i = coords[0]; i < coords[2]; i++) text += '-'
+  text += '+\n'
+
+  pre.innerText = text
+}
+
+</script>
+<style>
+html, body, pre { margin: 0; font-size: 48px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+</style>
