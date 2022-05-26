@@ -124,8 +124,8 @@ for (i = N; i--; b[i]=[x,y,r])
 
 
 // pop handler
-onclick=e=>{
-  let{x,y}=e
+onmousedown=ontouchstart=e=>{
+  let{clientX: x,clientY: y}=(e.touches ?? [e])[0]
 
   for (i = N; i--; ) {
     [X,Y,d]=b[i]
