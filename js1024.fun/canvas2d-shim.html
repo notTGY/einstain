@@ -1,0 +1,208 @@
+<!doctype html>
+<head>
+	<title>Title ~ js1024</title>
+	<meta name="author" content="Author"></meta>
+	<meta name="description" content="Short description"></meta>
+	<meta name="title" content="Title"></meta>
+	<meta charset=utf-8>
+</head>
+<body id=b>
+<canvas id=a></canvas>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+#a { position: relative; display: block; }
+.play { position: fixed; top: 50%; left: 50%; transform: translateX(-50%)translateY(-50%); font-size: 30px; font-family: arial, sans-serif; background: #f3f4f5; padding: 15px; border: 2px solid #ddd; border-radius: 5px; }
+</style>
+
+<script>
+
+// Entry configuration
+// ===================
+
+var title = "Title"; // this will be assigned automatically
+
+// Shim setup and polyfills (do not edit)
+// ======================================
+
+// canvas automatically adjusted !
+a.width = innerWidth;
+a.height = innerHeight;
+
+c = a.getContext("2d"); // no more $type conditional
+
+d = document;
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+a.requestPointerLock = a.requestPointerLock || a.mozRequestPointerLock || a.webkitRequestPointerLock;
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+if (typeof OscillatorNode !== 'undefined' && OscillatorNode.prototype) {
+  OscillatorNode.prototype.start = OscillatorNode.prototype.start || OscillatorNode.prototype.noteOn;
+  OscillatorNode.prototype.stop = OscillatorNode.prototype.stop || OscillatorNode.prototype.noteOff;
+}
+
+// Add a start button if sound is present in the code
+onload = () => {
+  var entry_code = entry.innerText;
+  var has_sound = false;
+  if(entry_code.includes('eval')){
+    try {
+      eval(entry_code.replace(/eval\(/g, 'throw(').replace(/eval\`/g, 'throw`'));
+    }
+    catch(e){
+      entry_code = e;
+    }
+  }
+  if(entry_code.includes("AudioContext")||entry_code.includes("Oscillator")||entry_code.includes("speak")||entry_code.includes("play")||entry_code.includes("autoplay")){
+    b.insertAdjacentHTML("beforeEnd", "<button class='play' onclick='console.log(entry.innerText);eval(entry.innerText);this.remove()'>PLAY</button>");
+  }
+  else {
+    eval(entry.innerText);
+  }
+};
+console.log(
+  a, // canvas
+  b, // body
+  c, // 2D canvas context
+  d  // document
+);
+
+</script>
+
+<script type=text id=entry>
+// Your entry goes here 👇
+// =======================
+
+w = a.width; h = a.height
+
+// bubble array
+b = []
+
+// v - score, N - num of bubbles
+v=N=15
+
+// passed level number
+L=0
+
+c.font = '5cm Chalkduster, fantasy'
+
+R=Math.random
+T=Date.now
+
+// fill background
+B=_=>{c.fillStyle = '#557094';c.fillRect(0, 0, w, h)}
+
+// resurrect bubble with index i
+S=i=>{r=50+99*R();b[i]=[R()*w,-r,r]}
+
+// fill text (beautiful text)
+U=(e,x,y)=>{
+  c.fillStyle='#ccc'
+  c.fillText(e,x+7,y+7)
+  c.fillStyle='#fff'
+  c.fillText(e,x,y)
+}
+
+// paint bubble function
+P=([x,y,r])=>{
+  c.fillStyle='#32478410'
+  for(j=8;j--;c.fill(c.arc(x,y,r-j,0,7)))
+    c.beginPath()
+  D=[
+    [r/4,r/5,r/8],
+    [r/3,-r/6,r/9],
+    [-r/3,r/6,r/9],
+  ]
+  c.fillStyle='#8297f420'
+  for(j=3;j--;c.fill(c.arc(x-X,y-Y,d,0,7)))
+    c.beginPath([X,Y,d]=D[j])
+}
+
+
+// generate starter N bubbles
+for (i = N; i--; b[i]=[x,y,r])
+  x=R()*w,y=R()*h,r=50+99*R()
+
+
+// pop handler
+onmousedown=ontouchstart=e=>{
+  let{x,y}=e
+
+  for (i = N; i--; ) {
+    [X,Y,d]=b[i]
+
+    if (Math.hypot(X-x,Y-y) < d) {
+      // resurrect + increase score
+      S(i)
+      v+=2
+      break
+    }
+  }
+}
+
+
+// level start time
+s=T()
+
+setInterval(_ => {
+  // time in secs from level start
+  t=(T() - s)/1e3
+
+  // always paint background
+  B()
+
+  // if <2 secs from start slide up this level number
+  if (t < 2) {
+    U(L + 1, w/2, h/2 - t*h)
+  }
+
+  // paint and move all balls if t > 2
+  for (i = N; i-- && t > 2; P(b[i])) {
+    [x,y,r] = b[i]
+
+    // shiver bubble
+    b[i][0] = Math.min(w - r, Math.max(r, x + r*Math.sin(9*t + i/9)/40))
+
+    // 48 is WCAG reccomended minimal size of clickable element
+    b[i][2] = Math.max(48, r + Math.sin(t)/9)
+
+    // update score if bubble reaches top
+    if (y < -r) {
+      v--
+      b[i][1] = h + r
+    } else {
+      b[i][1] = y - (4+L)*r/500
+    }
+
+  }
+
+  // progress bar and score paint
+  if(t>2 && t < 17) {
+    U(v, 30, 200)
+    c.fillRect(0,h - 9,w*(t - 2)/15,9)
+  }
+
+  // if time ran out (> 17secs)
+  if (t > 17) {
+    if (v >= 0) { // advance level
+      L++
+
+      // add bubble
+      S(N++)
+      v++
+
+      // restart timer
+      s=T()
+    } else { // lose game
+      // setting N to 0 will be enough to stop all interaction
+      N=0
+
+      U(`passed level`,0,h*0.3)
+      U(L, w/2, h*0.7+9*Math.sin(9*t))
+    }
+  }
+
+}, 8) // 120 FPS
+
+// =======================
+</script>
+</body>
