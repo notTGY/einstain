@@ -125,7 +125,7 @@ for (i = N; i--; b[i]=[x,y,r])
 
 // pop handler
 onmousedown=ontouchstart=e=>{
-  let{x,y}=e
+  let{clientX: x,clientY: y}=(e.touches ?? [e])[0]
 
   for (i = N; i--; ) {
     [X,Y,d]=b[i]
@@ -196,8 +196,9 @@ setInterval(_ => {
       // setting N to 0 will be enough to stop all interaction
       N=0
 
-      U(`passed level`,0,h*0.3)
-      U(L, w/2, h*0.7+9*Math.sin(9*t))
+      U(`passed`,0,h*0.3)
+      U(`level`,w/4,h*0.6)
+      U(L, w/2, h*0.8+9*Math.sin(9*t))
     }
   }
 
