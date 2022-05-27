@@ -1,0 +1,22 @@
+{
+  "name": "free-room",
+  "version": "1.0.0",
+  "description": "MIPT free room",
+  "main": "index.js",
+  "author": "notTGY",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "esbuild": "^0.14.40",
+    "esbuild-plugin-babel": "^0.2.3",
+    "esbuild-serve": "^1.0.1"
+  },
+  "scripts": {
+    "start": "node esbuild.config.js -w",
+    "build": "node esbuild.config.js"
+  }
+}
