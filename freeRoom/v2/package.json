@@ -13,7 +13,8 @@
     "@babel/preset-react": "^7.17.12",
     "esbuild": "^0.14.40",
     "esbuild-plugin-babel": "^0.2.3",
-    "esbuild-serve": "^1.0.1"
+    "esbuild-serve": "^1.0.1",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "node esbuild.config.js -w",
