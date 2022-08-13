@@ -1,0 +1,13 @@
+{
+  "name": "tiling-network",
+  "version": "1.0.0",
+  "description": "",
+  "author": "notTGY <microcraft47@gmail.com>",
+  "devDependencies": {
+    "esbuild": "^0.15.2"
+  },
+  "scripts": {
+    "start": "esbuild src/index.jsx --outfile=build/index.js --bundle=true --minify --watch",
+    "build": "esbuild src/index.jsx --outfile=build/index.js --bundle=true --minify"
+  }
+}
