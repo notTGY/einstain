@@ -14,7 +14,7 @@ export default function Notes(props) {
       </Row>
 
       <p className="m8">
-        > plane at 20:00 to LHR (pack before 16:00)
+        {'>'} plane at 20:00 to LHR (pack before 16:00)
       </p>
       <p className="mono blue">
         reminder set (expiration in 4 hours 12 minutes)

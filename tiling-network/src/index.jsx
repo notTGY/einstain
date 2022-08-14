@@ -28,9 +28,81 @@ setInterval(() => {
   render()
 }, 3000)
 
+let width = window.innerWidth
+onresize = () => {
+  width = window.innerWidth
+  render()
+}
+
 const App = () => {
   console.log('render')
 
+
+  if (width < 1100) {
+    return (
+    <>
+      <Center>
+        <Col>
+
+          <Row>
+            <Card>
+              <Center>
+                <img
+                  className="profile-hover"
+                  src="profile.jpeg"
+                />
+              </Center>
+            </Card>
+            <Card>
+              <Chat contacts={contacts}/>
+            </Card>
+          </Row>
+
+          <Row>
+            <Card size="long">
+              <Description/>
+            </Card>
+          </Row>
+
+          <Row>
+            <Card size="big">
+              <Gallery
+                current={currentGallery}
+                pics={pics}
+              />
+            </Card>
+          </Row>
+
+          <Row>
+            <Card size="long">
+              <Map/>
+            </Card>
+          </Row>
+
+
+          <Row>
+            <Card>
+              <Music/>
+            </Card>
+          </Row>
+
+          <Row>
+            <Card size="long">
+              <Film/>
+            </Card>
+          </Row>
+
+          <Row>
+            <Card size="long">
+              <Notes/>
+            </Card>
+          </Row>
+
+        </Col>
+      </Center>
+    </>
+    )
+  }
 
   return (
     <>
