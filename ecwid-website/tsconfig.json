@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "jsxFactory": "happyFramework.dom",
+    "jsxFragmentFactory": "happyFramework.frag",
+    "baseUrl": "src",
+    "paths": {
+      "@happyFramework": ["../happyFramework"]
+    }
+  }
+}

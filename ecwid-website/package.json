@@ -1,0 +1,17 @@
+{
+  "name": "ecwid-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "notTGY <microcraft47@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.15.2"
+  },
+  "scripts": {
+    "build-md": "node markirator.js public/index.md public/index.html",
+    "start": "esbuild src/index.jsx --outfile=build/index.js --bundle=true --minify --watch",
+    "build": "esbuild src/index.jsx --outfile=build/index.js --bundle=true --minify",
+    "size": "esbuild happyFramework/index.js --bundle --minify --outfile=build/framework.js"
+  }
+}
