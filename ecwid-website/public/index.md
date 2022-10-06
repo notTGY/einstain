@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="styles.css"/>
 <script src="../build/index.js"></script>
 
-<section id="hero">
+<section class="hero">
 
 
 ![logo](logo.PNG)
@@ -39,5 +39,16 @@ Oldest coffee on the east coast
 ## Hot dog [£7.00](?hotdog#Checkout)
 
 ![hot dog](hotdog.PNG)
+
+</section>
+
+<section class="popup">
+
+-->
+## Checkout
+[>_ "name"]
+[>_ "phone"]
+[submit]
+-->
 
 </section>
