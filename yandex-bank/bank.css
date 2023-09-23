@@ -1,0 +1,144 @@
+.w67 body, .w67 html {
+  box-sizing: border-box;
+  --gray: #909091;
+  --black: #010101;
+  --button-text-color-secondary-hover: var(--black);
+  --background-color-primary: #F1F1F3;
+  --skeleton-color: var(--gray);
+  --text-color-negative: #f99;
+  --text-color-positive: #9f9;
+  --text-color-primary: var(--gray);
+  --text-color-secondary: var(--gray);
+  --button-text-color-secondary: var(--gray);
+  --gradient-skeleton-overlay: linear-gradient(270deg,#F1F1F300 0%,#F1F1F330 50%,#F1F1F300 100%)
+}
+
+.w67 [class^=BaseLayout-module__block__] {
+  padding: 16px!important;
+}
+
+.w67 [class^=Typography-module__negativeColor__] {
+  color: #f99!important;
+}
+
+.w67 a[role="button"][type="button"], .w67 button[role="button"][type="button"] {
+  background-color: unset!important;
+  font-size: 18px!important;
+  font-weight: 400!important;
+  width: auto;
+  height: auto;
+  padding: 0;
+}
+.w67 a[role="button"][type="button"]>span, .w67 button[role="button"][type="button"]>span {
+  width: max-content;
+}
+
+.w67 .balance {
+  color: var(--black);
+  font-size: 40px;
+  margin-top: 56px;
+  margin-bottom: 56px;
+  user-select: none;
+}
+.w67 .minus {
+  color: var(--gray);
+}
+.w67 .spent {
+  color: var(--gray);
+  max-width: 6ch;
+  appearance: none;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: var(--background-color-primary);
+}
+/* https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */
+/* Chrome, Safari, Edge, Opera */
+.w67 .spent::-webkit-outer-spin-button,
+.w67 .spent::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.w67 .spent[type=number] {
+  -moz-appearance: textfield;
+}
+
+.w67 .result {
+  font-size: 32px;
+  color: var(--text-color-positive);
+}
+.w67 .result.neg {
+  color: var(--text-color-negative);
+}
+
+.w67 [class^=OperationsListItem-module__operationInfoWrapper__] {
+  height: 24px!important;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.w67 [class^=OperationsListItem-module__balanceChangeWrapper__]>*:nth-child(n+2),
+.w67 [class^=OperationsListItem-module__titleWrapper__]>*:nth-child(n+2) {
+  display: none!important;
+}
+
+.w67 [class*=Typography-module__title1__] {
+  font-size: 12px!important;
+  height: 14px!important;
+}
+
+.w67 [class^=SkeletonOverlay-module__overlay__] {
+  width: 320px!important;
+  animation-duration: 3s!important;
+}
+
+.w67 [class^=Container-module__block__HQNk] {
+  max-width: unset!important;
+}
+
+.w67 * {
+  transition: all 0.5s;
+}
+
+.w67 [class^=SplitLayout-module__block__] {
+  align-items: center;
+}
+
+.w67 [class^=SplitLayout-module__content__] {
+  max-width: 640px;
+  width: 100%;
+}
+
+.w67 [class^=MainBalanceBlock-module__mainPlusPoints],
+.w67 [class^=OperationsListItem-module__titleWrapper__]:after,
+.w67 [class^=OperationsListSkeleton-module__icon__],
+.w67 [class^=OperationsListSkeleton-module__balanceChange__],
+.w67 [class^=PayMainPageHeader-module__blockWrapper],
+.w67 [class^=OperationsListItem-module__iconWrapper__],
+.w67 [class^=MainPage-module__notificationsBlock__],
+.w67 [class^=MainBalanceBlock-module__mainBalanceAndCardWrapper] {
+  display: none!important;
+}
+
+.w67 [class^=SplitLayout-module__slot__] {
+  min-height: unset!important;
+}
+
+.w67 [class^=MainBalanceBlock-module__block],
+.w67 [class^=MainBalanceBlock-module__buttonBlock__],
+.w67 [class^=Container-module__block__] {
+  margin: 0!important;
+}
+
+.w67 [class^=SplitLayout-module__slot__],
+.w67 [class^=OperationsListItem-module__block__],
+.w67 [class^=OperationsListSkeleton-module__operationBlock__],
+.w67 [class^=Container-module__block__] {
+  padding: 0!important;
+}
+
+.w67 [class^=SkeletonOverlay-module__block__] {
+  height: unset!important;
+}

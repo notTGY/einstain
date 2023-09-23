@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "yandex-bank",
+  "version": "1",
+  "content_scripts": [{
+    "matches": ["https://bank.yandex.ru/pay/debit"],
+    "js": ["bank.js"],
+    "css": ["bank.css"]
+  }]
+}
