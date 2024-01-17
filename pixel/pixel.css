@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+#pixel {
+  width: 250px;
+  height: 250px;
+  border-radius: 125px;
+  user-select: none;
+  overflow: hidden;
+}
+.black-background {
+  background: #000;
+}
+
+
+
+/* WATCHFACE start */
+.watchface-container {
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.watchface-time {
+  font-family: Roboto;
+  font-size: 64px;
+  font-weight: 600;
+  color: #fff;
+}
+.watchface-alert {
+  display: flex;
+  font-family: Roboto;
+  font-size: 16px;
+  color: #ccc;
+  align-items: center;
+  background: #000;
+  border: none;
+  cursor: pointer;
+}
+.watchface-alert>*{
+  margin: 6px;
+}
+.watchface-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Roboto;
+  font-size: 16px;
+  color: #fff;
+  background: #202124;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}
+/* WATCHFACE end */
+
+
+
+
+/* SELECTOR start */
+.selector-container {
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* SELECTOR end */
