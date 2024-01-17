@@ -1,3 +1,8 @@
+addEventListener("error", async (event) => {
+  console.log(`https://www.google.com/search?q=${encodeURIComponent(event.message)}`)
+  window.open(`https://www.google.com/search?q=${encodeURIComponent(event.message)}`)
+});
+
 function displayBalance() {
   const balance = document.querySelector('h2').innerText
   const balanceNum = parseFloat(balance.replace(',','.'))
