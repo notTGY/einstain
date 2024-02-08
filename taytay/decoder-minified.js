@@ -1,0 +1,1 @@
+for(w=E='',j=-1,R=innerHTML,i=R.length;i-->0;E=w.split`~`[R.charCodeAt(i)]+E)while(j++<1e4)w+=('~$ \n\','+String.fromCharCode(...Array.from({length:26},(v,i)=>i+97)))[[0,1,2,3,4].reduce((a,i)=>a*2+(encodeWordsByNumber.charCodeAt((j-j%7)/7*5+i)>>j%7)%2,0)];outerHTML=E
