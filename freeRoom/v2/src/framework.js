@@ -1,70 +1,81 @@
-const happyFramework = (root, fn) => {
-  let prevJson = []
+import { dom, frag } from './jsx'
+
+const init = ($el, fn) => {
+  let prevTree = {$el, elem: $el.nodeName.toLowerCase()}, tmp
 
   const render = () => {
-    const json = fn()
-
-    // @dev
-    if (!Array.isArray(json))
-      return console.error(
-        'jstf expects an Array as a vdom'
-      )
-
-    root.innerHTML = ''
-
-    root.append(El(prevJson, json))
-
-    prevJson = json
+    tmp = El(prevTree, fn(), $el)
+    deleteRec(prevTree)
+    prevTree = tmp
   }
 
+  const deleteRec = (oldTree) => {
+    (oldTree.children??[]).map(deleteRec)
+    if (!oldTree.repaint) {
+      oldTree.$el.remove()
+      oldTree = null
+    }
+  }
 
-  const El = (prev, cur) => {
+  const El = (prev, cur, root) => {
     if (Array.isArray(cur)) cur = { children: cur }
-    if (typeof cur === 'string') cur = { text: cur }
+    if (typeof cur === 'string') cur = { innerText: cur }
 
-    cur.elem = cur.elem || 'div'
+    cur.elem = cur.elem || 'span'
 
-    if (!prev || prev.elem !== cur.elem)
+    if (!prev || (tmp = prev.elem !== cur.elem)) {
+      if (prev && tmp) deleteRec(prev)
       cur.$el = document.createElement(cur.elem)
-    else {
+      root.append(cur.$el)
+    } else {
+      prev.repaint = true
       cur.$el = prev.$el
       cur.cleanup = prev.cleanup
     }
 
-    const { $el, elem, text, value, className, children, ...handlers } = cur
+    let {
+      $el, elem, children, cleanup, ...rest
+    } = cur
 
-    const i = e => typeof e !== 'undefined'
-    if (i(text)) $el.innerText = text
-    if (i(value)) $el.value = value
-    if (i(className)) $el.className = className
-
-    if (children)
-      $el.append(...children.map((child, i) =>
-        El(
-          prev && prev.children && prev.children[i],
-          child
-        )
-      ))
-
-    if (cur.cleanup) for (const k in cur.cleanup)
-      $el.removeEventListener(k, cur.cleanup[k])
+    if (cleanup) for (let key in cleanup) {
+      $el.removeEventListener(key.substring(2), cur.cleanup[key])
+    }
 
     cur.cleanup = {}
 
-    for (const key in handlers)
-      $el.addEventListener(
-        key,
-        cur.cleanup[key] = e => {
-          handlers[key](e)
-          render()
-        }
-      )
+    for (let key in rest) {
+      if (typeof (tmp = rest[key]) == 'undefined')
+        continue
 
-    return $el
+      if (key.indexOf('on') != 0) {
+        $el[key] = tmp
+      } else {
+        $el.addEventListener(
+          key.substring(2),
+          cur.cleanup[key] = e => {
+            rest[key](e)
+            render()
+          }
+        )
+      }
+    }
+
+    if (children)
+      return {
+        ...cur,
+        children: children.map((child, i) => El(
+          prev && prev.children && prev.children[i],
+          child,
+          $el
+        ))
+      }
+
+    return cur
   }
 
   render()
 
   return render
 }
-export default happyFramework
+
+export default { dom, frag, init }

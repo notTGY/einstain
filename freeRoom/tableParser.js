@@ -11,7 +11,7 @@ let bigData=[{
 
 
 document.getElementById('button').addEventListener("click", () => {
-    XLSX.utils.json_to_sheet(bigData, 'out.xlsx');
+    //XLSX.utils.json_to_sheet(bigData, 'out.xlsx');
     if(selectedFile){
       let fileReader = new FileReader();
       fileReader.readAsBinaryString(selectedFile);
@@ -21,7 +21,8 @@ document.getElementById('button').addEventListener("click", () => {
         workbook.SheetNames.forEach(sheet => {
           let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
           bigData = rowObject;
-          processData();
+          console.log(rowObject)
+          processData(rowObject)
         });
       }
     }

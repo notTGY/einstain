@@ -5,5 +5,5 @@ onload = _=>{
   processData(third);
   processData(fourth);
   processData(fifth);
-  calculateFreeRooms(taken);
+  //calculateFreeRooms(taken);
 }
