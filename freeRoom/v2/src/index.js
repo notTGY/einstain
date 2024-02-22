@@ -60,7 +60,7 @@ const Popup = ({name, status, till, info}) => (
   </>
 )
 
-let para = 4
+let para = currentPara
 let dow = currentDayOfTheWeek
 const disclaimer = 'Парсер не учитывает сдвоенные пары, так что аккуратнее.'
 const App = () => {
