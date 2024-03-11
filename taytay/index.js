@@ -179,10 +179,10 @@ const doSong = (song) => {
   //console.log({song, countData})
   return {
     //...letterData,
-    //...wordData,
-    ...encoding,
-    dataLen,
-    song,
+    ...wordData,
+    //...encoding,
+    //dataLen,
+    //song,
   }
 }
 
@@ -194,14 +194,33 @@ const doStuff = (songs) => {
     return true
   })
   const songsData = filteredSongs.map(song => doSong(song))
+  const wordsData = songsData.reduce((acc, cur) => {
+    for (const word in cur.countByWord) {
+      if (!acc[word]) {
+        acc[word] = 0
+      }
+      acc[word] += cur.countByWord[word]
+    }
+    return acc
+  }, {})
+  const wordsArray = []
+  for (const word in wordsData) {
+    wordsArray.push({word, count: wordsData[word]})
+  }
+  wordsArray.sort((data1, data2) => {
+    return data2.count - data1.count
+  })
+  /*
   songsData.sort((data1, data2) => {
     //return data1.wordCount - data2.wordCount
     //return data1.uniqueWords - data2.uniqueWords
     return data1.dataLen - data2.dataLen
   })
-  console.log(songsData)
-  const example = songsData[3]
-  download(example.song.Title + '.html', example.finalFile)
+  */
+  //console.log(songsData)
+  console.log(wordsArray)
+  //const example = songsData[3]
+  //download(example.song.Title + '.html', example.finalFile)
 }
 
 fetch('./songs.json').then(r => r.json()).then(doStuff)
