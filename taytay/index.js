@@ -1,7 +1,3 @@
-const ATW = 'All Too Well (10 Minute Version) (Taylor’s Version) [From The Vault]'
-
-// String.raw`...string...` makes \ output \
-
 function download(filename, text) {
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
