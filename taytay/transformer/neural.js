@@ -1,3 +1,11 @@
+import {
+  emb,
+  K,
+  Q,
+  V,
+  weight,
+  bias,
+} from './parameters.js'
 // https://www.youtube.com/watch?v=bQ5BoolX9Ag
 let parameters = 0
 
@@ -70,6 +78,7 @@ const softmax = (v) => {
 
 
 const embeddingDim = 2
+/*
 const embeddingWeights = []
 for (let j = 0; j < embeddingDim; j++) {
   embeddingWeights[j] = []
@@ -77,6 +86,8 @@ for (let j = 0; j < embeddingDim; j++) {
     embeddingWeights[j][i] = 4*(rand()-0.5)
   }
 }
+*/
+const embeddingWeights = emb
 const embedding = (vs) => {
   return matmul(vs, embeddingWeights)
 }
@@ -94,6 +105,8 @@ const positional_encoding = (vs) => {
 }
 
 const queryDim = 2
+const valueDim = embeddingDim // we sum with residuals
+/*
 const queryMatrix = []
 for (let i = 0; i < queryDim; i++) {
   queryMatrix[i] = []
@@ -109,7 +122,6 @@ for (let i = 0; i < keyDim; i++) {
     keyMatrix[i][j] = 4*(rand()-.5)
   }
 }
-const valueDim = embeddingDim // we sum with residuals
 const valueMatrix = []
 for (let i = 0; i < valueDim; i++) {
   valueMatrix[i] = []
@@ -117,6 +129,10 @@ for (let i = 0; i < valueDim; i++) {
     valueMatrix[i][j] = 4*(rand()-.5)
   }
 }
+*/
+const queryMatrix = Q
+const keyMatrix = K
+const valueMatrix = V
 const maskedSelfAttention = (vecs) => {
   const ks = matmul(vecs, keyMatrix)
   const qs = matmul(vecs, queryMatrix)
@@ -148,6 +164,7 @@ const residualLayer = (vs, residual) => {
   )
 }
 
+/*
 const FCweights = []
 for (let i = 0; i < vocabSize; i++) {
   FCweights[i] = []
@@ -159,6 +176,9 @@ const FCbias = []
 for (let j = 0; j < vocabSize; j++) {
   FCbias[j] = 4*(rand()-.5)
 }
+*/
+const FCweights = weight
+const FCbias = bias
 const FCLayer = (vs) => {
   return matmul(vs, FCweights).map(
       v => v.map((v_i, i) => v_i + FCbias[i])
