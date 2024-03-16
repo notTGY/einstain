@@ -81,17 +81,13 @@ const embedding = (vs) => {
   return matmul(vs, embeddingWeights)
 }
 
-const normalize = (vs) => {
-  const norms = vs.map(v => v.reduce((acc, v_i) => acc+(v_i**2), 0)**.5)
-  return vs.map((v, n) => v.map(v_i => v_i / norms[n]))
-}
 const positional_encoding = (vs) => {
   return vs.map((v, n) =>
     v.map((v_i, i) => {
       if (i%2 === 0) {
-        return Math.sin(n* (i / 2)) + v_i
+        return Math.sin(n* ((i / 2)+1)) + v_i
       } else {
-        return Math.cos(n* ((i-1) / 2)) + v_i
+        return Math.cos(n* ((i-1) / 2 + 1)) + v_i
       }
     })
   )
@@ -188,8 +184,7 @@ export const model = (input_ids) => {
   let vs = input_vecs
 
   vs = embedding(vs)
-  vs = positional_encoding(vs)
-  let residual = vs = normalize(vs)
+  let residual = vs = positional_encoding(vs)
   vs = maskedSelfAttention(vs)
   residual = vs = residualLayer(vs, residual)
   // <-- here goes optional FFN + residual
