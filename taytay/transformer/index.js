@@ -1,4 +1,17 @@
-import { tokenize, untokenize, model } from './neural.js'
+import { M, tokenize, untokenize, model } from './neural.js'
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
 
 const countLetters = (text) => {
   const countByLetter = {}
@@ -19,7 +32,11 @@ const countLetters = (text) => {
       continue
     }
 
-    clean += letter
+    if (M.indexOf(letter) >= 0) {
+      clean += letter
+    } else {
+      clean += '$'
+    }
 
     if (countByLetter[letter]) {
       countByLetter[letter]++
@@ -30,6 +47,11 @@ const countLetters = (text) => {
   }
   return {countByLetter, letterCount, clean}
 }
+const saveTrainingData = (songsData) => {
+  const clean = songsData.map(s => s.clean)
+  const text = clean.join('~')
+  download('data.txt', text)
+}
 const doSong = (song) => {
   const letterData = countLetters(song.Lyrics)
   return {
@@ -39,10 +61,11 @@ const doSong = (song) => {
 }
 const doStuff = (songs) => {
   const filteredSongs = songs.filter(song => {
-    return song.Title == "Silent Night"
-    //return true
+    //return song.Title == "Silent Night"
+    return true
   })
   const songsData = filteredSongs.map(song => doSong(song))
+  //saveTrainingData(songsData)
 
   const song = songsData[0]
   const str = '~'+song.clean.substring(0, 7)

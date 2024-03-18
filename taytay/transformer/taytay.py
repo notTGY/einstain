@@ -125,14 +125,52 @@ x = torch.tensor([[[1., 2.], [3., 4.]], [[5., 6.], [7., 8.]]])
 output = attn(x)
 print(output)
 
+class FFN(nn.Module):
+
+    def __init__(self, dim=2, n_layers=1):
+        super().__init__()
+        self.n_hidden_layers = n_layers
+        self.hidden_fc = nn.ModuleList([nn.Linear(dim, dim) for i in range(n_layers)])
+
+    def forward(self, x):
+        """
+        Arguments:
+            x: Tensor, shape ``[seq_len, batch_size, embedding_dim]``
+        """
+        for i in range(self.n_hidden_layers):
+            x = self.hidden_fc[i](x)
+            x = torch.relu(x)
+        return x
+
+class StackedAttention(nn.Module):
+    def __init__(self, key_dim=2, embedding_dim=8, n_layers=1, do_norm=False):
+        super().__init__()
+        self.norm = None
+        if do_norm is True: self.norm = nn.LayerNorm(embedding_dim)
+        self.msas = nn.ModuleList([MaskedSelfAttention(key_dim=key_dim, embedding_dim=embedding_dim) for i in range(n_layers)])
+    def forward(self, x):
+        """
+        Arguments:
+            x: Tensor, shape ``[seq_len, batch_size, embedding_dim]``
+        """
+        residual = x
+        for msa in self.msas:
+            if self.norm is not None: x = self.norm(x)
+            x = msa(x) + residual
+            residual = x
+        return x
+
 class Model(nn.Module):
-    def __init__(self, embedding_dim=2, key_dim=2):
+    def __init__(self, embedding_dim=2, key_dim=2, logging=False, msa_layers=1, ffn_layers=0):
         super().__init__()
         self.emb = nn.Linear(vocab_size, embedding_dim, bias=False)
         self.positional_encoding = PositionalEncoding(d_model=embedding_dim)
-        self.msa = MaskedSelfAttention(key_dim=key_dim, embedding_dim=embedding_dim)
-        self.fc = nn.Linear(embedding_dim, vocab_size, bias=True)
+        self.msa = StackedAttention(key_dim=key_dim, embedding_dim=embedding_dim, n_layers=msa_layers)
+        self.ffn = FFN(dim=embedding_dim, n_layers=ffn_layers)
+        self.fc = nn.Linear(embedding_dim, vocab_size)
         self.softmax = nn.Softmax(dim=2)
+
+        self.logging = logging
 
     def forward(self, x):
         """
@@ -140,44 +178,145 @@ class Model(nn.Module):
             x: Tensor, shape ``[seq_len, batch_size, embedding_dim]``
         """
         x = self.emb(x)
-        residual = x = self.positional_encoding(x)
-        x = self.msa(x)
-        residual = x = x + residual
+        x = self.positional_encoding(x)
+        residual = x = self.msa(x)
+        x = self.ffn(x) + residual
         x = self.fc(x)
         x = self.softmax(x)
         return x
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model = torch.load('model.pt').to(device)
-#model = Model().to(device)
+#model = torch.load('model.pt').to(device)
+model = Model(embedding_dim=2, key_dim=2).to(device)
 
-torch.save(model, 'model.pt')
+#torch.save(model, 'model.pt')
 
 # see all parameters
 n_params = 0
 for name, param in model.named_parameters():
-    print(name, param.shape, param.shape[0])
-
-    if name == 'fc.bias':
-      print(param.tolist())
-    else:
-      print(param.tolist())
-
     a = 1
     for i in param.shape:
         a *= i
     n_params += a
+    print(name, param.shape, a)
+    #print(param.tolist())
+
 
 print(n_params)
 
-text = '~silent '
+def gen_test(input_text):
+  for i in range(10):
+    tokens = tokenize(input_text)
+    input_ids = tokens_to_vecs([tokens]).transpose(0, 1).to(device)
+    preds = torch.argmax(model(input_ids), dim=2).transpose(0, 1)
+    new_token = untokenize(torch.tensor([preds[0][-1]]))
+    input_text = input_text + '' + new_token
+  return input_text
 
-tokens = tokenize(text)
+gen_test('~silent night ')
 
-input_ids = tokens_to_vecs([tokens]).transpose(0, 1)
-output_ids = model(input_ids)
-preds = torch.argmax(output_ids, dim=2).transpose(0, 1)
-output_text = untokenize(preds[0])
+def pretokenize(corpus):
+  return [tokenize('~' + text + '~') for text in corpus]
 
-print(output_text)
+class TayTayDatasetNaive(torch.utils.data.Dataset):
+  def __init__(self, filename):
+    with open(filename, 'r') as f:
+      self.text = f.read()
+      songs = self.text.split('~')
+      choruses = []
+      for song in songs:
+        chs = song.split('\n\n')
+        for ch in chs:
+          clean = ch.strip()
+          if len(clean) > 1:
+            choruses.append(clean)
+
+      self.tokensArray = pretokenize(choruses)
+
+  def __len__(self):
+    return len(self.tokensArray)
+
+  def __getitem__(self, idx):
+    tokens = self.tokensArray[idx]
+    input_ids = tokens_to_vecs([tokens])
+    return input_ids[0]
+
+
+dataset = TayTayDatasetNaive('data.txt')
+print(
+    'Choruses: ',
+    len(dataset),
+    'Chorus example: ',
+    untokenize(torch.argmax(dataset[0][0:30], dim=1))
+)
+
+def collate_fn(batch):
+  min_len = min([len(x) for x in batch])
+  batch = [x[:min_len] for x in batch]
+  return torch.stack(batch)
+
+train, val = torch.utils.data.random_split(dataset, [0.9, 0.1])
+train_loader = torch.utils.data.DataLoader(train, batch_size=32, collate_fn=collate_fn, shuffle=True)
+val_loader = torch.utils.data.DataLoader(val, batch_size=16, collate_fn=collate_fn, shuffle=True)
+print('Training set has {} instances'.format(len(train)))
+print('Validation set has {} instances'.format(len(val)))
+
+from tqdm import tqdm
+from matplotlib import pyplot as plt
+from IPython.display import clear_output
+
+
+loss = nn.CrossEntropyLoss()
+lr = 3e-4  # learning rate
+optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, 1.0, gamma=0.95)
+
+all_v = []
+all_t = []
+
+def train(model, train_loader, val_loader, optimizer, loss, epochs):
+  min_v_loss = float('inf')
+
+  for epoch in tqdm(range(epochs)):
+    model.train()
+    total_loss = 0
+    train_tokens = 0
+    for x in train_loader:
+      train_tokens += x.shape[1]
+      x = x.to(device)
+      output = model(x)
+      l = loss(output[0][0:-1], x[0][1:])
+      l.backward()
+      optimizer.step()
+      optimizer.zero_grad()
+      total_loss += l
+
+    val_loss = 0
+    model.eval()
+    val_tokens = 0
+    for x in val_loader:
+      val_tokens += x.shape[1]
+      x = x.to(device)
+      output = model(x)
+      l = loss(output[0][0:-1], x[0][1:])
+      val_loss += l
+
+    avg_t_loss = total_loss.detach().cpu().numpy() / train_tokens
+    avg_v_loss = val_loss.detach().cpu().numpy() / val_tokens
+    all_v.append(avg_v_loss)
+    all_t.append(avg_t_loss)
+
+    if avg_v_loss < min_v_loss:
+      min_v_loss = avg_v_loss
+      torch.save(model.state_dict(), 'model.pt')
+
+    plt.plot([i for i in range(len(all_t))], all_t, label='train', marker='o')
+    plt.plot([i for i in range(len(all_v))], all_v, label='val', marker='o')
+    clear_output()
+    plt.legend()
+    plt.show()
+    print('\ntrain loss: {}, val loss: {}, test generation: {}'.format(epoch, avg_t_loss, avg_v_loss, gen_test('~silent night ')))
+
+plt.figure()
+train(model, train_loader, val_loader, optimizer, loss, 10)

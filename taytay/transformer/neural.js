@@ -31,7 +31,7 @@ const rand = sfc32(
 // M - tokens
 // ~ - <EOS>
 // $ - <UNK>
-const M=['~','$', ' ', '\n', '\'', ',']
+export const M=['~','$', ' ', '\n', '\'', ',']
 for (let i = 26; i --> 0;) {
   M[i+6]=String.fromCharCode(97+i)
 }
