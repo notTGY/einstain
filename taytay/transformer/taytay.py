@@ -188,7 +188,7 @@ class Model(nn.Module):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 #model = torch.load('model.pt').to(device)
-model = Model(embedding_dim=2, key_dim=2).to(device)
+model = Model().to(device)
 
 #torch.save(model, 'model.pt')
 
@@ -316,7 +316,7 @@ def train(model, train_loader, val_loader, optimizer, loss, epochs):
     clear_output()
     plt.legend()
     plt.show()
-    print('\ntrain loss: {}, val loss: {}, test generation: {}'.format(epoch, avg_t_loss, avg_v_loss, gen_test('~silent night ')))
+    print('\ntrain loss: {}, val loss: {}, test generation: {}'.format(avg_t_loss, avg_v_loss, gen_test('~silent night ')))
 
 plt.figure()
 train(model, train_loader, val_loader, optimizer, loss, 10)
