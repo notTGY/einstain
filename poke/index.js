@@ -55,7 +55,27 @@ for (let I = 0; I < Math.ceil(additionalTiles.length) / 4; I++) {
 }
 
 RawSpriteData = BasicSpriteData.concat(additionalSpriteData)
+
+loc = [1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 2, 2, 2, 2, 3, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 3, 2, 2, 2, 2, 1, 1, 2, 2, 2, 3, 2, 2, 2, 2, 1, 1, 3, 2, 2, 2, 2, 2, 3, 2, 1, 1, 3, 2, 2, 2, 2, 2, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
 //---------- above - preprocessing
+
+locations = [
+  [
+    loc.reduce((acc, cur) => {
+      const last = acc[acc.length - 1]
+      if (last == null || last.length === 10) {
+        acc.push([])
+      }
+      acc[acc.length - 1].push(cur)
+      return acc
+    }, [])
+    , // M
+    10, // MW
+    0, // relX
+    -32, // relY
+  ]
+]
 
 W = 160
 H = 144
@@ -88,24 +108,6 @@ tile = (n) => {
   return n > 0 ? data : flip(data)
 }
 
-locations = [
-  [
-    [
-      [1, 3, 3, 3, 3, 3, 3, 3, 3, 1],
-      [1, 3, 3, 3, 2, 2, 2, 2, 3, 1],
-      [1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-      [1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-      [1, 2, 2, 2, 3, 2, 2, 2, 2, 1],
-      [1, 2, 2, 2, 3, 2, 2, 2, 2, 1],
-      [1, 3, 2, 2, 2, 2, 2, 3, 2, 1],
-      [1, 3, 2, 2, 2, 2, 2, 3, 2, 1],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    ], // M
-    10, // MW
-    0, // relX
-    -32, // relY
-  ]
-]
 loadLocation = (i) => {
   [M, MW, relX, relY] = locations[i]
 }
