@@ -1,5 +1,5 @@
 const fieldSize = {w: 40, h: 40}
-const pixelSize = 4
+const pixelSize = 8
 
 
 /*const image = document.createElement('img')
@@ -15,11 +15,19 @@ const image = document.querySelector('img')
 }*/
 
 const c = document.querySelector('#c' + 8)
-s(4, c)
+s(1, c)
 
 function s(cellsInChar, c) {
-  const colorNum = 2**(8-cellsInChar)
-  const multiplier = 2**cellsInChar
+  const bitsperpixel = 6
+  if (6 % bitsperpixel) {
+    throw 'you are stupido'
+  }
+  // ha ha lol
+  const inCell = 6 / bitsperpixel
+
+  const colorNum = 2**bitsperpixel
+  const multiplier = 256 / colorNum
+
   const x = c.getContext('2d')
   c.width = fieldSize.w*pixelSize
   c.height = fieldSize.h*pixelSize
@@ -54,24 +62,33 @@ function s(cellsInChar, c) {
 
   x.fillRect(0,0,c.width, c.height)
 
+  const sourceArr = []
   let str = ''
-  for (let i = 0; i < res.length; i += cellsInChar) {
+  for (let i = 0; i < res.length; i += inCell) {
     let n = 0
-    for (let j = 0; j < cellsInChar; j++) {
-      n += res[i+cellsInChar-1-j]
-      if (j !== cellsInChar - 1) n *= colorNum
+    for (let j = 0; j < inCell; j++) {
+      n += res[i+inCell-1-j]
+      if (j !== inCell - 1) n *= colorNum
     }
+
+    sourceArr.push(n)
     str += String.fromCharCode(n)
   }
-  console.log(str)
+  const sourceStr = btoa(str)
+  console.log('encoding length', sourceStr.length)
+  console.log({sourceStr})
+
+  const usedStr = atob(sourceStr)
+  const isEqual = usedStr.split('').filter((c, i) => c != str[i]).length === 0
+  console.log({usedStr, isEqual})
 
   let arr = []
 
   let a = 0
   let b = 0
-  for (let i = 0; i < str.length; i++) {
-    let n = str.charCodeAt(i)
-    for (let j = 0; j < cellsInChar; j++) {
+  for (let i = 0; i < usedStr.length; i++) {
+    let n = usedStr.charCodeAt(i)
+    for (let j = 0; j < inCell; j++) {
       const cl = n % colorNum
       n = Math.floor(n / colorNum)
       arr.push(cl)
