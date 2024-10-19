@@ -15,10 +15,9 @@ const image = document.querySelector('img')
 }*/
 
 const c = document.querySelector('#c' + 8)
-s(1, c)
+s(3, c)
 
-function s(cellsInChar, c) {
-  const bitsperpixel = 6
+function s(bitsperpixel, c) {
   if (6 % bitsperpixel) {
     throw 'you are stupido'
   }
@@ -53,7 +52,27 @@ function s(cellsInChar, c) {
   }
   let max = 0
   res.forEach(e => {if (e > max) max = e})
-  res = res.map(e => Math.floor(255*(e / max)/multiplier))
+  const find_closest_palette_color = (e) => {
+    return Math.floor(255*(e / max)/multiplier)
+  }
+  for (let y = 0; y < fieldSize.h; y++) {
+    for (let x = 0; x < fieldSize.w; x++) {
+      const val = res[y*fieldSize.w + x]
+      const clipped = find_closest_palette_color(val)
+
+      // FS dithering
+      if (0) {
+        const error = 255*(val / max) - clipped*multiplier
+        res[y*fieldSize.w + x+1] = res[y*fieldSize.w + x+1] + error * 7/16
+        res[(y+1)*fieldSize.w + x-1] = res[(y+1)*fieldSize.w + x-1] + error * 3/16
+        res[(y+1)*fieldSize.w + x] = res[(y+1)*fieldSize.w + x] + error * 5/16
+        res[(y+1)*fieldSize.w + x+1] = res[(y+1)*fieldSize.w + x+1] + error * 1/16
+      }
+
+      res[y*fieldSize.w + x] = clipped
+    }
+  }
+  //res = res.map(e => find_closest_palette_color(e))
 
   function RGB2HTML(red, green, blue) {
     const decColor =0x1000000+ blue + 0x100 * green + 0x10000 *red ;

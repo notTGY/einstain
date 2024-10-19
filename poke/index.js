@@ -60,9 +60,7 @@ loc = [1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 2, 2, 2, 2, 3, 1, 1, 2, 2, 2, 2
 
 //---------- above - preprocessing
 
-locations = [
-  [
-    loc.reduce((acc, cur) => {
+M = loc.reduce((acc, cur) => {
       const last = acc[acc.length - 1]
       if (last == null || last.length === 10) {
         acc.push([])
@@ -70,11 +68,14 @@ locations = [
       acc[acc.length - 1].push(cur)
       return acc
     }, [])
-    , // M
-    10, // MW
-    0, // relX
-    -32, // relY
-  ]
+
+locations = [
+  {
+    M, // M
+    MW: 10, // MW
+    relX: 0, // relX
+    relY: -32, // relY
+  },
 ]
 
 W = 160
@@ -84,10 +85,16 @@ emptyFrame = Array.from({length: W*H*4 }, (_, i) => i%4 === 3 ? 255 : 0)
 
 N_IN_CHUNK = 4
 // 0 - transparent, 1 - black, 2 - gray, 3 - white
-palette = [
+solidPalette = [
+  [116, 42, 35, 255],
+  [0, 0, 0, 255],
+  [229, 155, 139, 255],
+  [255, 255, 255, 255]
+]
+transPalette = [
   [0, 0, 0, 0],
   [0, 0, 0, 255],
-  [170, 170, 170, 255],
+  [229, 155, 139, 255],
   [255, 255, 255, 255]
 ]
 flip = (arr) => {
@@ -97,7 +104,7 @@ flip = (arr) => {
   }
   return [].concat(...rows)
 }
-tile = (n) => {
+tile = (n, palette) => {
   absn = Math.abs(n)
   chunkI = absn % N_IN_CHUNK
   chunk = (absn - chunkI) / N_IN_CHUNK
@@ -109,7 +116,9 @@ tile = (n) => {
 }
 
 loadLocation = (i) => {
-  [M, MW, relX, relY] = locations[i]
+  for (const key in locations[i]) {
+    window[key] = locations[i][key]
+  }
 }
 
 
@@ -131,7 +140,7 @@ iter = ({X, Y}) => {
   )
 }
 
-opaqueTiles = [2]
+opaqueTiles = [5,6]
 
 manTile = 4
 m = d = 0
@@ -165,7 +174,7 @@ paint = () => {
     // O(MW)
     for (mX in row) {
       cell = row[mX]
-      T = tile(cell)
+      T = tile(cell, solidPalette)
       I = iter({X: 16*(+mX)+relX, Y: 16*(+mY)+relY})
       // O(16*16)
       for (i in I) {
@@ -182,7 +191,7 @@ paint = () => {
   }
   // man
   I = iter({X: W / 2 - 16, Y: H / 2 - 8})
-  T = tile(manTile)
+  T = tile(manTile, transPalette)
   for (i in I) {
     // O(4)
     if (T[i][3]) {
